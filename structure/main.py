@@ -2,7 +2,7 @@ import pygame, sys
 from map import Map
 from settings import *
 
-# hello
+# hello___
 class Displayer:
 
     def __init__(self):
