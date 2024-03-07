@@ -16,8 +16,8 @@ def debug(info, y = 10, x = 10):
 WIDTH, HEIGHT = 400, 400
 FPS = 60
 
-VEC_2 = pygame.Vector2()
-VEC_3 = pygame.Vector3()
+VEC_2 = pygame.Vector2
+VEC_3 = pygame.Vector3
 
 displayable_entenies = []  # need to add a way of ordering from clostest to farthest
 

@@ -1,18 +1,20 @@
 import pygame, sys
-from map import Map
 from settings import *
+from compiler import Compiler
 
-# hello___
+
+
 class Displayer:
+    # il faut ajouter une fonction qui verifie si un element est dans la window avant de le display
 
     def __init__(self):
-        self.screen = pygame.display.set_mode((WIDTH, HEIGHT))
-        pygame.display.set_caption('Survivorio')
+        self.screen = pygame.display.get_surface()
 
     def run(self):
         self.screen.fill('blue')               #pygame.display.set_caption(f"Survivorio | FPS: {str(int(self.clock.get_fps()))} | Enemy count: {len(Enemie.instances)}")
         
         for i in displayable_entenies:
+            # trier selon la position
             i.display()
         
         
@@ -25,8 +27,11 @@ class Game:
 
     def __init__(self):
         pygame.init()
-        self.clock = pygame.time.Clock()
+        self.screen = pygame.display.set_mode((WIDTH, HEIGHT))
+        pygame.display.set_caption('Survivorio')
 
+        self.clock = pygame.time.Clock()
+        self.compiler = Compiler()
         self.Displayer = Displayer()
 
         
@@ -40,6 +45,8 @@ class Game:
                     pygame.quit()
                     sys.exit()   
 
+
+            self.compiler.run()
             self.Displayer.run()
 
             self.clock.tick(FPS)

@@ -8,12 +8,14 @@ class Entety:
 
     def __init__(self):
         displayable_entenies.append(self)
+        self.screen = pygame.display.get_surface()
         self.pos = VEC_2()
-        self.image = None
-        self.rect = None
+        self.image = pygame.image.load('../graphics/test/none.png').convert_alpha()
+        self.rect = self.image.get_rect(topleft = self.pos)
 
     def display(self):
-        pass
+        self.screen.blit(self.image, self.rect)
+
 
     def run(self):
         pass
