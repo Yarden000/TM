@@ -3,18 +3,18 @@ from settings import *
 
 
 
-class Entety:
+class Entity:
     # class for all the enteties: ressouces, animals...
 
-    def __init__(self):
+    def __init__(self, pos = (0, 0), image = '../graphics/test/none.png'):
         displayable_entenies.append(self)
         self.screen = pygame.display.get_surface()
-        self.pos = VEC_2()
-        self.image = pygame.image.load('../graphics/test/none.png').convert_alpha()
-        self.rect = self.image.get_rect(topleft = self.pos)
+        self.pos = VEC_2(pos)
+        self.image = pygame.image.load(image).convert_alpha()
 
     def display(self):
-        self.screen.blit(self.image, self.rect)
+        print(player_displacement)
+        self.screen.blit(self.image, self.image.get_rect(center = int_VEC(self.pos + player_displacement)))
 
 
     def run(self):
@@ -22,21 +22,25 @@ class Entety:
 
 
 
-class Ressource(Entety):
+class Ressource(Entity):
 
     def __init__(self):
         super().__init__()
 
 
 
-class Animal(Entety):
+class Animal(Entity):
 
     def __init__(self):
         super().__init__()
+        self.real_pos = self.pos
+
+    def move(self, movement):
+        pass
 
 
 
-class Structure(Entety):
+class Structure(Entity):
 
     def __init__(self):
         super().__init__()

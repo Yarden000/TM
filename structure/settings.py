@@ -12,12 +12,17 @@ def debug(info, y = 10, x = 10):
     pygame.draw.rect(display_surf, 'Black', debug_rect)
     display_surf.blit(debug_surf, debug_rect)
 
+def int_VEC(vector):
+    return VEC_2(int(vector.x), int(vector.y))
 
-WIDTH, HEIGHT = 400, 400
+
+WIDTH, HEIGHT = 600, 600
 FPS = 60
 
 VEC_2 = pygame.Vector2
 VEC_3 = pygame.Vector3
 
 displayable_entenies = []  # need to add a way of ordering from clostest to farthest
+
+player_displacement = VEC_2(WIDTH/2, HEIGHT/2)
 
