@@ -24,5 +24,4 @@ VEC_3 = pygame.Vector3
 
 displayable_entenies = []  # need to add a way of ordering from clostest to farthest
 
-player_displacement = VEC_2(WIDTH/2, HEIGHT/2)
 

@@ -4,8 +4,8 @@ from entities import Entity
 
 
 class Player(Entity):
-    def __init__(self):
-        super().__init__((WIDTH/2,HEIGHT/2), '../graphics/test/player.png')
+    def __init__(self, camera):
+        super().__init__(camera, (WIDTH/2,HEIGHT/2), '../graphics/test/player.png')
         self.speed = 5
 
     def move(self):
@@ -26,10 +26,7 @@ class Player(Entity):
             self.direction = self.direction.normalize()
         self.movement = self.direction * self.speed
 
-        """
-        comment changer player_displacement pour que tous les fichiers le voient?
-        """
-        player_displacement -= self.movement
+        self.camera.player_displacement -= self.movement
         self.pos += self.movement
 
     def display(self):

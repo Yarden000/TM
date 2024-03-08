@@ -6,15 +6,16 @@ from settings import *
 class Entity:
     # class for all the enteties: ressouces, animals...
 
-    def __init__(self, pos = (0, 0), image = '../graphics/test/none.png'):
+    def __init__(self, camera, pos = (0, 0), image = '../graphics/test/none.png'):
         displayable_entenies.append(self)
         self.screen = pygame.display.get_surface()
+        self.camera = camera
         self.pos = VEC_2(pos)
         self.image = pygame.image.load(image).convert_alpha()
+        
 
     def display(self):
-        print(player_displacement)
-        self.screen.blit(self.image, self.image.get_rect(center = int_VEC(self.pos + player_displacement)))
+        self.screen.blit(self.image, self.image.get_rect(center = int_VEC(self.pos + self.camera.player_displacement)))
 
 
     def run(self):
@@ -24,15 +25,15 @@ class Entity:
 
 class Ressource(Entity):
 
-    def __init__(self):
-        super().__init__()
+    def __init__(self, camera):
+        super().__init__(camera)
 
 
 
 class Animal(Entity):
 
-    def __init__(self):
-        super().__init__()
+    def __init__(self, camera):
+        super().__init__(camera)
         self.real_pos = self.pos
 
     def move(self, movement):

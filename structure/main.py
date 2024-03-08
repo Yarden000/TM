@@ -31,10 +31,10 @@ class Game:
         pygame.display.set_caption('Survivorio')
 
         self.clock = pygame.time.Clock()
-        self.compiler = Compiler()
-        self.Displayer = Displayer()
 
-        
+        self.compiler = Compiler()
+        self.displayer = Displayer()
+
 
     def run(self):
         game_run = True
@@ -47,7 +47,7 @@ class Game:
 
 
             self.compiler.run()
-            self.Displayer.run()
+            self.displayer.run()
 
             self.clock.tick(FPS)
 
