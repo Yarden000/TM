@@ -1,6 +1,7 @@
 import pygame, sys
 from settings import *
 from compiler import Compiler
+from map import MapGenerator
 
 
 
@@ -12,7 +13,7 @@ class Displayer:
 
     def run(self):
         self.screen.fill('blue')               #pygame.display.set_caption(f"Survivorio | FPS: {str(int(self.clock.get_fps()))} | Enemy count: {len(Enemie.instances)}")
-        
+
         for i in displayable_entenies:
             # trier selon la position
             i.display()
@@ -34,6 +35,12 @@ class Game:
 
         self.compiler = Compiler()
         self.displayer = Displayer()
+        
+        #to test the map generation
+        self.test_map = MapGenerator()
+        self.test_map.perlin_noise_simple()
+        self.test_map.display()
+        pygame.display.update()
 
 
     def run(self):

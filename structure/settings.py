@@ -16,11 +16,12 @@ def int_VEC(vector):
     return VEC_2(int(vector.x), int(vector.y))
 
 
-WIDTH, HEIGHT = 600, 600
+WIDTH, HEIGHT = 800, 800
 FPS = 60
 
 VEC_2 = pygame.Vector2
 VEC_3 = pygame.Vector3
+dot = lambda v1, v2: pygame.math.Vector2.dot(v1, v2)
 
 displayable_entenies = []  # need to add a way of ordering from clostest to farthest
 

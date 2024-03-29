@@ -34,7 +34,6 @@ class Animal(Entity):
 
     def __init__(self, camera):
         super().__init__(camera)
-        self.real_pos = self.pos
 
     def move(self, movement):
         pass
@@ -54,21 +53,21 @@ class Spawner:
     pass
 
 
-class Ressource_Spawner(Spawner):
+class RessourceSpawner(Spawner):
 
     def __init__(self):
         super().__init__()
 
 
 
-class Animal_Spawner(Spawner):
+class AnimalSpawner(Spawner):
 
     def __init__(self):
         super().__init__()
 
 
 
-class Structure_Spawner(Spawner):
+class StructureSpawner(Spawner):
 
     def __init__(self):
         super().__init__()
