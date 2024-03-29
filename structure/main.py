@@ -37,7 +37,7 @@ class Game:
         self.displayer = Displayer()
         
         #to test the map generation
-        self.test_map = MapGenerator()
+        self.test_map = MapGenerator(1, 2, 8, 0.8, 1.8)
         self.test_map.perlin_noise_simple()
         self.test_map.display()
         pygame.display.update()
@@ -54,7 +54,7 @@ class Game:
 
 
             self.compiler.run()
-            self.displayer.run()
+            #self.displayer.run()
 
             self.clock.tick(FPS)
 
