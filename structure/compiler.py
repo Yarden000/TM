@@ -11,6 +11,7 @@ class Compiler:
     def __init__(self):
         self.camera = Camera()
         self.player = Player(self.camera)
+        self.map = Map(self.camera)
 
         # test
         self.test_entity = Entity(self.camera)
