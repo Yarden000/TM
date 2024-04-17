@@ -33,19 +33,19 @@ class Game:
 
         self.clock = pygame.time.Clock()
 
+        self.map_gen = MapGenerator(settings.biome_types, 3, 6, 0.5, 2, 0.3) #(biome_types, base_gris_size, octaves, persistence, frequency, random)
         self.time = pygame.time.get_ticks()
-        self.map_gen = MapGenerator(settings.biome_types, 3, 6, 0.5, 2) #(biome_types, base_gris_size, octaves, persistence, frequency)
         settings.map_grid = self.map_gen.make_map()
         self.time = pygame.time.get_ticks() - self.time
-        print(self.time / 1000)
+        print('time =', self.time / 1000)
 
         self.compiler = Compiler()
         self.displayer = Displayer(self.compiler.map)
 
         '''
         # to test and visualise the map generation, for finetuning the parameters
-        self.test_map = MapGenerator_testing(3, 15, 3, 6, 0.5, 2) #(biome_number, pixel_sise, base_gris_size, octaves, persistence, frequency)
-        #self.test_map.display_strengths(self.test_map.perlin_noise_simple())
+        self.test_map = MapGenerator_testing(3, 5, 1, 4, 0.5, 2, 0) #(biome_number, pixel_sise, base_gris_size, octaves, persistence, frequency, random)
+        #self.test_map.display_strengths(self.test_map.perlin_noise())
         self.test_map.display_biomes(self.test_map.simple_superposition())
         pygame.display.update()
         '''
@@ -65,6 +65,7 @@ class Game:
             self.compiler.run()
             self.displayer.run()
 
+            #self.clock.tick(1000)
             self.clock.tick(settings.FPS)
 
 

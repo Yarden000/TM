@@ -7,7 +7,7 @@ from entities import Entity
 class Player(Entity):
     def __init__(self, camera):
         super().__init__(camera, (settings.WIDTH/2,settings.HEIGHT/2), '../graphics/test/player.png')
-        self.speed = 15
+        self.speed = 25
 
     def move(self):
         
