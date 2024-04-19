@@ -1,31 +1,43 @@
 import pygame, sys, random, math
 import numpy as np
 import settings
-from settings import map_size, WIDTH, HEIGHT, cell_size, VEC_2, biome_types
+from settings import (
+    WIDTH, 
+    HEIGHT, 
+    VEC_2, 
+    )
 
 
 
 class Map:
 
-    def __init__(self, camera):
+    def __init__(self):
         self.screen = pygame.display.get_surface()
-        self.grid = settings.map_grid
-        self.camera = camera
+        self.cell_size = 20
+        self.map_size = 100
+        self.biome_types = [
+            {'name': 'desert', 'image': pygame.transform.scale(pygame.image.load('../graphics/test/desert.png'), (self.cell_size, self.cell_size))}, 
+            {'name': 'plains', 'image': pygame.transform.scale(pygame.image.load('../graphics/test/plains.png'), (self.cell_size, self.cell_size))}, 
+            {'name': 'forest', 'image': pygame.transform.scale(pygame.image.load('../graphics/test/forest.png'), (self.cell_size, self.cell_size))}
+            ]
 
-    def range_on_screen(self):
-        self.range_x = range(round((map_size / 2) - ((WIDTH + self.camera.player_displacement[0]) // cell_size)), round((map_size / 2) + ((WIDTH - self.camera.player_displacement[0]) // cell_size)) + 1)    # +1 is buffer
-        self.range_y = range(round((map_size / 2) - ((HEIGHT + self.camera.player_displacement[1]) // cell_size)), round((map_size / 2) + ((HEIGHT - self.camera.player_displacement[1]) // cell_size)) + 1)
+        self.map_gen = MapGenerator(self.map_size, self.biome_types) #(self.map_size, self.biome_types[, base_gris_size, octaves, persistence, frequency, random])
+        self.grid = self.map_gen.make_map()
+
+    def range_on_screen(self, camera):
+        self.range_x = range(round((self.map_size / 2) - ((WIDTH + camera.player_displacement[0]) // self.cell_size)), round((self.map_size / 2) + ((WIDTH - camera.player_displacement[0]) // self.cell_size)) + 1)    # +1 is buffer
+        self.range_y = range(round((self.map_size / 2) - ((HEIGHT + camera.player_displacement[1]) // self.cell_size)), round((self.map_size / 2) + ((HEIGHT - camera.player_displacement[1]) // self.cell_size)) + 1)
         return (self.range_x, self.range_y)
         
-    def display(self):
-        self.range = self.range_on_screen()
+    def display(self, camera):
+        self.range = self.range_on_screen(camera)
         for x in self.range[0]:
-            if 0 < x < map_size:
+            if 0 < x < self.map_size:
                 for y in self.range[1]:
-                    if 0 < y < map_size:
-                        self.pos = (VEC_2(x, y) - VEC_2(map_size -1,  map_size -1) / 2) * cell_size + self.camera.player_displacement
+                    if 0 < y < self.map_size:
+                        self.pos = (VEC_2(x, y) - VEC_2(self.map_size -1,  self.map_size -1) / 2) * self.cell_size + camera.player_displacement
                         self.image = self.grid[x][y]['image']
-                        self.screen.blit(self.image, self.pos)
+                        self.screen.blit(self.image.convert_alpha(), self.pos)
 
 
 class MapGenerator_testing:
@@ -166,7 +178,7 @@ class MapGenerator_testing:
 
 class MapGenerator:
     
-    def __init__(self, base_grid_size = 4, octaves = 1, persistence = 0.5, frequency = 2, random_prob = 0):
+    def __init__(self, map_size, biome_types, base_grid_size = 3, octaves = 6, persistence = 0.5, frequency = 2, random_prob = 0.3):
         self.biome_types = biome_types
         self.biome_number = len(self.biome_types)
         self.cell_number = map_size
@@ -265,7 +277,6 @@ class MapGenerator:
             self.value_grid = self.simple_perlin_noise(self.cell_number, self.grid_size, self.vector_grid, p)
             
 
-            self.row = 0
             if p == 0:
                 self.total_value_grid = [
                     [
@@ -275,11 +286,8 @@ class MapGenerator:
 
             else:
                 for x in range(self.cell_number):
-                    self.col = 0
                     for y in range(self.cell_number):
                         self.total_value_grid[x][y] += self.value_grid[x][y]
-                        self.col += 1
-                    self.row += 1
           
         return(self.total_value_grid)
     
