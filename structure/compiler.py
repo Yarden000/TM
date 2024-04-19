@@ -1,6 +1,5 @@
 import pygame, sys
 from map import Map
-from settings import *
 from player import Player
 from entities import Entity
 from camera import Camera

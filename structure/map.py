@@ -1,7 +1,7 @@
 import pygame, sys, random, math
 import numpy as np
 import settings
-#from settings import *
+from settings import map_size, WIDTH, HEIGHT, cell_size, VEC_2, biome_types
 
 
 
@@ -13,17 +13,17 @@ class Map:
         self.camera = camera
 
     def range_on_screen(self):
-        self.range_x = range(round((settings.map_size / 2) - ((settings.WIDTH + self.camera.player_displacement[0]) // settings.cell_size)), round((settings.map_size / 2) + ((settings.WIDTH - self.camera.player_displacement[0]) // settings.cell_size)) + 1)    # +1 is buffer
-        self.range_y = range(round((settings.map_size / 2) - ((settings.HEIGHT + self.camera.player_displacement[1]) // settings.cell_size)), round((settings.map_size / 2) + ((settings.HEIGHT - self.camera.player_displacement[1]) // settings.cell_size)) + 1)
+        self.range_x = range(round((map_size / 2) - ((WIDTH + self.camera.player_displacement[0]) // cell_size)), round((map_size / 2) + ((WIDTH - self.camera.player_displacement[0]) // cell_size)) + 1)    # +1 is buffer
+        self.range_y = range(round((map_size / 2) - ((HEIGHT + self.camera.player_displacement[1]) // cell_size)), round((map_size / 2) + ((HEIGHT - self.camera.player_displacement[1]) // cell_size)) + 1)
         return (self.range_x, self.range_y)
         
     def display(self):
         self.range = self.range_on_screen()
         for x in self.range[0]:
-            if 0 < x < settings.map_size:
+            if 0 < x < map_size:
                 for y in self.range[1]:
-                    if 0 < y < settings.map_size:
-                        self.pos = (settings.VEC_2(x, y) - settings.VEC_2(settings.map_size -1,  settings.map_size -1) / 2) * settings.cell_size + self.camera.player_displacement
+                    if 0 < y < map_size:
+                        self.pos = (VEC_2(x, y) - VEC_2(map_size -1,  map_size -1) / 2) * cell_size + self.camera.player_displacement
                         self.image = self.grid[x][y]['image']
                         self.screen.blit(self.image, self.pos)
 
@@ -166,10 +166,10 @@ class MapGenerator_testing:
 
 class MapGenerator:
     
-    def __init__(self, biome_types, base_grid_size = 4, octaves = 1, persistence = 0.5, frequency = 2, random_prob = 0):
+    def __init__(self, base_grid_size = 4, octaves = 1, persistence = 0.5, frequency = 2, random_prob = 0):
         self.biome_types = biome_types
-        self.biome_number = len(biome_types)
-        self.cell_number = settings.map_size
+        self.biome_number = len(self.biome_types)
+        self.cell_number = map_size
         self.base_grid_size = base_grid_size
         self.octaves = octaves
         self.persistence = persistence
@@ -202,7 +202,7 @@ class MapGenerator:
 
     def create_random_uni_vec(self):
         self.angle = random.randrange(0, 360)
-        return settings.VEC_2(math.cos(self.angle), math.sin(self.angle))
+        return VEC_2(math.cos(self.angle), math.sin(self.angle))
 
     def create_vector_grid(self, grid_size):
         '''
@@ -230,10 +230,10 @@ class MapGenerator:
         self.vortex_vector_topleft = vector_grid[int(self.x)][int(self.y) + 1]
         self.vortex_vector_topright = vector_grid[int(self.x) + 1][int(self.y) + 1]
         # displacement vectors from the point to the vertecies
-        self.vect_to_vort_bottomleft = settings.VEC_2(self.x % 1, self.y % 1)#.normalize()
-        self.vect_to_vort_bottomright = settings.VEC_2((self.x % 1) - 1, self.y % 1)#.normalize()
-        self.vect_to_vort_topleft = settings.VEC_2(self.x % 1, (self.y % 1) - 1)#.normalize()
-        self.vect_to_vort_topright = settings.VEC_2((self.x % 1) - 1, (self.y % 1) - 1)#.normalize()
+        self.vect_to_vort_bottomleft = VEC_2(self.x % 1, self.y % 1)#.normalize()
+        self.vect_to_vort_bottomright = VEC_2((self.x % 1) - 1, self.y % 1)#.normalize()
+        self.vect_to_vort_topleft = VEC_2(self.x % 1, (self.y % 1) - 1)#.normalize()
+        self.vect_to_vort_topright = VEC_2((self.x % 1) - 1, (self.y % 1) - 1)#.normalize()
         # dot products
         self.dot_topleft = self.vortex_vector_topleft.dot(self.vect_to_vort_topleft)
         self.dot_topright = self.vortex_vector_topright.dot(self.vect_to_vort_topright)
@@ -298,7 +298,7 @@ class MapGenerator:
                 self.values = []
                 for j in range(self.biome_number):
                     self.values.append(self.all_biome_grid[j][x][y])
-                self.final_biome_grid[x].append(self.biome_types[self.values.index(max(self.values))])
+                self.final_biome_grid[x].append(biome_types[self.values.index(max(self.values))])
         '''
         self.all_biome_grid = [self.complex_perlin_noise() for i in range(self.biome_number)]
         self.final_biome_grid = [
@@ -319,7 +319,7 @@ class MapGenerator:
             self.y = 0
             self.map_grid_with_pos.append([])
             for y in x:
-                self.pos = tuple((settings.VEC_2(self.x, self.y) - settings.VEC_2(settings.map_size -1,  settings.map_size -1) / 2) * settings.cell_size)
+                self.pos = tuple((VEC_2(self.x, self.y) - VEC_2(map_size -1,  map_size -1) / 2) * cell_size)
                 self.map_grid_with_pos[2] = self.map_grid_with_indecies[self.x][self.y]
                 self.y += 1
             self.x += 1

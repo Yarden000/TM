@@ -23,10 +23,11 @@ VEC_2 = pygame.Vector2
 VEC_3 = pygame.Vector3
 dot = lambda v1, v2: pygame.math.Vector2.dot(v1, v2)
 
+global map_grid
 displayable_entenies = []  # need to add a way of ordering from clostest to farthest
 map_size = 100 # size of the map_grid / number of cells
-map_grid = {}
-cell_size = 200
+map_grid = []
+cell_size = 20
 biome_types = [{'name': 'desert', 'image': pygame.transform.scale(pygame.image.load('../graphics/test/desert.png'), (cell_size, cell_size))}, 
                {'name': 'plains', 'image': pygame.transform.scale(pygame.image.load('../graphics/test/plains.png'), (cell_size, cell_size))}, 
                {'name': 'forest', 'image': pygame.transform.scale(pygame.image.load('../graphics/test/forest.png'), (cell_size, cell_size))}]

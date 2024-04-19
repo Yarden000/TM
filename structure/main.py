@@ -1,6 +1,6 @@
 import pygame, sys
 import settings
-#from settings import *     why doesn't it work? Probleme avec les variables globales et le *
+from settings import displayable_entenies, WIDTH, HEIGHT, FPS, map_grid  # map_grid ne veut pas fonctionner
 from compiler import Compiler
 from map import MapGenerator_testing, MapGenerator
 
@@ -16,7 +16,7 @@ class Displayer:
     def run(self):
         self.screen.fill('blue')               
         self.map.display()
-        for i in settings.displayable_entenies:
+        for i in displayable_entenies:
             # trier selon la position
             i.display()
         pygame.display.update()
@@ -28,14 +28,15 @@ class Game:
 
     def __init__(self):
         pygame.init()
-        self.screen = pygame.display.set_mode((settings.WIDTH, settings.HEIGHT))
+        self.screen = pygame.display.set_mode((WIDTH, HEIGHT))
         pygame.display.set_caption('Survivorio')
 
         self.clock = pygame.time.Clock()
 
-        self.map_gen = MapGenerator(settings.biome_types, 3, 6, 0.5, 2, 0.3) #(biome_types, base_gris_size, octaves, persistence, frequency, random)
+        self.map_gen = MapGenerator(3, 6, 0.5, 2, 0.3) #(base_gris_size, octaves, persistence, frequency, random)
         self.time = pygame.time.get_ticks()
-        settings.map_grid = self.map_gen.make_map()
+        global map_grid
+        map_grid = self.map_gen.make_map()
         self.time = pygame.time.get_ticks() - self.time
         print('time =', self.time / 1000)
 
@@ -66,7 +67,7 @@ class Game:
             self.displayer.run()
 
             #self.clock.tick(1000)
-            self.clock.tick(settings.FPS)
+            self.clock.tick(FPS)
 
 
 if __name__ == '__main__':# checks if it is the main file

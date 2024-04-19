@@ -1,5 +1,5 @@
 import pygame, sys
-from settings import *
+from settings import displayable_entenies, VEC_2, int_VEC
 
 
 

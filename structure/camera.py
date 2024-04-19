@@ -1,5 +1,5 @@
 import pygame, sys
-from settings import *
+from settings import WIDTH, HEIGHT, VEC_2
 
 
 class Camera:
