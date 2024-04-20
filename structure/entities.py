@@ -10,8 +10,7 @@ from settings import (
 class Entity:
     # class for all the enteties: ressouces, animals...
 
-    def __init__(self, displayable_entenies, pos = (0, 0), size = 64, image = '../graphics/test/none.png'):
-        displayable_entenies.append(self)
+    def __init__(self, pos = (0, 0), size = 64, image = '../graphics/test/none.png'):
         self.screen = pygame.display.get_surface()
         self.pos = VEC_2(pos)
         self.size = size
@@ -58,8 +57,22 @@ class Structure(Entity):
         
 
 class Spawner:
-    pass
+    
+    def __init__(self, camera, map, chunks, displayable_entenies):
+        self.camera = camera
+        self.map = map
+        self.chunks = chunks
+        self.displayable_entenies = displayable_entenies
 
+    def spawn_test_ent(self, pos = (0, 0), size = 64, image = '../graphics/test/none.png'):
+        # test
+        test_entity = Entity(pos, size, image)
+        self.displayable_entenies.append(test_entity)
+
+    def chunks_loaded(self):
+        chunk_in = (int(len(self.chunks) / 2) + (WIDTH / 2 - self.camera.player_displacement[0]) // self.map.chunk_size_in_pixel), (int(len(self.chunks) / 2) + (HEIGHT / 2 - self.camera.player_displacement[1]) // self.map.chunk_size_in_pixel)
+        #print(self.map.chunk_size_in_pixel)
+        print(chunk_in)
 
 class RessourceSpawner(Spawner):
 

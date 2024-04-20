@@ -1,30 +1,47 @@
 import pygame, sys
 from map import Map
 from player import Player
-from entities import Entity
+from entities import (
+    Entity, 
+    Spawner
+    )
 from camera import Camera
 
 
 class Compiler:
+    '''
+    all the playable part of the game
+    '''
     
     def __init__(self):
+        self.outside_range_enteties = []
+
         self.displayable_entenies = []  # need to add a way of ordering from clostest to farthest
+        self.collisionable_enteties = []
 
         self.camera = Camera()
-        self.player = Player(self.displayable_entenies)
         self.map = Map()
-
         self.displayer = Displayer(self.map, self.camera, self.displayable_entenies)
 
-        # test
-        self.test_entity = Entity(self.displayable_entenies, size = 200)
+        self.chunks = [
+            [
+                [] for i in range(self.map.chunk_number)
+            ] for j in range(self.map.chunk_number)
+        ]   # a list of all the enteties in each chunk
+
+        self.spawner = Spawner(self.camera, self.map, self.chunks, self.displayable_entenies)
+
+        self.player = Player(self.displayable_entenies)
 
         
-
     def run(self):
 
         # all the interactions / events / calculations of the game
         self.player.run(self.camera)
+
+        # test
+        #self.spawner.spawn_test_ent(pos = self.camera.player_displacement)
+        self.spawner.chunks_loaded()
 
         self.displayer.run()
 

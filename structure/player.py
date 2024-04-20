@@ -9,7 +9,8 @@ from entities import Entity
 
 class Player(Entity):
     def __init__(self, displayable_entenies):
-        super().__init__(displayable_entenies, (WIDTH/2,HEIGHT/2), 64, '../graphics/test/player.png')
+        super().__init__((WIDTH/2,HEIGHT/2), 64, '../graphics/test/player.png')
+        displayable_entenies.append(self)
         self.speed = 2
 
     def move(self, camera):

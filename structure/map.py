@@ -13,8 +13,11 @@ class Map:
 
     def __init__(self):
         self.screen = pygame.display.get_surface()
-        self.cell_size = 20
-        self.map_size = 100
+        self.cell_size = 100
+        self.chunk_number = 5  # number of chunks
+        self.chunk_size = 2  # number of tiles in a chunk
+        self.chunk_size_in_pixel = self.chunk_size * self.cell_size
+        self.map_size = self.chunk_number * self.chunk_size
         self.biome_types = [
             {'name': 'desert', 'image': pygame.transform.scale(pygame.image.load('../graphics/test/desert.png'), (self.cell_size, self.cell_size))}, 
             {'name': 'plains', 'image': pygame.transform.scale(pygame.image.load('../graphics/test/plains.png'), (self.cell_size, self.cell_size))}, 
@@ -32,12 +35,12 @@ class Map:
     def display(self, camera):
         self.range = self.range_on_screen(camera)
         for x in self.range[0]:
-            if 0 < x < self.map_size:
+            if 0 <= x < self.map_size:
                 for y in self.range[1]:
-                    if 0 < y < self.map_size:
+                    if 0 <= y < self.map_size:
                         self.pos = (VEC_2(x, y) - VEC_2(self.map_size -1,  self.map_size -1) / 2) * self.cell_size + camera.player_displacement
                         self.image = self.grid[x][y]['image']
-                        self.screen.blit(self.image.convert_alpha(), self.pos)
+                        self.screen.blit(self.image.convert_alpha(), self.pos - VEC_2(self.cell_size, self.cell_size) / 2)
 
 
 class MapGenerator_testing:
