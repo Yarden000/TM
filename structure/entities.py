@@ -22,7 +22,6 @@ class Entity:
         if -self.size / 2 < self.pos.x + camera.player_displacement.x < WIDTH + self.size / 2:
             if -self.size / 2 < self.pos.y + camera.player_displacement.y < HEIGHT + self.size / 2:
                 self.screen.blit(self.image, self.image.get_rect(center = VEC_2(self.pos + camera.player_displacement)))
-                print(self.pos + camera.player_displacement)
 
 
     def run(self):
@@ -53,42 +52,3 @@ class Structure(Entity):
         super().__init__()
 
 
-##############################################################
-        
-
-class Spawner:
-    
-    def __init__(self, camera, map, chunks, displayable_entenies):
-        self.camera = camera
-        self.map = map
-        self.chunks = chunks
-        self.displayable_entenies = displayable_entenies
-
-    def spawn_test_ent(self, pos = (0, 0), size = 64, image = '../graphics/test/none.png'):
-        # test
-        test_entity = Entity(pos, size, image)
-        self.displayable_entenies.append(test_entity)
-
-    def chunks_loaded(self):
-        chunk_in = (int(len(self.chunks) / 2) + (WIDTH / 2 - self.camera.player_displacement[0]) // self.map.chunk_size_in_pixel), (int(len(self.chunks) / 2) + (HEIGHT / 2 - self.camera.player_displacement[1]) // self.map.chunk_size_in_pixel)
-        #print(self.map.chunk_size_in_pixel)
-        print(chunk_in)
-
-class RessourceSpawner(Spawner):
-
-    def __init__(self):
-        super().__init__()
-
-
-
-class AnimalSpawner(Spawner):
-
-    def __init__(self):
-        super().__init__()
-
-
-
-class StructureSpawner(Spawner):
-
-    def __init__(self):
-        super().__init__()

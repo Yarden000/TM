@@ -13,8 +13,8 @@ class Map:
     def __init__(self):
         self.screen = pygame.display.get_surface()
         self.cell_size = 100
-        self.chunk_number = 5  # number of chunks
-        self.chunk_size = 2  # number of tiles in a chunk
+        self.chunk_number = 3  # number of chunks
+        self.chunk_size = 1  # number of tiles in a chunk
         self.chunk_size_in_pixel = self.chunk_size * self.cell_size
         self.map_size = self.chunk_number * self.chunk_size
         self.biome_types = [
@@ -23,23 +23,22 @@ class Map:
             {'name': 'forest', 'image': pygame.transform.scale(pygame.image.load('../graphics/test/forest.png'), (self.cell_size, self.cell_size))}
         ]
 
-        map_gen = MapGenerator(self.map_size, self.biome_types)  # (self.map_size, self.biome_types[, base_gris_size, octaves, persistence, frequency, random])
+        map_gen = MapGenerator(self.map_size, self.cell_size, self.biome_types)  # (self.map_size, self.biome_types[, base_gris_size, octaves, persistence, frequency, random])
         self.grid = map_gen.make_map()
 
-    def range_on_screen(self, camera):
-        self.range_x = range(round((self.map_size / 2) - ((WIDTH + camera.player_displacement[0]) // self.cell_size)), round((self.map_size / 2) + ((WIDTH - camera.player_displacement[0]) // self.cell_size)) + 1)    # +1 is buffer
-        self.range_y = range(round((self.map_size / 2) - ((HEIGHT + camera.player_displacement[1]) // self.cell_size)), round((self.map_size / 2) + ((HEIGHT - camera.player_displacement[1]) // self.cell_size)) + 1)
+    def _range_on_screen(self, camera):
+        self.range_x = range(round((self.map_size / 2) - ((WIDTH + camera.player_displacement[0]) // self.cell_size)), round((self.map_size / 2) + ((WIDTH - camera.player_displacement[0]) // self.cell_size)) + 2)    # +2 is buffer
+        self.range_y = range(round((self.map_size / 2) - ((HEIGHT + camera.player_displacement[1]) // self.cell_size)), round((self.map_size / 2) + ((HEIGHT - camera.player_displacement[1]) // self.cell_size)) + 2)
         return (self.range_x, self.range_y)
 
     def display(self, camera):
-        self.range = self.range_on_screen(camera)
+        self.range = self._range_on_screen(camera)
         for x in self.range[0]:
             if 0 <= x < self.map_size:
                 for y in self.range[1]:
                     if 0 <= y < self.map_size:
-                        self.pos = (VEC_2(x, y) - VEC_2(self.map_size -1,  self.map_size -1) / 2) * self.cell_size + camera.player_displacement
-                        self.image = self.grid[x][y]['image']
-                        self.screen.blit(self.image.convert_alpha(), self.pos)
+                        self.image = self.grid[x][y][0]['image']
+                        self.screen.blit(self.image.convert_alpha(), self.image.get_rect(center = VEC_2(self.grid[x][y][1] + camera.player_displacement)))
 
 
 class MapGenerator_testing:
@@ -179,7 +178,8 @@ class MapGenerator_testing:
 
 
 class MapGenerator:
-    def __init__(self, map_size, biome_types, base_grid_size=3, octaves=6, persistence=0.5, frequency=2, random_prob=0.00015):
+    def __init__(self, map_size, cell_size, biome_types, base_grid_size=3, octaves=6, persistence=0.5, frequency=2, random_prob=0.00015):
+        self.cell_size = cell_size
         self.biome_types = biome_types
         self.biome_number = len(self.biome_types)
         self.cell_number = map_size
@@ -189,7 +189,7 @@ class MapGenerator:
         self.frequency = frequency
         self.random_prob = random_prob
 
-    def smooth_step_1(self, x):
+    def _smooth_step_1(self, x):
         if x < 0:
             raise ValueError
         elif x > 1:
@@ -197,7 +197,7 @@ class MapGenerator:
         else:
             return (6*x*x - 15*x + 10)*x*x*x
 
-    def smooth_step_2(self, x):
+    def _smooth_step_2(self, x):
         if x < 0:
             return 0
         elif x > 1:
@@ -205,7 +205,7 @@ class MapGenerator:
         else:
             return (3 * x**2) - (2 * x**3)
 
-    def smooth_step_3(self, x):
+    def _smooth_step_3(self, x):
         if x < 0:
             return 0
         elif x > 1:
@@ -213,18 +213,18 @@ class MapGenerator:
         else:
             return x
 
-    def create_random_uni_vec(self):
+    def _create_random_uni_vec(self):
         angle = random()*360
         return math.cos(angle), math.sin(angle)
 
-    def create_vector_grid(self, grid_size):
+    def _create_vector_grid(self, grid_size):
         '''
         creates a grid of random vectors
         '''
         return array(
             [
                 [
-                    self.create_random_uni_vec()
+                    self._create_random_uni_vec()
                     for _ in range(grid_size + 1)
                 ]
                 for _ in range(grid_size + 1)
@@ -234,7 +234,7 @@ class MapGenerator:
     def _perlin_dot(self, xy, XY):
         return xy[0]*XY[0] + xy[1]*XY[1]
 
-    def perlin_noise_at_point(self, i, j, grid_size, vector_grid, octave) -> float:
+    def _perlin_noise_at_point(self, i, j, grid_size, vector_grid, octave) -> float:
         '''
         calculates the perlin noise value at a single point
         '''
@@ -263,8 +263,8 @@ class MapGenerator:
             (cell_x - 1, cell_y)
         )
         # interpolation
-        smooth_x = self.smooth_step_1(cell_x)
-        smooth_y = self.smooth_step_1(cell_y)
+        smooth_x = self._smooth_step_1(cell_x)
+        smooth_y = self._smooth_step_1(cell_y)
         top_inter = dot_topleft + smooth_x * (dot_topright - dot_topleft)
         bottom_inter = dot_bottomleft + smooth_x * (dot_bottomright - dot_bottomleft)
         return (
@@ -272,23 +272,23 @@ class MapGenerator:
             + (random() - 0.5) * self.random_prob
         )
 
-    def simple_perlin_noise(self, grid_size, octave):
+    def _simple_perlin_noise(self, grid_size, octave):
         '''
         creates a grid of simple(only one octave) perlin-noise values
         '''
-        vector_grid = self.create_vector_grid(grid_size)
+        vector_grid = self._create_vector_grid(grid_size)
         return [
             [
-                self.perlin_noise_at_point(i, j, grid_size, vector_grid, octave)
+                self._perlin_noise_at_point(i, j, grid_size, vector_grid, octave)
                 for i in range(self.cell_number)
             ] for j in range(self.cell_number)
         ]
 
-    def complex_perlin_noise(self):
+    def _complex_perlin_noise(self):
         total_value_grid = []
         grid_size = self.base_grid_size
         for p in range(self.octaves):
-            self.value_grid = self.simple_perlin_noise(grid_size, p)
+            self.value_grid = self._simple_perlin_noise(grid_size, p)
             if p == 0:
                 total_value_grid = [
                     [y for y in x]
@@ -304,17 +304,18 @@ class MapGenerator:
 
         return total_value_grid
 
-    def get_max_biome_val(self, x, y):
+    def _get_max_biome_val(self, x, y, grid):
         value = 0
         idx = 0
-        for i, biome in enumerate(self.all_biome_grid):
+        for i, biome in enumerate(grid):
             tmp = biome[x][y]
             if tmp > value:
                 idx = i
                 value = tmp
-        return self.biome_types[idx]
+        pos = (VEC_2(x, y) - VEC_2(self.cell_number -1,  self.cell_number -1) / 2) * self.cell_size
+        return (self.biome_types[idx], pos)
 
-    def simple_superposition(self):
+    def _simple_superposition(self):
         # chooses whitch biome is in witch cell based on their value strength
         '''
         self.final_biome_grid = []
@@ -327,18 +328,17 @@ class MapGenerator:
                     self.values.append(self.all_biome_grid[j][x][y])
                 self.final_biome_grid[x].append(biome_types[self.values.index(max(self.values))])
         '''
-        self.all_biome_grid = [
-            self.complex_perlin_noise()
+        all_biome_grid = [
+            self._complex_perlin_noise()
             for i in range(self.biome_number)
         ]
         final_biome_grid = [
             [
-                self.get_max_biome_val(i, j)
+                self._get_max_biome_val(i, j, all_biome_grid)
                 for j in range(self.cell_number)
             ] for i in range(self.cell_number)
         ]
         # '''
-
         return final_biome_grid
 
     '''  not used
@@ -358,4 +358,4 @@ class MapGenerator:
     '''
 
     def make_map(self):
-        return self.simple_superposition()
+        return self._simple_superposition()

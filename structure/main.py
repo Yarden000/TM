@@ -26,9 +26,10 @@ class Game:
                     pygame.quit()
                     sys.exit()
 
-            pygame.display.set_caption(f"Survivorio | FPS: {str(int(self.clock.get_fps()))}")
-            self.compiler.run()
-            # self.clock.tick(1000)
+            dt = self.clock.get_time() / 1000
+            pygame.display.set_caption(f"Survivorio | FPS: {str(int(self.clock.get_fps()))} | dt: {str(dt)}")
+            self.compiler.run(dt)
+            #self.clock.tick(1000)
             self.clock.tick(FPS)
 
 

@@ -11,9 +11,9 @@ class Player(Entity):
     def __init__(self, displayable_entenies):
         super().__init__((WIDTH/2,HEIGHT/2), 64, '../graphics/test/player.png')
         displayable_entenies.append(self)
-        self.speed = 2
+        self.speed = 100
 
-    def move(self, camera):
+    def move(self, dt, camera):
         
         self.keys = pygame.key.get_pressed()
         self.direction = VEC_2()
@@ -34,11 +34,11 @@ class Player(Entity):
         else:
             self.movement = self.direction * self.speed
 
-        camera.player_displacement -= self.movement
+        camera.player_displacement -= self.movement * dt
         self.pos += self.movement
 
     def display(self, camera):
         self.screen.blit(self.image, self.image.get_rect(center = (WIDTH/2, HEIGHT/2)))
 
-    def run(self, camera):
-        self.move(camera)
+    def run(self, dt, camera):
+        self.move(dt, camera)

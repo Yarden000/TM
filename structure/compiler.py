@@ -2,9 +2,11 @@ import pygame, sys
 from map import Map
 from player import Player
 from entities import (
-    Entity, 
-    Spawner
+    Entity
     )
+from spawner import (
+    Spawner
+)
 from camera import Camera
 
 
@@ -34,14 +36,14 @@ class Compiler:
         self.player = Player(self.displayable_entenies)
 
         
-    def run(self):
+    def run(self, dt):
 
         # all the interactions / events / calculations of the game
-        self.player.run(self.camera)
+        self.player.run(dt, self.camera)
 
         # test
-        #self.spawner.spawn_test_ent(pos = self.camera.player_displacement)
-        self.spawner.chunks_loaded()
+        #self.spawner.spawn_test_ent(pos = (0, 0))
+        self.spawner.tiles_loaded()
 
         self.displayer.run()
 
@@ -61,4 +63,5 @@ class Displayer:
         for i in self.displayable_entenies:
             # trier selon la position
             i.display(self.camera)
+        #print(len(self.displayable_entenies))
         pygame.display.update()
