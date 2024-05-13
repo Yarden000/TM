@@ -13,14 +13,14 @@ class Map:
     def __init__(self):
         self.screen = pygame.display.get_surface()
         self.cell_size = 100
-        self.chunk_number = 3  # number of chunks
+        self.chunk_number = 100  # number of chunks
         self.chunk_size = 1  # number of tiles in a chunk
         self.chunk_size_in_pixel = self.chunk_size * self.cell_size
         self.map_size = self.chunk_number * self.chunk_size
         self.biome_types = [
-            {'name': 'desert', 'image': pygame.transform.scale(pygame.image.load('../graphics/test/desert.png'), (self.cell_size, self.cell_size))},
-            {'name': 'plains', 'image': pygame.transform.scale(pygame.image.load('../graphics/test/plains.png'), (self.cell_size, self.cell_size))},
-            {'name': 'forest', 'image': pygame.transform.scale(pygame.image.load('../graphics/test/forest.png'), (self.cell_size, self.cell_size))}
+            {'type': 'desert', 'image': pygame.transform.scale(pygame.image.load('../graphics/test/desert.png'), (self.cell_size, self.cell_size))},
+            {'type': 'plains', 'image': pygame.transform.scale(pygame.image.load('../graphics/test/plains.png'), (self.cell_size, self.cell_size))},
+            {'type': 'forest', 'image': pygame.transform.scale(pygame.image.load('../graphics/test/forest.png'), (self.cell_size, self.cell_size))}
         ]
 
         map_gen = MapGenerator(self.map_size, self.cell_size, self.biome_types)  # (self.map_size, self.biome_types[, base_gris_size, octaves, persistence, frequency, random])
@@ -313,7 +313,7 @@ class MapGenerator:
                 idx = i
                 value = tmp
         pos = (VEC_2(x, y) - VEC_2(self.cell_number -1,  self.cell_number -1) / 2) * self.cell_size
-        return (self.biome_types[idx], pos)
+        return (self.biome_types[idx].copy(), pos)  # need to remove the .copy()
 
     def _simple_superposition(self):
         # chooses whitch biome is in witch cell based on their value strength

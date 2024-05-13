@@ -43,7 +43,7 @@ class Compiler:
 
         # test
         #self.spawner.spawn_test_ent(pos = (0, 0))
-        self.spawner.tiles_loaded()
+        self.spawner.spawn_ent(Entity)
 
         self.displayer.run()
 
@@ -62,6 +62,6 @@ class Displayer:
         self.map.display(self.camera)
         for i in self.displayable_entenies:
             # trier selon la position
-            i.display(self.camera)
+            i.display(self.screen, self.camera)
         #print(len(self.displayable_entenies))
         pygame.display.update()

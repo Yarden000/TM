@@ -33,7 +33,8 @@ print(b.dtype)
 a = np.array(['hellosss', 'good'])
 print(a.dtype)
 '''
-l = [
-[y + (y * x) for y in range(8)] for x in range(8)
-]
-print(l)
+for i in range(4):
+    for j in range(3):
+        if j == 2:
+            break
+        print(i, j)

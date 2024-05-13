@@ -26,11 +26,18 @@ class Game:
                     pygame.quit()
                     sys.exit()
 
+            # testing
+            self.keys = pygame.key.get_pressed()
+            if self.keys[pygame.K_p]:
+                fps = 1000
+            else:
+                fps = FPS
+
             dt = self.clock.get_time() / 1000
             pygame.display.set_caption(f"Survivorio | FPS: {str(int(self.clock.get_fps()))} | dt: {str(dt)}")
             self.compiler.run(dt)
             #self.clock.tick(1000)
-            self.clock.tick(FPS)
+            self.clock.tick(fps)  # should be FPS
 
 
 if __name__ == '__main__':  # checks if it is the main file
