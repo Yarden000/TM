@@ -50,7 +50,7 @@ class MapGenerator_testing:
         self.octaves = octaves
         self.persistence = persistence
         self.frequency = frequency
-        self.cell_number = int(max(settings.HEIGHT, settings.WIDTH) / self.pixel_size)
+        self.cell_number = int(max(HEIGHT, WIDTH) / self.pixel_size)
         self.random_prob = random_prob
 
     def smooth_step_1(self, x):

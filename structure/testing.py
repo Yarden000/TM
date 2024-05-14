@@ -5,6 +5,7 @@ this file is only used for testing and wont be used in the game
 import numpy as np
 import pygame
 import random
+import math
 '''
 a = np.empty((4, 4), '<U5')
 print(a)
@@ -33,8 +34,3 @@ print(b.dtype)
 a = np.array(['hellosss', 'good'])
 print(a.dtype)
 '''
-for i in range(4):
-    for j in range(3):
-        if j == 2:
-            break
-        print(i, j)

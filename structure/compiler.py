@@ -25,13 +25,7 @@ class Compiler:
         self.map = Map()
         self.displayer = Displayer(self.map, self.camera, self.displayable_entenies)
 
-        self.chunks = [
-            [
-                [] for i in range(self.map.chunk_number)
-            ] for j in range(self.map.chunk_number)
-        ]   # a list of all the enteties in each chunk
-
-        self.spawner = Spawner(self.camera, self.map, self.chunks, self.displayable_entenies)
+        self.spawner = Spawner(self.camera, self.map, self.displayable_entenies)
 
         self.player = Player(self.displayable_entenies)
 
@@ -44,6 +38,10 @@ class Compiler:
         # test
         #self.spawner.spawn_test_ent(pos = (0, 0))
         self.spawner.spawn_ent(dt, Entity)
+
+        for i in self.displayable_entenies:  # testing
+            if not i == self.player:
+                i.run(dt)
 
         self.displayer.run()
 

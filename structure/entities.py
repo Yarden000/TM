@@ -1,4 +1,6 @@
 import pygame, sys
+import random
+import math
 from settings import (
     WIDTH, 
     HEIGHT, 
@@ -8,15 +10,28 @@ from settings import (
 
 
 class Entity:
+    regions = {}
+    region_size = 1000
     # class for all the enteties: ressouces, animals...
     spawning_rates = {'desert': 1, 'plains': 0.2, 'forest': 0}
 
     def __init__(self, pos = (0, 0)):
         self.pos = VEC_2(pos)
+
+        self.region = tuple(self.pos // __class__.region_size)
+        if self.region in __class__.regions:
+            __class__.regions[self.region].append(self)
+        else:
+            __class__.regions[self.region] = [self]
+
         self.size = 64
         self.image = pygame.transform.scale(pygame.image.load('../graphics/test/none.png'), (self.size, self.size))
+
+        # for testing
+        self.direction = VEC_2(math.sin(random.randint(0, 360) / math.pi), math.cos(random.randint(0, 360) / math.pi))
         
-        
+    def move(self, dt): # for testing
+        self.pos += self.direction * dt * 20
 
     def display(self, screen, camera):
         if -self.size / 2 < self.pos.x + camera.player_displacement.x < WIDTH + self.size / 2:
@@ -24,8 +39,8 @@ class Entity:
                 screen.blit(self.image, self.image.get_rect(center = VEC_2(self.pos + camera.player_displacement)))
 
 
-    def run(self):
-        pass
+    def run(self, dt):
+        self.move(dt)
 
 
 

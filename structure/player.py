@@ -36,6 +36,7 @@ class Player(Entity):
             self.movement = self.direction * self.speed
 
         camera.player_displacement -= self.movement * dt
+        camera.true_player_displacement -= self.movement * dt
         self.pos += self.movement
 
     def display(self, screen, camera):
