@@ -43,7 +43,7 @@ class Compiler:
 
         # test
         #self.spawner.spawn_test_ent(pos = (0, 0))
-        self.spawner.spawn_ent(Entity)
+        self.spawner.spawn_ent(dt, Entity)
 
         self.displayer.run()
 

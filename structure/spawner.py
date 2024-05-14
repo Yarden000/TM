@@ -1,4 +1,5 @@
 import pygame, sys
+import random as rnd
 from settings import (
     WIDTH, 
     HEIGHT, 
@@ -11,7 +12,7 @@ from entities import (
 class Spawner:
     
     def __init__(self, camera, map, chunks, displayable_entenies):
-        self.spawn_range = 1 #number of chunks loaded
+        self.spawn_range = 3 #number of chunks loaded
         self.camera = camera
         self.map = map
         self.chunks = chunks
@@ -21,6 +22,10 @@ class Spawner:
         # test
         test_entity = Entity(pos, size, image)
         self.displayable_entenies.append(test_entity)
+
+    def _spawn_ent(self, ent, pos):
+        entity = ent(pos)
+        self.displayable_entenies.append(entity)
 
     def _tiles_loaded(self):
         # décalage si chunk_number est impaire
@@ -47,17 +52,19 @@ class Spawner:
                         
         return tiles_ordered
     
-    def spawn_ent(self, ent):
-        prob = 0
+    def spawn_ent(self, dt, ent):
         for i in self._tiles_loaded():
-            prob += len(i['tiles']) * ent.spawning_rates[i['type']]
-        print(prob)
+            prob = ent.spawning_rates[i['type']] * dt
+            print(prob)
+            for j in i['tiles']:
+                if rnd.randint(0, 1000) < prob * 1000:
+                    self._spawn_ent(Entity, j[1])
+
+
+        
             
 
-
-        
-
-        
+            
 class RessourceSpawner(Spawner):
 
     def __init__(self):

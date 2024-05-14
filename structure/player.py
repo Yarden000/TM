@@ -9,7 +9,8 @@ from entities import Entity
 
 class Player(Entity):
     def __init__(self, displayable_entenies):
-        super().__init__((WIDTH/2,HEIGHT/2), 64, '../graphics/test/player.png')
+        super().__init__((WIDTH/2,HEIGHT/2))
+        self.image = pygame.transform.scale(pygame.image.load('../graphics/test/player.png'), (self.size, self.size))
         displayable_entenies.append(self)
         self.speed = 100
 
