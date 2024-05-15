@@ -2,7 +2,9 @@ import pygame, sys
 from map import Map
 from player import Player
 from entities import (
-    Entity
+    Entity, 
+    Ressource, 
+    Animal
     )
 from spawner import (
     Spawner
@@ -37,7 +39,8 @@ class Compiler:
 
         # test
         #self.spawner.spawn_test_ent(pos = (0, 0))
-        self.spawner.spawn_ent(dt, Entity)
+        self.spawner.spawn_ent(dt, Animal)
+        self.spawner.spawn_ent(dt, Ressource)
 
         for i in self.displayable_entenies:  # testing
             if not i == self.player:

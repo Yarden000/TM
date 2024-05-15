@@ -56,8 +56,8 @@ class Spawner:
         for i in self._tiles_loaded():
             prob = ent.spawning_rates[i['type']] * dt
             for j in i['tiles']:
-                if rnd.randint(0, 1000) < prob * 2000:
-                    self._spawn_ent(Entity, j[1])
+                if rnd.randint(0, 1000) < prob * 200:
+                    self._spawn_ent(ent, j[1])
 
 
         
