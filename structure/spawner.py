@@ -24,7 +24,10 @@ class Spawner:
 
     def _spawn_ent(self, ent, pos):
         entity = ent(pos)
-        self.displayable_entenies.append(entity)
+        if entity.collide_state() == False:
+            self.displayable_entenies.append(entity)
+        else:
+            entity.kill()
 
     def _tiles_loaded(self):
         # décalage si chunk_number est impaire
@@ -52,12 +55,28 @@ class Spawner:
                         
         return tiles_ordered
     
+    def density(self, pos):
+        region = tuple(pos // Entity.region_size)
+        dist = 2
+        n = 0
+        for i in range(-dist, dist + 1):
+            for j in range(-dist, dist + 1):
+                region_ = (region[0] + i, region[0] + j)
+                if region_ in Entity.regions:
+                    n += len(Entity.regions[region_])
+        density = n / ((dist * Entity.region_size) * (dist * Entity.region_size)) * 100000   # the *100000 is because the density is very small
+        print(density)
+        return density
+
     def spawn_ent(self, dt, ent):
+        limit = 3
         for i in self._tiles_loaded():
             prob = ent.spawning_rates[i['type']] * dt
             for j in i['tiles']:
-                if rnd.randint(0, 1000) < prob * 200:
-                    self._spawn_ent(ent, j[1])
+                density = self.density(j[1])
+                if 0 < density < limit:
+                    if rnd.randint(0, 1000) < prob * 200 / (density * 2):
+                        self._spawn_ent(ent, j[1])
 
 
         

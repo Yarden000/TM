@@ -34,3 +34,5 @@ print(b.dtype)
 a = np.array(['hellosss', 'good'])
 print(a.dtype)
 '''
+print([3, 5, 7, 32] == False)
+print(False == False)
