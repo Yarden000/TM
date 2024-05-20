@@ -34,5 +34,5 @@ print(b.dtype)
 a = np.array(['hellosss', 'good'])
 print(a.dtype)
 '''
-print([3, 5, 7, 32] == False)
-print(False == False)
+for i in range(0, 1):
+    print(i)
