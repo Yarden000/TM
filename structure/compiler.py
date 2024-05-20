@@ -38,7 +38,6 @@ class Compiler:
         self.player.run(dt, self.camera)
 
         # test
-        #self.spawner.spawn_test_ent(pos = (0, 0))
         self.spawner.spawn_ent(dt, Animal)
         self.spawner.spawn_ent(dt, Ressource)
 

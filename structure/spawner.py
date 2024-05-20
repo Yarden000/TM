@@ -17,17 +17,14 @@ class Spawner:
         self.map = map
         self.displayable_entenies = displayable_entenies
 
-    def spawn_test_ent(self, pos = (0, 0), size = 64, image = '../graphics/test/none.png'):
-        # test
-        test_entity = Entity(pos, size, image)
-        self.displayable_entenies.append(test_entity)
-
     def _spawn_ent(self, ent, pos):
         entity = ent(pos)
         if entity.collide_state() == False:
             self.displayable_entenies.append(entity)
+            #print(entity.region)
         else:
             entity.kill()
+            print('kill')
 
     def _tiles_loaded(self):
         # décalage si chunk_number est impaire
@@ -57,7 +54,7 @@ class Spawner:
     
     def density(self, pos):
         region = tuple(pos // Entity.region_size)
-        dist = 2
+        dist = 1
         n = 0
         for i in range(-dist, dist + 1):
             for j in range(-dist, dist + 1):
@@ -65,22 +62,21 @@ class Spawner:
                 if region_ in Entity.regions:
                     n += len(Entity.regions[region_])
         density = n / ((dist * Entity.region_size) * (dist * Entity.region_size)) * 100000   # the *100000 is because the density is very small
-        print(density)
         return density
 
     def spawn_ent(self, dt, ent):
-        limit = 3
+        limit = 100
+        density_scaling = 1
         for i in self._tiles_loaded():
             prob = ent.spawning_rates[i['type']] * dt
             for j in i['tiles']:
-                density = self.density(j[1])
+                pos = j[1] + VEC_2(rnd.randint((-(self.map.cell_size - ent.size) / 2), (self.map.cell_size - ent.size) / 2), 
+                                   rnd.randint((-(self.map.cell_size - ent.size) / 2), (self.map.cell_size - ent.size) / 2))
+                density = self.density(pos)
                 if 0 < density < limit:
-                    if rnd.randint(0, 1000) < prob * 200 / (density * 2):
-                        self._spawn_ent(ent, j[1])
+                    if rnd.randint(0, 1000) < prob * 1000 / (density * density_scaling):
+                        self._spawn_ent(ent, pos)
 
-
-        
-            
 
             
 class RessourceSpawner(Spawner):

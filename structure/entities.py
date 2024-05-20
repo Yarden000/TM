@@ -14,6 +14,8 @@ class Entity:
     region_size = 1000
     # class for all the enteties: ressouces, animals...
     spawning_rates = {'desert': 1, 'plains': 0.2, 'forest': 0}
+    movable = False
+    size = 64
 
     def __init__(self, pos):
         self.pos = VEC_2(pos)
@@ -24,10 +26,20 @@ class Entity:
         else:
             __class__.regions[self.region] = [self]
 
-        self.size = 64
-        self.image = pygame.transform.scale(pygame.image.load('../graphics/test/none.png'), (self.size, self.size))
+        self.image = pygame.transform.scale(pygame.image.load('../graphics/test/none.png'), (__class__.size, __class__.size))
 
-      
+    def update_region(self):
+        new_region = tuple(self.pos // __class__.region_size)
+        if self.region != new_region:
+            if new_region in __class__.regions:
+                __class__.regions[new_region].append(self)
+            else:
+                __class__.regions[new_region] = [self]
+            if self.region in __class__.regions:
+                if self in __class__.regions[self.region]:
+                    __class__.regions[self.region].remove(self)
+            self.region = new_region
+
     def display(self, screen, camera):
         if -self.size / 2 < self.pos.x + camera.player_displacement.x < WIDTH + self.size / 2:
             if -self.size / 2 < self.pos.y + camera.player_displacement.y < HEIGHT + self.size / 2:
@@ -45,6 +57,7 @@ class Entity:
                             ents_collided_with.append(ent)
         if len(ents_collided_with) == 0:
             return False
+        #print('colide')
         return ents_collided_with
     
     def kill(self):
@@ -52,7 +65,7 @@ class Entity:
         del self
 
     def run(self, dt):
-        pass
+        self.update_region()
 
 
 class Ressource(Entity):
@@ -60,12 +73,13 @@ class Ressource(Entity):
 
     def __init__(self, camera):
         super().__init__(camera)
-        self.image = pygame.transform.scale(pygame.image.load('../graphics/test/ressource.png'), (self.size, self.size))
+        self.image = pygame.transform.scale(pygame.image.load('../graphics/test/ressource.png'), (__class__.size, __class__.size))
 
 
 
 class Animal(Entity):
     spawning_rates = {'desert': 0, 'plains': 0, 'forest': 1}
+    movable = True
 
     def __init__(self, camera):
         super().__init__(camera)
@@ -80,6 +94,8 @@ class Animal(Entity):
 
     def run(self, dt):
         self.move(dt)
+        self.update_region()
+        
 
 
 

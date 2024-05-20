@@ -35,10 +35,12 @@ class Player(Entity):
         else:
             self.movement = self.direction * self.speed
 
-        camera.player_displacement -= self.movement * dt
-        camera.true_player_displacement -= self.movement * dt
-        self.pos += self.movement
+        displacement = self.movement * dt
 
+        camera.player_displacement -= displacement
+        camera.true_player_displacement -= displacement
+        self.pos += displacement
+        
     def display(self, screen, camera):
         screen.blit(self.image, self.image.get_rect(center = (WIDTH/2, HEIGHT/2)))
 
