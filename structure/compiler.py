@@ -9,6 +9,7 @@ from spawner import Spawner
 from camera import Camera
 
 
+
 class Compiler:
     '''
     all the playable part of the game
