@@ -8,64 +8,73 @@ from settings import (
     )
 
 
+class EntityManager:
+    def __init__(self):
+        self.regions = {}
+        self.region_size = 1000  # needs to be bigger than all entity sizes
+        self.entity_list = []
+
+    def add_player(self, player):
+        self.player = player
+        self.add_new_entity(self.player)
+        
+
+    def add_new_entity(self, entity):
+        self.entity_list.append(entity)
+        region = tuple(entity.pos // self.region_size)
+        entity.region = region
+        if region in self.regions:
+            self.regions[region].append(entity)
+        else:
+            self.regions[region] = [entity]
+
+    def entity_colision_state(self, ent):
+        ents_collided_with = []
+        for i in range(-1, 2):
+            for j in range(-1, 2):
+                region = (ent.region[0] + i, ent.region[0] + j)
+                if region in self.regions:
+                    for ent_ in self.regions[region]:
+                        dist = ent.pos.distance_to(ent_.pos)
+                        if dist < (ent.size + ent_.size) / 2 and ent_ != ent:
+                            ents_collided_with.append(ent_)
+        if len(ents_collided_with) == 0:
+            return False
+        return ents_collided_with
+
+    def remove_entity(self, ent):
+        self.regions[ent.region].remove(ent)
+        self.entity_list.remove(ent)
+        del ent
+
+    def run(self, dt, camera):
+        self.player.run(dt, camera)
+
+        for ent in self.entity_list:
+            if not ent == self.player:
+                ent.run(dt)
+
 
 class Entity:
-    regions = {}
-    region_size = 1000
     # class for all the enteties: ressouces, animals...
     spawning_rates = {'desert': 1, 'plains': 0.2, 'forest': 0}
     movable = False
     size = 64
 
-    def __init__(self, pos):
+    def __init__(self, pos=(0, 0)):
         self.pos = VEC_2(pos)
 
-        self.region = tuple(self.pos // __class__.region_size)
-        if self.region in __class__.regions:
-            __class__.regions[self.region].append(self)
-        else:
-            __class__.regions[self.region] = [self]
-
+        self.region = 'meh'
+        
         self.image = pygame.transform.scale(pygame.image.load('../graphics/test/none.png'), (__class__.size, __class__.size))
-
-    def update_region(self):
-        new_region = tuple(self.pos // __class__.region_size)
-        if self.region != new_region:
-            if new_region in __class__.regions:
-                __class__.regions[new_region].append(self)
-            else:
-                __class__.regions[new_region] = [self]
-            if self.region in __class__.regions:
-                if self in __class__.regions[self.region]:
-                    __class__.regions[self.region].remove(self)
-            self.region = new_region
 
     def display(self, screen, camera):
         if -self.size / 2 < self.pos.x + camera.player_displacement.x < WIDTH + self.size / 2:
             if -self.size / 2 < self.pos.y + camera.player_displacement.y < HEIGHT + self.size / 2:
                 screen.blit(self.image, self.image.get_rect(center = VEC_2(self.pos + camera.player_displacement)))
 
-    def collide_state(self):
-        ents_collided_with = []
-        for i in range(-1, 2):
-            for j in range(-1, 2):
-                region = (self.region[0] + i, self.region[0] + j)
-                if region in __class__.regions:
-                    for ent in Entity.regions[region]:
-                        dist = self.pos.distance_to(ent.pos)
-                        if dist < (self.size + ent.size) / 2 and ent != self:
-                            ents_collided_with.append(ent)
-        if len(ents_collided_with) == 0:
-            return False
-        #print('colide')
-        return ents_collided_with
-    
-    def kill(self):
-        __class__.regions[self.region].remove(self)
-        del self
-
     def run(self, dt):
-        self.update_region()
+        pass
 
 
 class Ressource(Entity):
@@ -94,7 +103,6 @@ class Animal(Entity):
 
     def run(self, dt):
         self.move(dt)
-        self.update_region()
         
 
 

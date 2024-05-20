@@ -11,20 +11,18 @@ from entities import (
 
 class Spawner:
     
-    def __init__(self, camera, map, displayable_entenies):
+    def __init__(self, camera, map, entity_manager):
         self.spawn_range = 1 #number of chunks loaded
         self.camera = camera
         self.map = map
-        self.displayable_entenies = displayable_entenies
+        self.entity_manager = entity_manager
 
     def _spawn_ent(self, ent_class, pos):
-        entity = ent_class(pos)
-        if entity.collide_state() == False:
-            self.displayable_entenies.append(entity)
-            #print(entity.region)
-        else:
-            entity.kill()
-            print('kill')
+        ent = ent_class(pos)
+        self.entity_manager.add_new_entity(ent)
+        if not self.entity_manager.entity_colision_state(ent) == False:
+            self.entity_manager.remove_entity(ent)
+            
 
     def _tiles_loaded(self):
 
@@ -56,19 +54,19 @@ class Spawner:
                     if tile[0]['type'] == biome['type']:
                         tiles_ordered[n]['tiles'].append(tile)
                         break
-        print((tile_x_start, tile_x_end), (tile_y_start, tile_y_end))            
+        #print((tile_x_start, tile_x_end), (tile_y_start, tile_y_end))            
         return tiles_ordered
     
     def density(self, pos):
-        region = tuple(pos // Entity.region_size)
+        region = tuple(pos // self.entity_manager.region_size)
         dist = 1
         n = 0
         for i in range(-dist, dist + 1):
             for j in range(-dist, dist + 1):
                 region_ = (region[0] + i, region[0] + j)
-                if region_ in Entity.regions:
-                    n += len(Entity.regions[region_])
-        density = n / ((dist * Entity.region_size) * (dist * Entity.region_size)) * 100000   # the *100000 is because the density is very small
+                if region_ in self.entity_manager.regions:
+                    n += len(self.entity_manager.regions[region_])
+        density = n / ((dist * self.entity_manager.region_size) * (dist * self.entity_manager.region_size)) * 100000   # the *100000 is because the density is very small
         return density
 
     def spawn_ent(self, dt, ent_class):
