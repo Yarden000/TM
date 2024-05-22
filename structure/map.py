@@ -27,8 +27,13 @@ class Map:
         self.grid = map_gen.make_map()
 
     def _range_on_screen(self, camera):
-        self.range_x = range(round((self.map_size / 2) - ((WIDTH + camera.player_displacement[0]) // self.cell_size)), round((self.map_size / 2) + ((WIDTH - camera.player_displacement[0]) // self.cell_size)) + 2)    # +2 is buffer
-        self.range_y = range(round((self.map_size / 2) - ((HEIGHT + camera.player_displacement[1]) // self.cell_size)), round((self.map_size / 2) + ((HEIGHT - camera.player_displacement[1]) // self.cell_size)) + 2)
+        i = round(
+            self.map_size / 2
+            - (WIDTH + camera.player_displacement[0]) // self.cell_size
+        )
+        j = round((self.map_size / 2) - ((HEIGHT + camera.player_displacement[1]) // self.cell_size))
+        self.range_x = range(i, i+2)    # +2 is buffer
+        self.range_y = range(j, j+2)
         return (self.range_x, self.range_y)
 
     def display(self, camera):
@@ -42,7 +47,6 @@ class Map:
 
 
 class MapGenerator_testing:
-    
     def __init__(self, biome_number, pixel_sise, base_grid_size = 4, octaves = 1, persistence = 0.5, frequency = 2, random_prob = 0):
         self.biome_number = biome_number
         self.pixel_size = pixel_sise

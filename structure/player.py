@@ -1,21 +1,19 @@
-import pygame, sys
+import pygame
 from settings import (
-    WIDTH, 
-    HEIGHT, 
+    WIDTH,
+    HEIGHT,
     VEC_2
-    )
+)
 from entities import Entity
 
 
 class Player(Entity):
-    def __init__(self, displayable_entenies):
-        super().__init__((WIDTH/2,HEIGHT/2))
+    def __init__(self):
+        super().__init__((WIDTH/2, HEIGHT/2))
         self.image = pygame.transform.scale(pygame.image.load('../graphics/test/player.png'), (self.size, self.size))
-        displayable_entenies.append(self)
         self.speed = 100
 
     def move(self, dt, camera):
-        
         self.keys = pygame.key.get_pressed()
         self.direction = VEC_2()
         self.direction.x = 0
@@ -40,7 +38,7 @@ class Player(Entity):
         self.pos += self.movement
 
     def display(self, screen, camera):
-        screen.blit(self.image, self.image.get_rect(center = (WIDTH/2, HEIGHT/2)))
+        screen.blit(self.image, self.image.get_rect(center=(WIDTH/2, HEIGHT/2)))
 
     def run(self, dt, camera):
         self.move(dt, camera)

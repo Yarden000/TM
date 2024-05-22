@@ -1,14 +1,11 @@
-import pygame, sys
+import pygame
 from map import Map
 from player import Player
 from entities import (
-    Entity, 
-    Ressource, 
+    Ressource,
     Animal
-    )
-from spawner import (
-    Spawner
 )
+from spawner import Spawner
 from camera import Camera
 
 
@@ -16,7 +13,7 @@ class Compiler:
     '''
     all the playable part of the game
     '''
-    
+
     def __init__(self):
         self.outside_range_enteties = []
 
@@ -25,20 +22,20 @@ class Compiler:
 
         self.camera = Camera()
         self.map = Map()
-        self.displayer = Displayer(self.map, self.camera, self.displayable_entenies)
+        self.entity_manager = EntityManager()
+        self.displayer = Displayer(self.map, self.camera, self.entity_manager)
 
         self.spawner = Spawner(self.camera, self.map, self.displayable_entenies)
 
-        self.player = Player(self.displayable_entenies)
+        self.entity_manager.add_new_entity(Player())
 
-        
+
     def run(self, dt):
-
         # all the interactions / events / calculations of the game
         self.player.run(dt, self.camera)
 
         # test
-        #self.spawner.spawn_test_ent(pos = (0, 0))
+        # self.spawner.spawn_test_ent(pos = (0, 0))
         self.spawner.spawn_ent(dt, Animal)
         self.spawner.spawn_ent(dt, Ressource)
 
@@ -59,10 +56,11 @@ class Displayer:
         self.displayable_entenies = displayable_entenies
 
     def run(self):
-        self.screen.fill('blue')               
+        self.screen.fill('blue')
         self.map.display(self.camera)
         for i in self.displayable_entenies:
+            # FIXME: for i in self.entity_maanager.displayed_entities:
             # trier selon la position
             i.display(self.screen, self.camera)
-        #print(len(self.displayable_entenies))
+        # print(len(self.displayable_entenies))
         pygame.display.update()
