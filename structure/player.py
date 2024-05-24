@@ -9,7 +9,7 @@ from entities import Entity
 
 class Player(Entity):
     def __init__(self):
-        super().__init__((WIDTH/2,HEIGHT/2))
+        super().__init__((0, 0))
         self.image = pygame.transform.scale(pygame.image.load('../graphics/test/player.png'), (self.size, self.size))
         self.speed = 100
 

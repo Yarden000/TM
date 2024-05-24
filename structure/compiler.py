@@ -24,11 +24,12 @@ class Compiler:
         self.camera = Camera()
         self.map = Map()
         self.entity_manager = EntityManager()
+        self.entity_manager.add_player(Player())
         self.displayer = Displayer(self.map, self.camera, self.entity_manager)
 
         self.spawner = Spawner(self.camera, self.map, self.entity_manager)
         
-        self.entity_manager.add_player(Player())
+        
 
         
     def run(self, dt):
@@ -37,8 +38,8 @@ class Compiler:
         self.entity_manager.run(dt, self.camera)
 
         # test
-        self.spawner.spawn_ent(dt, Animal)
-        self.spawner.spawn_ent(dt, Ressource)
+        #self.spawner.spawn_ent(dt, Animal)
+        self.spawner.spawn_ent_v2(dt, Ressource)
 
         self.displayer.run()
 
@@ -59,4 +60,6 @@ class Displayer:
             # trier selon la position
             i.display(self.screen, self.camera)
         #print(len(self.displayable_entenies))
+        # for debugging:
+        self.entity_manager.draw_regions(self.camera.player_displacement)
         pygame.display.update()

@@ -34,12 +34,5 @@ print(b.dtype)
 a = np.array(['hellosss', 'good'])
 print(a.dtype)
 '''
-thisdict = {
-  "brand": "Ford",
-  "model": "Mustang",
-  "year": 1964
-}
-
-x = thisdict.keys()
-
-print(type(x))
+d = 5
+print(13 < d < 1)
