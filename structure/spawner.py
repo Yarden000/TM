@@ -1,4 +1,5 @@
 import pygame, sys
+import time
 import random as rnd
 from settings import (
     debug, 
@@ -13,7 +14,7 @@ from entities import (
 class Spawner:
     
     def __init__(self, camera, map, entity_manager):
-        self.spawn_range = 10 #number of chunks loaded
+        self.spawn_range = 3 #number of chunks loaded
         self.camera = camera
         self.map = map
         self.entity_manager = entity_manager
@@ -51,19 +52,6 @@ class Spawner:
                         tiles_ordered[n]['tiles'].append(tile)
                         break          
         return tiles_ordered
-    
-    def density(self, pos):
-        region = tuple(self.entity_manager.player.pos // self.entity_manager.region_size) # test
-        #region = tuple(pos // self.entity_manager.region_size)
-        dist = 1
-        n = 0
-        for i in range(-dist, dist + 1):
-            for j in range(-dist, dist + 1):
-                region_ = (region[0] + i, region[1] + j)
-                if region_ in self.entity_manager.regions:
-                    n += len(self.entity_manager.regions[region_])
-        density = n / (((dist + 1) * self.entity_manager.region_size) * ((dist + 1) * self.entity_manager.region_size)) * 10000   # the *100000 is because the density is very small
-        return density
 
     def spawn_ent(self, dt, ent_class):
         limit = 100
@@ -79,9 +67,11 @@ class Spawner:
                         self._spawn_ent(ent_class, pos)
 
     def spawn_ent_v2(self, dt, ent_class):
-        for i in self._tiles_loaded():
+        tiles_loaded = self._tiles_loaded()  # not the speed problem
+        density = self.entity_manager.ent_density()
+        for i in tiles_loaded:
             '''calculates the number of ents to spawn for a biome type'''  # needs to include density
-            number = ent_class.spawning_rates[i['type']] * dt * len(i['tiles'])
+            number = ent_class.spawning_rates[i['type']] * dt * len(i['tiles']) / (density * density + 1)
             remainder = number - int(number)
             if self.remainder >= 1 - remainder:
                 number = int(number + 1)
@@ -89,13 +79,14 @@ class Spawner:
             else:
                 self.remainder += remainder
                 number = 0
-
             '''spawns the entities'''
             tiles = rnd.choices(i['tiles'], k=number)
-            for tile in tiles:
+            for tile in tiles:       
                 pos = tile[1] + VEC_2(rnd.randint((-(self.map.cell_size - ent_class.size) / 2), (self.map.cell_size - ent_class.size) / 2), 
                                     rnd.randint((-(self.map.cell_size - ent_class.size) / 2), (self.map.cell_size - ent_class.size) / 2))
-                self.entity_manager._spawn_ent(ent_class, pos)
+                self.entity_manager._spawn_ent(ent_class, pos)  # time problem in here
+
+
 
             
 class RessourceSpawner(Spawner):

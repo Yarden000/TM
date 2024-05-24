@@ -1,4 +1,4 @@
-import pygame, sys
+import pygame, sys, time
 import random
 import math
 from settings import (
@@ -11,7 +11,7 @@ from settings import (
 class EntityManager:
     def __init__(self):
         self.regions = {}
-        self.region_size = 100  # needs to be bigger than all entity sizes
+        self.region_size = 500  # needs to be bigger than all entity sizes
         self.entity_list = []
 
     def add_player(self, player):
@@ -24,6 +24,7 @@ class EntityManager:
         if (not self.entity_colision_state(ent) == False) and not overide:
             self.remove_entity(ent)
 
+
     def add_new_entity(self, entity):
         self.entity_list.append(entity)
         region = tuple(entity.pos // self.region_size)
@@ -35,7 +36,19 @@ class EntityManager:
             self.regions[region] = [entity]
             #print('new')
 
-    def entity_colision_state(self, ent):
+    def ent_density(self):
+        region = tuple(self.player.pos // self.region_size)
+        dist = 5 # radius of regions checked
+        n = 0
+        for i in range(-dist, dist + 1):
+            for j in range(-dist, dist + 1):
+                region_ = (region[0] + i, region[1] + j)
+                if region_ in self.regions:
+                    n += len(self.regions[region_])
+        density = n / (((dist + 1) * self.region_size) * ((dist + 1) * self.region_size)) * 100000   # the *100000 is because the density is very small
+        return density
+    
+    def entity_colision_state(self, ent, want_list = False):   # needs optimisation
         ents_collided_with = []
         for i in range(-1, 2):
             for j in range(-1, 2):
@@ -44,23 +57,13 @@ class EntityManager:
                     for ent_ in self.regions[region]:
                         dist = ent.pos.distance_to(ent_.pos)
                         if dist < (ent.size + ent_.size) / 2 and ent_ != ent:
-                            ents_collided_with.append(ent_)
+                            if want_list:
+                                ents_collided_with.append(ent_)
+                            else:
+                                return True
         if len(ents_collided_with) == 0:
             return False
         return ents_collided_with
-    
-    def ent_density(self, pos):
-        #region = tuple(self.entity_manager.player.pos // self.entity_manager.region_size) # test
-        region = tuple(pos // self.region_size)
-        dist = 2
-        n = 0
-        for i in range(-dist, dist + 1):
-            for j in range(-dist, dist + 1):
-                region_ = (region[0] + i, region[0] + j)
-                if region_ in self.regions:
-                    n += len(self.regions[region_])
-        density = n / (((dist + 1) * self.region_size) * ((dist + 1) * self.region_size)) * 10000   # the *100000 is because the density is very small
-        return density
 
     def remove_entity(self, ent):
         self.regions[ent.region].remove(ent)
