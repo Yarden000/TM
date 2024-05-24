@@ -11,7 +11,7 @@ from settings import (
 class EntityManager:
     def __init__(self):
         self.regions = {}
-        self.region_size = 1000  # needs to be bigger than all entity sizes
+        self.region_size = 100  # needs to be bigger than all entity sizes
         self.entity_list = []
 
     def add_player(self, player):
@@ -39,7 +39,7 @@ class EntityManager:
         ents_collided_with = []
         for i in range(-1, 2):
             for j in range(-1, 2):
-                region = (ent.region[0] + i, ent.region[0] + j)
+                region = (ent.region[0] + i, ent.region[1] + j)
                 if region in self.regions:
                     for ent_ in self.regions[region]:
                         dist = ent.pos.distance_to(ent_.pos)
@@ -94,9 +94,6 @@ class Entity:
 
     def __init__(self, pos):
         self.pos = VEC_2(pos)
-
-        self.region = 'meh'
-        
         self.image = pygame.transform.scale(pygame.image.load('../graphics/test/none.png'), (__class__.size, __class__.size))
 
     def display(self, screen, camera):

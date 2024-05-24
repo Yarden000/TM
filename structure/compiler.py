@@ -61,5 +61,5 @@ class Displayer:
             i.display(self.screen, self.camera)
         #print(len(self.displayable_entenies))
         # for debugging:
-        self.entity_manager.draw_regions(self.camera.player_displacement)
+        #self.entity_manager.draw_regions(self.camera.player_displacement)
         pygame.display.update()

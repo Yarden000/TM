@@ -59,7 +59,7 @@ class Spawner:
         n = 0
         for i in range(-dist, dist + 1):
             for j in range(-dist, dist + 1):
-                region_ = (region[0] + i, region[0] + j)
+                region_ = (region[0] + i, region[1] + j)
                 if region_ in self.entity_manager.regions:
                     n += len(self.entity_manager.regions[region_])
         density = n / (((dist + 1) * self.entity_manager.region_size) * ((dist + 1) * self.entity_manager.region_size)) * 10000   # the *100000 is because the density is very small
@@ -82,7 +82,6 @@ class Spawner:
         for i in self._tiles_loaded():
             '''calculates the number of ents to spawn for a biome type'''  # needs to include density
             number = ent_class.spawning_rates[i['type']] * dt * len(i['tiles'])
-            print(number)
             remainder = number - int(number)
             if self.remainder >= 1 - remainder:
                 number = int(number + 1)
