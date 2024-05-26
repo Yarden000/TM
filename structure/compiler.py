@@ -24,7 +24,7 @@ class Compiler:
         self.camera = Camera()
         self.map = Map()
         self.entity_manager = EntityManager()
-        self.entity_manager.add_player(Player())
+        self.entity_manager.add_player(Player(self.camera))
         self.displayer = Displayer(self.map, self.camera, self.entity_manager)
 
         self.spawner = Spawner(self.camera, self.map, self.entity_manager)
@@ -35,10 +35,10 @@ class Compiler:
     def run(self, dt):
 
         # all the interactions / events / calculations of the game
-        self.entity_manager.run(dt, self.camera)
+        self.entity_manager.run(dt)
 
         # test
-        #self.spawner.spawn_ent(dt, Animal)
+        self.spawner.spawn_ent_v2(dt, Animal)
         self.spawner.spawn_ent_v2(dt, Ressource)
 
         self.displayer.run()

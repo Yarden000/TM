@@ -10,7 +10,7 @@ from settings import (
 from entities import (
     Entity
 )
-
+#  size
 class Spawner:
     
     def __init__(self, camera, map, entity_manager):
@@ -53,14 +53,14 @@ class Spawner:
                         break          
         return tiles_ordered
 
-    def spawn_ent(self, dt, ent_class):
+    def spawn_ent(self, dt, ent_class):   # not used
         limit = 100
         density_scaling = 1
         for i in self._tiles_loaded():
             prob = ent_class.spawning_rates[i['type']] * dt
             for j in i['tiles']:
-                pos = j[1] + VEC_2(rnd.randint((-(self.map.cell_size - ent_class.size) / 2), (self.map.cell_size - ent_class.size) / 2), 
-                                   rnd.randint((-(self.map.cell_size - ent_class.size) / 2), (self.map.cell_size - ent_class.size) / 2))
+                pos = j[1] + VEC_2(rnd.randint(-self.map.cell_size / 2 + ent_class.radius, self.map.cell_size / 2 - ent_class.radius), 
+                                   rnd.randint(-self.map.cell_size / 2 + ent_class.radius, self.map.cell_size / 2 - ent_class.radius))
                 density = self.entity_manager.ent_density(pos)
                 if 0 < density < limit:
                     if rnd.randint(0, 1000) < prob * 1000 / (density * density_scaling):
@@ -82,8 +82,8 @@ class Spawner:
             '''spawns the entities'''
             tiles = rnd.choices(i['tiles'], k=number)
             for tile in tiles:       
-                pos = tile[1] + VEC_2(rnd.randint((-(self.map.cell_size - ent_class.size) / 2), (self.map.cell_size - ent_class.size) / 2), 
-                                    rnd.randint((-(self.map.cell_size - ent_class.size) / 2), (self.map.cell_size - ent_class.size) / 2))
+                pos = tile[1] + VEC_2(rnd.randint(-self.map.cell_size / 2 + ent_class.radius, self.map.cell_size / 2 - ent_class.radius), 
+                                      rnd.randint(-self.map.cell_size / 2 + ent_class.radius, self.map.cell_size / 2 - ent_class.radius))
                 self.entity_manager._spawn_ent(ent_class, pos)  # time problem in here
 
 

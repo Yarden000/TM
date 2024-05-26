@@ -8,13 +8,14 @@ from entities import Entity
 
 
 class Player(Entity):
-    def __init__(self):
+    movable = True
+    def __init__(self, camera):
         super().__init__((0, 0))
         self.image = pygame.transform.scale(pygame.image.load('../graphics/test/player.png'), (self.size, self.size))
         self.speed = 100
+        self.camera = camera
 
-    def move(self, dt, camera):
-        
+    def input(self, dt):
         self.keys = pygame.key.get_pressed()
         self.direction = VEC_2()
         self.direction.x = 0
@@ -36,12 +37,17 @@ class Player(Entity):
 
         displacement = self.movement * dt
 
-        camera.player_displacement -= displacement
-        camera.true_player_displacement -= displacement
+        self.camera.player_displacement -= displacement
+        self.camera.true_player_displacement -= displacement
         self.pos += displacement
         
+    def move(self, displacement):
+        self.camera.player_displacement -= displacement
+        self.camera.true_player_displacement -= displacement
+        self.pos += displacement
+
     def display(self, screen, camera):
         screen.blit(self.image, self.image.get_rect(center = (WIDTH/2, HEIGHT/2)))
 
-    def run(self, dt, camera):
-        self.move(dt, camera)
+    def run(self, dt):
+        self.input(dt)

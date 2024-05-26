@@ -12,7 +12,7 @@ from settings import (
 class Map:
     def __init__(self):
         self.screen = pygame.display.get_surface()
-        self.cell_size = 200
+        self.cell_size = 100
         self.chunk_number = 10  # number of chunks
         self.chunk_size = 10  # number of tiles in a chunk
         self.chunk_size_in_pixel = self.chunk_size * self.cell_size
