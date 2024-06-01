@@ -4,9 +4,12 @@ from settings import (
     WIDTH,
     HEIGHT,
     FPS,
+    VEC_2
 )
 from compiler import Compiler
-
+from input import Input_manager
+# testing
+from collisions import Collision_detector
 
 class Game:
     def __init__(self):
@@ -14,13 +17,16 @@ class Game:
         self.screen = pygame.display.set_mode((WIDTH, HEIGHT))
         pygame.display.set_caption('Survivorio')
 
+        self.input_manager = Input_manager()
         self.clock = pygame.time.Clock()
-
-        self.compiler = Compiler()
+        self.compiler = Compiler(self.input_manager)
+        self.collision_detector = Collision_detector()
 
     def run(self):
         game_run = True
         while game_run:
+            # testing
+            print(self.collision_detector.Rect_Circle({'pos': (2, 2), 'r': 1}, {'pos': (0, 0), 'vec1': VEC_2(1, 1), 'vec2': VEC_2(-1, 1)}))
             for event in pygame.event.get():  # event loop
                 if event.type == pygame.QUIT:  # checks if quit
                     pygame.quit()
@@ -28,10 +34,8 @@ class Game:
 
             # testing
             self.keys = pygame.key.get_pressed()
-            if self.keys[pygame.K_p]:
-                fps = 1000
-            else:
-                fps = FPS
+            fps = self.input_manager.speed_up_fps(FPS)
+
 
             dt = self.clock.get_time() / 1000
             pygame.display.set_caption(f"Survivorio | FPS: {str(int(self.clock.get_fps()))} | dt: {str(dt)}")

@@ -6,15 +6,21 @@ from settings import (
     HEIGHT, 
     VEC_2, 
     )
-
+from attack import(
+    Attack
+)
 
 class EntityManager:
-    def __init__(self):
+    def __init__(self, input_manager):
+        self.input_manager = input_manager
         self.regions = {}
         self.region_size = 200  # needs to be bigger than all entity sizes
         self.entity_list = []
         self.movable_entity_list = []
-        
+        self.attack = Attack()
+
+    def inputs(self, dt):
+        self.player.move(self.input_manager.player_movement(dt) * self.player.speed)        
 
     def add_player(self, player):
         self.player = player
@@ -72,6 +78,20 @@ class EntityManager:
             return False
         return ents_collided_with
     
+    def update_pushout_v2(self, ent):
+        if ent.movable:
+            ents_collided_with = self.entity_collision_state(ent, want_list=True)
+            if ents_collided_with != False:
+                for ent_ in ents_collided_with:
+                    dist = ent.pos.distance_to(ent_.pos)
+                    overlap = -(dist - ent.radius - ent_.radius)
+                    if ent_.movable:
+                        ent.move(overlap * (ent.pos - ent_.pos).normalize() / 2) 
+                        ent_.move(-overlap * (ent.pos - ent_.pos).normalize() / 2) 
+                        continue
+                    ent.move(overlap * (ent.pos - ent_.pos).normalize()) 
+                    
+                    
     def update_pushout(self, ent):
         ents_collided_with = self.entity_collision_state(ent, want_list=True)
         if ents_collided_with != False:
@@ -92,7 +112,8 @@ class EntityManager:
     
     def colisions(self):
         for ent in self.entity_list:
-            self.update_pushout(ent)
+            #self.update_pushout(ent)
+            self.update_pushout_v2(ent)   # faster but doesn't check if Two imovable enteties are colliding
 
     def remove_entity(self, ent):
         self.regions[ent.region].remove(ent)
@@ -100,6 +121,7 @@ class EntityManager:
         del ent
 
     def run(self, dt):
+        self.inputs(dt)
         self.player.run(dt)
         for ent in self.entity_list:
             if not ent == self.player:

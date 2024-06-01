@@ -18,12 +18,12 @@ class Compiler:
     all the playable part of the game
     '''
     
-    def __init__(self):
+    def __init__(self, input_manager):
         self.outside_range_enteties = []
-
+        self.input_manager = input_manager
         self.camera = Camera()
         self.map = Map()
-        self.entity_manager = EntityManager()
+        self.entity_manager = EntityManager(self.input_manager)
         self.entity_manager.add_player(Player(self.camera))
         self.displayer = Displayer(self.map, self.camera, self.entity_manager)
 

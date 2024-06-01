@@ -34,5 +34,6 @@ print(b.dtype)
 a = np.array(['hellosss', 'good'])
 print(a.dtype)
 '''
-d = 5
-print(13 < d < 1)
+d = pygame.Vector2(0, 0)
+print(d - (3, 4))
+print(type(d - (3, 4)))
