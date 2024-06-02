@@ -38,7 +38,7 @@ class EntityManager:
             self.remove_entity(ent)
 
     def update_ent_region(self, entity):
-        region = tuple(entity.pos // self.region_size)
+        region = tuple(entity.hitbox.pos // self.region_size)
         entity.region = region
         if region in self.regions:
             self.regions[region].append(entity)
@@ -50,7 +50,7 @@ class EntityManager:
             self.update_ent_region(ent)
 
     def ent_density(self):
-        region = tuple(self.player.pos // self.region_size)
+        region = tuple(self.player.hitbox.pos // self.region_size)
         dist = 5 # radius of regions checked
         n = 0
         for i in range(-dist, dist + 1):
@@ -68,7 +68,7 @@ class EntityManager:
                 region = (ent.region[0] + i, ent.region[1] + j)
                 if region in self.regions:
                     for ent_ in self.regions[region]:
-                        dist = ent.pos.distance_to(ent_.pos)
+                        dist = ent.hitbox.pos.distance_to(ent_.hitbox.pos)
                         if dist < ent.radius + ent_.radius and ent_ != ent:
                             if want_list:
                                 ents_collided_with.append(ent_)
@@ -83,30 +83,30 @@ class EntityManager:
             ents_collided_with = self.entity_collision_state(ent, want_list=True)
             if ents_collided_with != False:
                 for ent_ in ents_collided_with:
-                    dist = ent.pos.distance_to(ent_.pos)
+                    dist = ent.hitbox.pos.distance_to(ent_.hitbox.pos)
                     overlap = -(dist - ent.radius - ent_.radius)
                     if ent_.movable:
-                        ent.move(overlap * (ent.pos - ent_.pos).normalize() / 2) 
-                        ent_.move(-overlap * (ent.pos - ent_.pos).normalize() / 2) 
+                        ent.move(overlap * (ent.hitbox.pos - ent_.hitbox.pos).normalize() / 2) 
+                        ent_.move(-overlap * (ent.hitbox.pos - ent_.hitbox.pos).normalize() / 2) 
                         continue
-                    ent.move(overlap * (ent.pos - ent_.pos).normalize()) 
+                    ent.move(overlap * (ent.hitbox.pos - ent_.hitbox.pos).normalize()) 
                     
                     
     def update_pushout(self, ent):
         ents_collided_with = self.entity_collision_state(ent, want_list=True)
         if ents_collided_with != False:
             for ent_ in ents_collided_with:
-                dist = ent.pos.distance_to(ent_.pos)
-                overlap = -(dist - ent.radius - ent_.radius)
+                dist = ent.hitbox.pos.distance_to(ent_.hitbox.pos)
+                overlap = -(dist - ent.hitbox.radius - ent_.hitbox.radius)
                 if ent.movable:
                     if ent_.movable:
-                        ent.move(overlap * (ent.pos - ent_.pos).normalize() / 2) 
-                        ent_.move(-overlap * (ent.pos - ent_.pos).normalize() / 2) 
+                        ent.move(overlap * (ent.hitbox.pos - ent_.hitbox.pos).normalize() / 2) 
+                        ent_.move(-overlap * (ent.hitbox.pos - ent_.hitbox.pos).normalize() / 2) 
                         continue
-                    ent.move(overlap * (ent.pos - ent_.pos).normalize()) 
+                    ent.move(overlap * (ent.hitbox.pos - ent_.hitbox.pos).normalize()) 
                     continue
                 if ent_.movable:
-                    ent_.move(-overlap * (ent.pos - ent_.pos).normalize())
+                    ent_.move(-overlap * (ent.hitbox.pos - ent_.hitbox.pos).normalize())
                     continue
                 raise ValueError('Two imovable enteties are colliding')
     
@@ -140,6 +140,41 @@ class EntityManager:
             pygame.draw.line(pygame.display.get_surface(), 'red', VEC_2(k, -r* self.region_size) + player_displacement, VEC_2(k, r* self.region_size) + player_displacement)
 
 
+class Hitbox:
+    kind = None
+    def __init__(self, pos):
+        self.pos =  VEC_2(pos)
+
+    def scale(self, scalar):
+        pass
+
+    def rotate(self, angle):
+        pass
+
+    def translate(self, vector):
+        pass
+
+class Rectangle(Hitbox):
+    kind = 'rect'
+    def __init__(self, center, v1, v2):
+        super().__init__(center)
+        self.v1 = VEC_2(v1)
+        self.v2 = VEC_2(v2)
+
+    def scale(self, scalar):
+        self.v1 = self.v1 * scalar
+        self.v2 = self.v2 * scalar
+
+class Circle(Hitbox):
+    kind = 'circle'
+
+    def __init__(self, center, radius):
+        super().__init__(center)
+        self.r = radius
+
+    def scale(self, scalar):
+        self.r = self.r * scalar
+
 
 class Entity:
     # class for all the enteties: ressouces, animals...
@@ -149,16 +184,16 @@ class Entity:
     radius = size / 2
 
     def __init__(self, pos):
-        self.pos = VEC_2(pos)
+        self.hitbox = Rectangle(pos, (__class__.radius, 0), (0, __class__.radius))
         self.image = pygame.transform.scale(pygame.image.load('../graphics/test/none.png'), (__class__.size, __class__.size))
 
     def display(self, screen, camera):
-        if -self.radius < self.pos.x + camera.player_displacement.x < WIDTH + self.radius:
-            if -self.radius < self.pos.y + camera.player_displacement.y < HEIGHT + self.radius:
-                screen.blit(self.image, self.image.get_rect(center = VEC_2(self.pos + camera.player_displacement)))
+        if -self.radius < self.hitbox.pos.x + camera.player_displacement.x < WIDTH + self.radius:
+            if -self.radius < self.hitbox.pos.y + camera.player_displacement.y < HEIGHT + self.radius:
+                screen.blit(self.image, self.image.get_rect(center = VEC_2(self.hitbox.pos + camera.player_displacement)))
 
     def move(self, displacement):
-        self.pos += displacement
+        self.hitbox.pos += displacement
 
     def run(self, dt):
         pass
@@ -167,8 +202,8 @@ class Entity:
 class Ressource(Entity):
     spawning_rates = {'desert': 0, 'plains': 1, 'forest': 0}
 
-    def __init__(self, camera):
-        super().__init__(camera)
+    def __init__(self, pos):
+        super().__init__(pos)
         self.image = pygame.transform.scale(pygame.image.load('../graphics/test/ressource.png'), (__class__.size, __class__.size))
 
 
@@ -177,15 +212,15 @@ class Animal(Entity):
     spawning_rates = {'desert': 0, 'plains': 0, 'forest': 1}
     movable = True
 
-    def __init__(self, camera):
-        super().__init__(camera)
+    def __init__(self, pos):
+        super().__init__(pos)
         self.image = pygame.transform.scale(pygame.image.load('../graphics/test/animal.png'), (self.size, self.size))
         # for testing
         self.direction = VEC_2(math.sin(random.randint(0, 360) / math.pi), math.cos(random.randint(0, 360) / math.pi))
         
 
     def wander(self, dt):
-        self.pos += self.direction * dt * 20
+        self.hitbox.pos += self.direction * dt * 20
 
 
     def run(self, dt):

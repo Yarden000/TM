@@ -18,7 +18,7 @@ class Player(Entity):
     def move(self, displacement):
         self.camera.player_displacement -= displacement
         self.camera.true_player_displacement -= displacement
-        self.pos += displacement
+        self.hitbox.pos += displacement
 
     def display(self, screen, camera):
         screen.blit(self.image, self.image.get_rect(center = (WIDTH/2, HEIGHT/2)))

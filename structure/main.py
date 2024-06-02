@@ -26,7 +26,7 @@ class Game:
         game_run = True
         while game_run:
             # testing
-            print(self.collision_detector.Rect_Circle({'pos': (2, 2), 'r': 1}, {'pos': (0, 0), 'vec1': VEC_2(1, 1), 'vec2': VEC_2(-1, 1)}))
+            #print(self.collision_detector.Rect_Circle({'pos': (2, 2), 'r': 1}, {'pos': (0, 0), 'vec1': VEC_2(1, 1), 'vec2': VEC_2(-1, 1)}))
             for event in pygame.event.get():  # event loop
                 if event.type == pygame.QUIT:  # checks if quit
                     pygame.quit()
