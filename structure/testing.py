@@ -6,6 +6,7 @@ import numpy as np
 import pygame, sys
 import random
 import math
+import time
 '''
 a = np.empty((4, 4), '<U5')
 print(a)
@@ -34,15 +35,21 @@ print(b.dtype)
 a = np.array(['hellosss', 'good'])
 print(a.dtype)
 '''
-d = pygame.Vector2(0, 0)
-q = pygame.Vector2(1, 0)
-print(d.dot(q))
-print(type(d - (3, 4)))
+
 
 VEC_2 = pygame.Vector2
 
 
 def rect_rect(rect1, rect2):  # insired by https://stackoverflow.com/questions/62028169/how-to-detect-when-rotated-rectangles-are-colliding-each-other
+        rect1_vec1_mag = rect1.vec1.magnitude()
+        rect1_vec2_mag = rect1.vec2.magnitude()
+        rect2_vec1_mag = rect2.vec1.magnitude()
+        rect2_vec2_mag = rect2.vec2.magnitude()
+        if (rect1.vec1.dot(rect1.vec2) + rect2.vec1.dot(rect2.vec2)) != 0:
+            raise ValueError("The vectors aren't perpendicular.")
+        if rect1_vec1_mag * rect1_vec2_mag * rect2_vec1_mag * rect2_vec2_mag == 0:
+            raise ValueError("A vector in null.")
+        
         #rect corners
         rect1_corners = (
             rect1.pos + rect1.vec1 + rect1.vec2, 
@@ -61,15 +68,15 @@ def rect_rect(rect1, rect2):  # insired by https://stackoverflow.com/questions/6
         rect1_progections_on_rect2_axis2 = []
         for corner in rect1_corners:
             distance_vector = VEC_2(corner) - VEC_2(rect2.pos) 
-            rect1_progections_on_rect2_axis1.append((distance_vector.dot(rect2.vec1) * rect2.vec1) / (rect2.vec1.magnitude() ** 2))
-            rect1_progections_on_rect2_axis2.append((distance_vector.dot(rect2.vec2) * rect2.vec2) / (rect2.vec2.magnitude() ** 2))
+            rect1_progections_on_rect2_axis1.append((distance_vector.dot(rect2.vec1) * rect2.vec1) / (rect2_vec1_mag ** 2))
+            rect1_progections_on_rect2_axis2.append((distance_vector.dot(rect2.vec2) * rect2.vec2) / (rect2_vec2_mag ** 2))
 
         rect2_progections_on_rect1_axis1 = []
         rect2_progections_on_rect1_axis2 = []
         for corner in rect2_corners:
             distance_vector = VEC_2(corner) - VEC_2(rect1.pos) 
-            rect2_progections_on_rect1_axis1.append((distance_vector.dot(rect1.vec1) * rect1.vec1) / (rect1.vec1.magnitude() ** 2))
-            rect2_progections_on_rect1_axis2.append((distance_vector.dot(rect1.vec2) * rect1.vec2) / (rect1.vec2.magnitude() ** 2))
+            rect2_progections_on_rect1_axis1.append((distance_vector.dot(rect1.vec1) * rect1.vec1) / (rect1_vec1_mag ** 2))
+            rect2_progections_on_rect1_axis2.append((distance_vector.dot(rect1.vec2) * rect1.vec2) / (rect1_vec2_mag ** 2))
             
         # finding the external projections
         list = [projection.dot(rect2.vec1.normalize()) for projection in rect1_progections_on_rect2_axis1]
@@ -85,40 +92,40 @@ def rect_rect(rect1, rect2):  # insired by https://stackoverflow.com/questions/6
         external_rect2_progections_on_rect1_axis2 = (min(list) * rect1.vec2.normalize(), max(list) * rect1.vec2.normalize())
 
         # finding if all the lines conecting the projections hit the rectangles
-        requirement1 = False
-        requirement2 = False
-        requirement3 = False
-        requirement4 = False
+        requirement1 = False, None
+        requirement2 = False, None
+        requirement3 = False, None
+        requirement4 = False, None
         if external_rect1_progections_on_rect2_axis1[0].dot(external_rect1_progections_on_rect2_axis1[1]) < 0:
-            requirement1 = True
-        elif external_rect1_progections_on_rect2_axis1[0].magnitude() < rect2.vec1.magnitude() or external_rect1_progections_on_rect2_axis1[1].magnitude() < rect2.vec1.magnitude():
-            requirement1 = True
+            requirement1 = True, None
+        elif external_rect1_progections_on_rect2_axis1[0].magnitude() < rect2_vec1_mag or external_rect1_progections_on_rect2_axis1[1].magnitude() < rect2_vec1_mag:
+            requirement1 = True, None
         else: 
-            return False 
+            return False, None
 
         if external_rect1_progections_on_rect2_axis2[0].dot(external_rect1_progections_on_rect2_axis2[1]) < 0:
-            requirement2 = True
-        elif external_rect1_progections_on_rect2_axis2[0].magnitude() < rect2.vec2.magnitude() or external_rect1_progections_on_rect2_axis2[1].magnitude() < rect2.vec2.magnitude():
-            requirement2 = True
+            requirement2 = True, None
+        elif external_rect1_progections_on_rect2_axis2[0].magnitude() < rect2_vec2_mag or external_rect1_progections_on_rect2_axis2[1].magnitude() < rect2_vec2_mag:
+            requirement2 = True, None
         else: 
-            return False
+            return False, None
 
         if external_rect2_progections_on_rect1_axis1[0].dot(external_rect2_progections_on_rect1_axis1[1]) < 0:
-            requirement3 = True
-        elif external_rect2_progections_on_rect1_axis1[0].magnitude() < rect1.vec1.magnitude() or external_rect2_progections_on_rect1_axis1[1].magnitude() < rect1.vec1.magnitude():
-            requirement3 = True
+            requirement3 = True, None
+        elif external_rect2_progections_on_rect1_axis1[0].magnitude() < rect1_vec1_mag or external_rect2_progections_on_rect1_axis1[1].magnitude() < rect1_vec1_mag:
+            requirement3 = True, None
         else: 
-            return False
+            return False, None
 
         if external_rect2_progections_on_rect1_axis2[0].dot(external_rect2_progections_on_rect1_axis2[1]) < 0:
-            requirement4 = True
-        elif external_rect2_progections_on_rect1_axis2[0].magnitude() < rect1.vec2.magnitude() or external_rect2_progections_on_rect1_axis2[1].magnitude() < rect1.vec2.magnitude():
-            requirement4 = True
+            requirement4 = True, None
+        elif external_rect2_progections_on_rect1_axis2[0].magnitude() < rect1_vec2_mag or external_rect2_progections_on_rect1_axis2[1].magnitude() < rect1_vec2_mag:
+            requirement4 = True, None
         else: 
-            return False
+            return False, None
 
         if requirement1 and requirement2 and requirement3 and requirement4:
-            return True
+            return True, None
         
 def rect_circle(circle, rect):  # cilrcle = {'pos': tuple, 'r': int}, rect = {'pos': tuple, 'vec1':vect, 'vec2':vect} vec1, vec2 perpendicular
         vec1_mag = rect.vec1.magnitude()
@@ -130,19 +137,26 @@ def rect_circle(circle, rect):  # cilrcle = {'pos': tuple, 'r': int}, rect = {'p
         
         distance_vector = VEC_2(rect.pos) - VEC_2(circle.pos)
 
-        dist_to_center_1 = abs(distance_vector.dot(rect.vec1)) / vec1_mag # distance to the rect center anolg the axis 1
-        dist_to_center_2 = abs(distance_vector.dot(rect.vec2)) / vec2_mag # distance to the rect center anolg the axis 2
+        dist_to_center_1 = distance_vector.dot(rect.vec1) / vec1_mag # distance to the rect center anolg the axis 1
+        dist_to_center_2 = distance_vector.dot(rect.vec2) / vec2_mag # distance to the rect center anolg the axis 2
+        abs_dist_to_center_1 = abs(dist_to_center_1)
+        abs_dist_to_center_2 = abs(dist_to_center_2)
+        dist_1_sign = dist_to_center_1 / abs(dist_to_center_1)
+        dist_2_sign = dist_to_center_2 / abs(dist_to_center_2)
 
         # definitely not colliding
-        if (dist_to_center_1 > vec1_mag + circle.r): return False
-        if (dist_to_center_2 > vec2_mag + circle.r): return False
+        if (abs_dist_to_center_1 > vec1_mag + circle.r): return False, None
+        if (abs_dist_to_center_2 > vec2_mag + circle.r): return False, None
         # definitly colliding
-        if (dist_to_center_1 <= vec1_mag): return True 
-        if (dist_to_center_2 <= vec2_mag): return True
+        if (abs_dist_to_center_1 <= vec1_mag): return True, rect.vec2.normalize() * (abs_dist_to_center_2 - vec2_mag - circle.r) * dist_2_sign
+        if (abs_dist_to_center_2 <= vec2_mag): return True, rect.vec1.normalize() * (abs_dist_to_center_1 - vec1_mag - circle.r) * dist_1_sign
         # corner cases
-        d1 = dist_to_center_1 - vec1_mag
-        d2 = dist_to_center_2 - vec2_mag
-        return(d1*d1 + d2*d2 <= circle.r * circle.r)
+        d1 = abs_dist_to_center_1 - vec1_mag
+        d2 = abs_dist_to_center_2 - vec2_mag
+        if d1*d1 + d2*d2 <= circle.r * circle.r:
+            pushout = (circle.r / math.sqrt(d1*d1 + d2*d2) - 1) * VEC_2(-d1 * dist_1_sign, d2 * dist_2_sign)
+            return True, pushout
+        return False, None
 
 class Game:
     def __init__(self):
@@ -152,8 +166,8 @@ class Game:
 
         self.clock = pygame.time.Clock()
 
-        self.rect1 = Rect((200, 200), (100, 0), (0, 50))
-        #self.rect2 = Rect((500, 500), (50, 50), (-50, 50))
+        self.rect1 = Rect((200, 200), 0, 100, 50)
+        self.rect2 = Rect((500, 500), 55, 50, 25)
         self.circle = Circle((500, 500), 80)
 
     def run(self):
@@ -188,22 +202,31 @@ class Game:
                 displacement = direction * 10
             else:
                 displacement = direction
+            #'''
             if keys[pygame.K_0]:
-                self.circle.move(displacement)
+                #self.circle.move(displacement)
+                self.circle.move_to_mouse()
+            #'''
             if keys[pygame.K_8]:
                 self.rect1.move(displacement)
                 self.rect1.rotate(angle)
-            '''
+            #'''
             if keys[pygame.K_9]:
                 self.rect2.move(displacement)
                 self.rect2.rotate(angle)
-            '''
+            #'''
             self.screen.fill('blue')
-
-            #if rect_rect(self.rect1, self.rect2):
-            if rect_circle(self.circle, self.rect1):
+            color = 'green'
+            start = time.time()
+            collision_state, pushout = rect_circle(self.circle, self.rect1)
+            print(pushout)
+            #collision_state, pushout = rect_rect(self.circle, self.rect1)
+            if collision_state:
                 color = 'red'
-            else: color = 'green'
+                self.rect1.move(-pushout)
+                self.circle.move(pushout)
+            end = time.time()
+            #print(end - start)
             self.rect1.draw(color)
             self.circle.draw(color)
             #self.rect2.draw(color)
@@ -224,17 +247,24 @@ class Circle:
     def move(self, disipacement):
         self.pos += disipacement
 
+    def move_to_mouse(self):
+        self.pos = pygame.mouse.get_pos()
+
     def draw(self, color):
         pygame.draw.circle(pygame.display.get_surface(), color, self.pos, self.r)
 
 class Rect:
-    def __init__(self, pos, v1, v2):
+    def __init__(self, pos, angle, length, breadth):
+
         self.pos = VEC_2(pos)
-        self.vec1 = VEC_2(v1)
-        self.vec2 = VEC_2(v2)
+        self.vec1 = VEC_2(math.cos(angle), math.sin(angle)) * length
+        self.vec2 = VEC_2(math.sin(angle), -math.cos(angle)) * breadth
 
     def move(self, disipacement):
         self.pos += disipacement
+
+    def move_to_mouse(self):
+        self.pos = pygame.mouse.get_pos()
 
     def rotate(self, angle):
         self.vec1 = self.vec1.rotate(angle)
@@ -245,6 +275,7 @@ class Rect:
         pygame.draw.line(pygame.display.get_surface(), color, self.pos - self.vec1 + self.vec2, self.pos - self.vec1 - self.vec2, width = 5)
         pygame.draw.line(pygame.display.get_surface(), color, self.pos + self.vec2 + self.vec1, self.pos + self.vec2 - self.vec1, width = 5)
         pygame.draw.line(pygame.display.get_surface(), color, self.pos - self.vec2 + self.vec1, self.pos - self.vec2 - self.vec1, width = 5)
+
 
 
 game = Game()
