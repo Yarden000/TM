@@ -35,15 +35,14 @@ print(b.dtype)
 a = np.array(['hellosss', 'good'])
 print(a.dtype)
 '''
-
+WIDTH = 1000
+HEIGHT = 600
 
 VEC_2 = pygame.Vector2
 
-def biggest_vector(vec_list):
-    mag_list = [i.magnitude() for i in vec_list]
-    smalest_mag = max(mag_list)
-    index = mag_list.index(smalest_mag)
-    return vec_list[index]
+def angle_between_vectors(v1, v2):
+    sign = -1 if v1.cross(v2) > 0 else 1
+    return math.acos(v1.dot(v2) / (v1.magnitude() * v2.magnitude())) * sign
 
 def smallest_vector(vec_list):
     mag_list = [i.magnitude() for i in vec_list]
@@ -121,15 +120,15 @@ def rect_rect(rect1, rect2):  # insired by https://stackoverflow.com/questions/6
                     return False, None
                 displacement_vectors.append(pushout if rect == 0 else -pushout)
         return True, smallest_vector(displacement_vectors)
-        
+     
 def rect_circle(circle, rect):  # cilrcle = {'pos': tuple, 'r': int}, rect = {'pos': tuple, 'vec1':vect, 'vec2':vect} vec1, vec2 perpendicular
-        vec1_mag = rect.vec1.magnitude()
-        vec2_mag = rect.vec2.magnitude()
+        vec1_mag = rect.vectors[0].magnitude()
+        vec2_mag = rect.vectors[1].magnitude()
         
         distance_vector = VEC_2(rect.pos) - VEC_2(circle.pos)
 
-        dist_to_center_1 = distance_vector.dot(rect.vec1) / vec1_mag # distance to the rect center anolg the axis 1
-        dist_to_center_2 = distance_vector.dot(rect.vec2) / vec2_mag # distance to the rect center anolg the axis 2
+        dist_to_center_1 = distance_vector.dot(rect.vectors[0]) / vec1_mag # distance to the rect center anolg the axis 1
+        dist_to_center_2 = distance_vector.dot(rect.vectors[1]) / vec2_mag # distance to the rect center anolg the axis 2
         
         abs_dist_to_center_1 = abs(dist_to_center_1)
         abs_dist_to_center_2 = abs(dist_to_center_2)
@@ -141,8 +140,8 @@ def rect_circle(circle, rect):  # cilrcle = {'pos': tuple, 'r': int}, rect = {'p
         if (abs_dist_to_center_1 > vec1_mag + circle.r): return False, None
         if (abs_dist_to_center_2 > vec2_mag + circle.r): return False, None
         # definitly colliding
-        if (abs_dist_to_center_1 <= vec1_mag): return True, rect.vec2.normalize() * (abs_dist_to_center_2 - vec2_mag - circle.r) * dist_2_sign
-        if (abs_dist_to_center_2 <= vec2_mag): return True, rect.vec1.normalize() * (abs_dist_to_center_1 - vec1_mag - circle.r) * dist_1_sign
+        if (abs_dist_to_center_1 <= vec1_mag): return True, rect.vectors[1].normalize() * (abs_dist_to_center_2 - vec2_mag - circle.r) * dist_2_sign
+        if (abs_dist_to_center_2 <= vec2_mag): return True, rect.vectors[0].normalize() * (abs_dist_to_center_1 - vec1_mag - circle.r) * dist_1_sign
         # corner cases
         d1 = abs_dist_to_center_1 - vec1_mag
         d2 = abs_dist_to_center_2 - vec2_mag
@@ -154,7 +153,7 @@ def rect_circle(circle, rect):  # cilrcle = {'pos': tuple, 'r': int}, rect = {'p
 class Game:
     def __init__(self):
         pygame.init()
-        self.screen = pygame.display.set_mode((1000, 600))
+        self.screen = pygame.display.set_mode((WIDTH, HEIGHT))
         pygame.display.set_caption('Survivorio')
 
         self.clock = pygame.time.Clock()
@@ -195,43 +194,48 @@ class Game:
                 displacement = direction * 10
             else:
                 displacement = direction
-            #'''
+
             if keys[pygame.K_0]:
                 #self.circle.move(displacement)
                 self.circle.move_to_mouse()
-            #'''
+
             if keys[pygame.K_8]:
-                #self.rect1.move(displacement)
-                self.rect1.move_to_mouse()
+                self.rect1.move(displacement)
+                #self.rect1.move_to_mouse()
                 self.rect1.rotate(angle)
-            #'''
+
             if keys[pygame.K_9]:
                 #self.rect2.move(displacement)
                 self.rect2.move_to_mouse()
                 self.rect2.rotate(angle)
-            #'''
+
+            if keys[pygame.K_1]:
+                angle = angle_between_vectors(VEC_2(100, 100), VEC_2(pygame.mouse.get_pos()) - VEC_2(WIDTH, HEIGHT) / 2)
+                angle = angle_between_vectors(VEC_2(pygame.mouse.get_pos()) - VEC_2(WIDTH, HEIGHT) / 2, VEC_2(100, 100))
+                print(angle)
+
             self.screen.fill('blue')
             color = 'green'
             start = time.time()
-            #collision_state, pushout = rect_circle(self.circle, self.rect1)
-            collision_state, pushout = rect_rect(self.rect2, self.rect1)
+            collision_state, pushout = rect_circle(self.circle, self.rect1)
+            #collision_state, pushout = rect_rect(self.rect2, self.rect1)
             if collision_state:
                 color = 'red'
                 if pushout != None:
                     self.rect1.move(-pushout / 2)
                     self.circle.move(pushout / 2)
-                    self.rect2.move(pushout / 2)
+                    #self.rect2.move(pushout / 2)
             end = time.time()
             #print(end - start)
             self.rect1.draw(color)
-            #self.circle.draw(color)
-            self.rect2.draw(color)
+            self.circle.draw(color)
+            #self.rect2.draw(color)
 
             pygame.display.update()
-
+            
             dt = self.clock.get_time() / 1000
             pygame.display.set_caption(f"Survivorio | FPS: {str(int(self.clock.get_fps()))} | dt: {str(dt)}")
-            self.clock.tick(100) 
+            self.clock.tick(200) 
 
 
 
@@ -257,8 +261,6 @@ class Rect:
             VEC_2(math.cos(angle), math.sin(angle)) * length,
             VEC_2(math.sin(angle), -math.cos(angle)) * breadth
         ]
-        self.vec1 = VEC_2(math.cos(angle), math.sin(angle)) * length
-        self.vec2 = VEC_2(math.sin(angle), -math.cos(angle)) * breadth
 
     def move(self, disipacement):
         self.pos += disipacement
@@ -267,15 +269,19 @@ class Rect:
         self.pos = pygame.mouse.get_pos()
 
     def rotate(self, angle):
-        self.vec1 = self.vec1.rotate(angle)
-        self.vec2 = self.vec2.rotate(angle)
+        self.vectors[0] = self.vectors[0].rotate(angle)
+        self.vectors[1] = self.vectors[1].rotate(angle)
 
     def draw(self, color):
-        pygame.draw.line(pygame.display.get_surface(), color, self.pos + self.vec1 + self.vec2, self.pos + self.vec1 - self.vec2, width = 5)
-        pygame.draw.line(pygame.display.get_surface(), color, self.pos - self.vec1 + self.vec2, self.pos - self.vec1 - self.vec2, width = 5)
-        pygame.draw.line(pygame.display.get_surface(), color, self.pos + self.vec2 + self.vec1, self.pos + self.vec2 - self.vec1, width = 5)
-        pygame.draw.line(pygame.display.get_surface(), color, self.pos - self.vec2 + self.vec1, self.pos - self.vec2 - self.vec1, width = 5)
+        pygame.draw.line(pygame.display.get_surface(), color, self.pos + self.vectors[0] + self.vectors[1], self.pos + self.vectors[0] - self.vectors[1], width = 5)
+        pygame.draw.line(pygame.display.get_surface(), color, self.pos - self.vectors[0] + self.vectors[1], self.pos - self.vectors[0] - self.vectors[1], width = 5)
+        pygame.draw.line(pygame.display.get_surface(), color, self.pos + self.vectors[1] + self.vectors[0], self.pos + self.vectors[1] - self.vectors[0], width = 5)
+        pygame.draw.line(pygame.display.get_surface(), color, self.pos - self.vectors[1] + self.vectors[0], self.pos - self.vectors[1] - self.vectors[0], width = 5)
 
 
 game = Game()
 game.run()
+
+
+
+

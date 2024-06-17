@@ -32,3 +32,8 @@ class Input_manager:
         if keys[pygame.K_p]:
             return 100 * fps
         return fps
+    
+    def attack_click(self):  # testing
+        if pygame.mouse.get_pressed()[0]:
+            return pygame.mouse.get_pos()
+        return None

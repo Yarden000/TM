@@ -59,6 +59,7 @@ class Displayer:
         for i in self.entity_manager.entity_list:
             # trier selon la position
             i.display(self.screen, self.camera)
+            i.hitbox.draw(self.screen, self.camera, 'red') 
         #print(len(self.displayable_entenies))
         # for debugging:
         #self.entity_manager.draw_regions(self.camera.player_displacement)

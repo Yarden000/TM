@@ -4,13 +4,17 @@ from settings import (
     HEIGHT, 
     VEC_2
     )
-from entities import Entity
+from entities import (
+    Entity, 
+    Circle
+    )
 
 
 class Player(Entity):
     movable = True
     def __init__(self, camera):
         super().__init__((0, 0))
+        #self.hitbox = Circle((0, 0), __class__.radius)
         self.image = pygame.transform.scale(pygame.image.load('../graphics/test/player.png'), (self.size, self.size))
         self.speed = 100
         self.camera = camera

@@ -8,6 +8,9 @@ from settings import (
     )
 from attack import(
     Attack
+    )
+from collisions import(
+    Collision_detector
 )
 
 class EntityManager:
@@ -17,10 +20,18 @@ class EntityManager:
         self.region_size = 200  # needs to be bigger than all entity sizes
         self.entity_list = []
         self.movable_entity_list = []
-        self.attack = Attack()
+        self.collision_detector = Collision_detector()
+        self.attack = Attack(self)
+        
 
     def inputs(self, dt):
-        self.player.move(self.input_manager.player_movement(dt) * self.player.speed)        
+        self.player.move(self.input_manager.player_movement(dt) * self.player.speed)
+        # testing
+        click = self.input_manager.attack_click()
+        if click != None:
+            rect = Rectangle(click, self.collision_detector.angle_between_vectors(VEC_2(1, 0), VEC_2(click) - VEC_2(WIDTH, HEIGHT) / 2), 200, 50)
+            #print(rect.pos, rect.vec1, rect.vec2)
+            self.attack.rect_attack(rect)        
 
     def add_player(self, player):
         self.player = player
@@ -34,7 +45,8 @@ class EntityManager:
         if ent_class.movable:
             self.movable_entity_list.append(ent)
         self.update_ent_region(ent)
-        if (not self.entity_collision_state(ent) == False) and not overide:
+        collision_state = self.entity_collision_state(ent, do_pushout=False)
+        if collision_state and not overide:
             self.remove_entity(ent)
 
     def update_ent_region(self, entity):
@@ -61,6 +73,32 @@ class EntityManager:
         density = n / (((dist + 1) * self.region_size) * ((dist + 1) * self.region_size)) * 100000   # the *100000 is because the density is very small
         return density
     
+    def entity_collision_state(self, ent, do_pushout=False):   # needs optimisation
+        for i in range(-1, 2):
+            for j in range(-1, 2):
+                region = (ent.region[0] + i, ent.region[1] + j)
+                if region in self.regions:
+                    for ent_ in self.regions[region]:
+                        if ent_ != ent:
+                            #print(ent, ent_)
+                            collisionn_state, pushout = self.collision_detector.collision(ent.hitbox, ent_.hitbox)
+                            if collisionn_state:
+                                if do_pushout:
+                                    #print(ent, ent_, pushout)
+                                    self.pushout(ent, ent_, pushout)
+                                return True
+        return False
+    
+    def pushout(self, ent, ent_, dissplacement):
+        if ent.movable:
+            if ent_.movable:
+                ent.move(dissplacement / 2) 
+                ent_.move(-dissplacement / 2) 
+            ent.move(dissplacement) 
+        elif not ent_.movable:
+            print(ent.movable, ent_.movable)
+            raise ValueError('Two imovable enteties are colliding')
+    '''
     def entity_collision_state(self, ent, want_list=False):   # needs optimisation
         ents_collided_with = []
         for i in range(-1, 2):
@@ -68,16 +106,17 @@ class EntityManager:
                 region = (ent.region[0] + i, ent.region[1] + j)
                 if region in self.regions:
                     for ent_ in self.regions[region]:
-                        dist = ent.hitbox.pos.distance_to(ent_.hitbox.pos)
-                        if dist < ent.radius + ent_.radius and ent_ != ent:
-                            if want_list:
-                                ents_collided_with.append(ent_)
-                            else:
-                                return True
+                        if ent_ != ent:
+                            collisionn_state, pushout = self.collision_detector.collision(ent.hitbox, ent_.hitbox)
+                            if collisionn_state:
+                                if want_list:
+                                    ents_collided_with.append(ent_)
+                                else:
+                                    return True, pushout
         if len(ents_collided_with) == 0:
-            return False
+            return False, None
         return ents_collided_with
-    
+
     def update_pushout_v2(self, ent):
         if ent.movable:
             ents_collided_with = self.entity_collision_state(ent, want_list=True)
@@ -90,7 +129,6 @@ class EntityManager:
                         ent_.move(-overlap * (ent.hitbox.pos - ent_.hitbox.pos).normalize() / 2) 
                         continue
                     ent.move(overlap * (ent.hitbox.pos - ent_.hitbox.pos).normalize()) 
-                    
                     
     def update_pushout(self, ent):
         ents_collided_with = self.entity_collision_state(ent, want_list=True)
@@ -109,13 +147,13 @@ class EntityManager:
                     ent_.move(-overlap * (ent.hitbox.pos - ent_.hitbox.pos).normalize())
                     continue
                 raise ValueError('Two imovable enteties are colliding')
-    
+    '''
     def colisions(self):
         for ent in self.entity_list:
-            #self.update_pushout(ent)
-            self.update_pushout_v2(ent)   # faster but doesn't check if Two imovable enteties are colliding
+            self.entity_collision_state(ent, do_pushout=True)   
 
     def remove_entity(self, ent):
+        #print(ent)
         self.regions[ent.region].remove(ent)
         self.entity_list.remove(ent)
         del ent
@@ -156,14 +194,27 @@ class Hitbox:
 
 class Rectangle(Hitbox):
     kind = 'rect'
-    def __init__(self, center, v1, v2):
-        super().__init__(center)
-        self.v1 = VEC_2(v1)
-        self.v2 = VEC_2(v2)
+    def __init__(self, pos, angle, length, breadth):
+        super().__init__(pos)
+        angle = angle * 180 / math.pi
+        self.vec1 = VEC_2(math.cos(angle), math.sin(angle)) * length
+        self.vec2 = VEC_2(math.sin(angle), -math.cos(angle)) * breadth
+        
 
     def scale(self, scalar):
-        self.v1 = self.v1 * scalar
-        self.v2 = self.v2 * scalar
+        self.vectors[0] = self.vectors[0] * scalar
+        self.vectors[1] = self.vectors[1] * scalar
+
+    def rotate(self, angle):
+        self.vectors[0] = self.vectors[0].rotate(angle)
+        self.vectors[1] = self.vectors[1].rotate(angle)
+    
+    def draw(self, display_surface, camera, color):
+        #print(self.pos)
+        pygame.draw.line(display_surface, color, camera.player_displacement + self.pos + self.vec1 + self.vec2, camera.player_displacement + self.pos + self.vec1 - self.vec2, width = 5)
+        pygame.draw.line(display_surface, color, camera.player_displacement + self.pos - self.vec1 + self.vec2, camera.player_displacement + self.pos - self.vec1 - self.vec2, width = 5)
+        pygame.draw.line(display_surface, color, camera.player_displacement + self.pos + self.vec2 + self.vec1, camera.player_displacement + self.pos + self.vec2 - self.vec1, width = 5)
+        pygame.draw.line(display_surface, color, camera.player_displacement + self.pos - self.vec2 + self.vec1, camera.player_displacement + self.pos - self.vec2 - self.vec1, width = 5)
 
 class Circle(Hitbox):
     kind = 'circle'
@@ -175,6 +226,9 @@ class Circle(Hitbox):
     def scale(self, scalar):
         self.r = self.r * scalar
 
+    def draw(self, display_surface, camera, color):
+        pygame.draw.circle(display_surface, color, camera.player_displacement + self.pos, self.r, 5)
+
 
 class Entity:
     # class for all the enteties: ressouces, animals...
@@ -184,7 +238,7 @@ class Entity:
     radius = size / 2
 
     def __init__(self, pos):
-        self.hitbox = Rectangle(pos, (__class__.radius, 0), (0, __class__.radius))
+        self.hitbox = Rectangle(pos, 0, __class__.radius, __class__.radius)
         self.image = pygame.transform.scale(pygame.image.load('../graphics/test/none.png'), (__class__.size, __class__.size))
 
     def display(self, screen, camera):
@@ -214,6 +268,7 @@ class Animal(Entity):
 
     def __init__(self, pos):
         super().__init__(pos)
+        self.hitbox = Circle(pos, __class__.radius)
         self.image = pygame.transform.scale(pygame.image.load('../graphics/test/animal.png'), (self.size, self.size))
         # for testing
         self.direction = VEC_2(math.sin(random.randint(0, 360) / math.pi), math.cos(random.randint(0, 360) / math.pi))
