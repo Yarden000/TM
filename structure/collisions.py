@@ -21,6 +21,8 @@ class Collision_detector:
                 return self.circle_circle(hitbox1, hitbox2)
     
     def angle_between_vectors(self, v1, v2): # inn radients
+        if v1.magnitude() == 0 or v2.magnitude() == 0:
+            raise ValueError('Null Vector')
         sign = -1 if v1.cross(v2) > 0 else 1
         return math.acos(v1.dot(v2) / (v1.magnitude() * v2.magnitude())) * sign
 
@@ -71,7 +73,7 @@ class Collision_detector:
         else: 
             return False, None
 
-    def rect_rect(self, rect1, rect2):  # insired by https://stackoverflow.com/questions/62028169/how-to-detect-when-rotated-rectangles-are-colliding-each-other     
+    def rect_rect(self, rect1, rect2):  # insired by https://stackoverflow.com/questions/62028169/how-to-detect-when-rotated-rectangles-are-colliding-each-other   Separating Axis Theorem (SAT)     
             rect_vectors = [
                 [rect2.vec1, rect2.vec2], 
                 [rect1.vec1, rect1.vec2]
@@ -112,9 +114,11 @@ class Collision_detector:
         
     def circle_rect(self, circle, rect):
         state, pushout = self.rect_circle(rect, circle)
+        if pushout != None:
+            pushout = -pushout
         return state, pushout
 
-    def rect_circle(self, rect, circle):  # cilrcle = {'pos': tuple, 'r': int}, rect = {'pos': tuple, 'vec1':vect, 'vec2':vect} vec1, vec2 perpendicular
+    def rect_circle(self, rect, circle):  
             vec1_mag = rect.vec1.magnitude()
             vec2_mag = rect.vec2.magnitude()
             
@@ -133,13 +137,15 @@ class Collision_detector:
             if (abs_dist_to_center_1 > vec1_mag + circle.r): return False, None
             if (abs_dist_to_center_2 > vec2_mag + circle.r): return False, None
             # definitly colliding
-            if (abs_dist_to_center_1 <= vec1_mag): return True, rect.vec2.normalize() * (abs_dist_to_center_2 - vec2_mag - circle.r) * dist_2_sign / 2
-            if (abs_dist_to_center_2 <= vec2_mag): return True, rect.vec1.normalize() * (abs_dist_to_center_1 - vec1_mag - circle.r) * dist_1_sign / 2
+            if (abs_dist_to_center_1 <= vec1_mag): return True, -rect.vec2.normalize() * (abs_dist_to_center_2 - vec2_mag - circle.r) * dist_2_sign
+            if (abs_dist_to_center_2 <= vec2_mag): return True, -rect.vec1.normalize() * (abs_dist_to_center_1 - vec1_mag - circle.r) * dist_1_sign
             # corner cases
             d1 = abs_dist_to_center_1 - vec1_mag
             d2 = abs_dist_to_center_2 - vec2_mag
             if d1*d1 + d2*d2 <= circle.r * circle.r:
-                pushout = (circle.r / math.sqrt(d1*d1 + d2*d2) - 1) * VEC_2(-d1 * dist_1_sign, d2 * dist_2_sign) / 2
-                return True, pushout
+                pushout = (circle.r / math.sqrt(d1*d1 + d2*d2) - 1) * VEC_2(-d1 * dist_1_sign, d2 * dist_2_sign)
+                return True, -pushout
             return False, None
+    
 
+  

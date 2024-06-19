@@ -23,7 +23,7 @@ class Compiler:
         self.input_manager = input_manager
         self.camera = Camera()
         self.map = Map()
-        self.entity_manager = EntityManager(self.input_manager)
+        self.entity_manager = EntityManager(self.input_manager, self.camera) # camera is for testing
         self.entity_manager.add_player(Player(self.camera))
         self.displayer = Displayer(self.map, self.camera, self.entity_manager)
 
@@ -56,6 +56,12 @@ class Displayer:
     def run(self):
         self.screen.fill('blue')               
         self.map.display(self.camera)
+
+        # testing
+        if self.entity_manager.attack.attack_rect != None:
+            self.entity_manager.attack.attack_rect.draw(self.screen, self.camera, 'red')
+            self.entity_manager.attack.attack_rect = None
+
         for i in self.entity_manager.entity_list:
             # trier selon la position
             i.display(self.screen, self.camera)
