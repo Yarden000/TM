@@ -1,9 +1,9 @@
 import pygame, sys
 from map import Map
-from player import Player
 from entities import (
     EntityManager, 
     Entity, 
+    Player, 
     Ressource, 
     Animal
     )

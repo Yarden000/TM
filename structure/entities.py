@@ -120,7 +120,7 @@ class EntityManager:
                             ent.ents_alrdy_coll_checked.append(ent_)
                             #print(ent, ent_)
                             collisionn_state, pushout = self.collision_detector.collision(ent.hitbox, ent_.hitbox)
-                            if ent_ != ent:
+                            if ent_ != ent and ent_.collidable:
                                 check_counter += 1
                             if collisionn_state:
                                 '''if ent == self.player or ent_ == self.player:
@@ -195,10 +195,11 @@ class EntityManager:
         check_counter = 0
         skiped_counter = 0
         for ent in self.entity_list:
-            c1, c2 = self.entity_collision_state_(ent, do_pushout=True) 
-            check_counter += c1
-            skiped_counter += c2
-            ent.ents_alrdy_coll_checked = [ent]
+            if ent.collidable:
+                c1, c2 = self.entity_collision_state_(ent, do_pushout=True) 
+                check_counter += c1
+                skiped_counter += c2
+                ent.ents_alrdy_coll_checked = [ent]
         #print(check_counter, skiped_counter)
 
     def remove_entity(self, ent):
@@ -285,6 +286,7 @@ class Entity:
     # class for all the enteties: ressouces, animals...
     spawning_rates = {'desert': 1, 'plains': 0.2, 'forest': 0}
     movable = False
+    collidable = True
     size = 64
     radius = size / 2
 
@@ -313,7 +315,6 @@ class Ressource(Entity):
         self.image = pygame.transform.scale(pygame.image.load('../graphics/test/ressource.png'), (__class__.size, __class__.size))
 
 
-
 class Animal(Entity):
     spawning_rates = {'desert': 0, 'plains': 0, 'forest': 1}
     movable = True
@@ -335,6 +336,25 @@ class Animal(Entity):
         self.wander(dt)
         
 
+class Player(Entity):
+    movable = True
+    def __init__(self, camera):
+        super().__init__((0, 0))
+        #self.hitbox = Circle((0, 0), __class__.radius)
+        self.image = pygame.transform.scale(pygame.image.load('../graphics/test/player.png'), (self.size, self.size))
+        self.speed = 100
+        self.camera = camera
+
+    def move(self, displacement):
+        self.camera.player_displacement -= displacement
+        self.camera.true_player_displacement -= displacement
+        self.hitbox.pos += displacement
+
+    def display(self, screen, camera):
+        screen.blit(self.image, self.image.get_rect(center = (WIDTH/2, HEIGHT/2)))
+
+    def run(self, dt):
+        pass
 
 
 class Structure(Entity):
