@@ -344,15 +344,28 @@ class Attack_(Entity):
             #print(self)
 
     def do_damage(self):
-        
-        # for testing
-        #print(enteties_hit)
+        region = tuple(self.hitbox.pos // self.entitie_manager.region_size)
+        dist = 1
+        enteties_hit = []
+        for i in range(-dist, dist + 1):
+            for j in range(-dist, dist + 1):
+                region_ = (region[0] + i, region[1] + j)
+                if region_ in self.entitie_manager.regions:
+                    #print(len(self.entityManager.regions[region_]))
+                    for ent in self.entitie_manager.regions[region_]:
+                        if ent.collidable:
+                            #print(ent.hitbox.pos, ent.hitbox.vec1, ent.hitbox.vec2)
+                            collision_state, poushout = self.entitie_manager.collision_detector.collision(self.hitbox, ent.hitbox)
+                            if collision_state:
+                                #print(ent)
+                                enteties_hit.append(ent)
         for ent in enteties_hit: 
             #print(ent)
-            if ent != self.entityManager.player:
-                self.entityManager.remove_entity(ent) 
+            if ent != self.entitie_manager.player:
+                self.entitie_manager.remove_entity(ent) 
 
     def run(self, dt):
+        self.do_damage()
         self.kill()
 
 class Structure(Entity):
