@@ -227,7 +227,7 @@ class Game:
                     self.rect1.move(-pushout / 2)
                     self.circle.move(pushout / 2)
                     #self.rect2.move(pushout / 2)
-            print((end - start) * 1000)
+            print((end - start) * 1000 )
             self.rect1.draw(color)
             self.circle.draw(color)
             #self.rect2.draw(color)

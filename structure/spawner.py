@@ -64,7 +64,7 @@ class Spawner:
                 density = self.entity_manager.ent_density(pos)
                 if 0 < density < limit:
                     if rnd.randint(0, 1000) < prob * 1000 / (density * density_scaling):
-                        self._spawn_ent(ent_class, pos)
+                        self.spawn_ent(ent_class, pos)
 
     def spawn_ent_v2(self, dt, ent_class):
         tiles_loaded = self._tiles_loaded()  # not the speed problem
@@ -84,7 +84,7 @@ class Spawner:
             for tile in tiles:       
                 pos = tile[1] + VEC_2(rnd.randint(-self.map.cell_size / 2 + ent_class.radius, self.map.cell_size / 2 - ent_class.radius), 
                                       rnd.randint(-self.map.cell_size / 2 + ent_class.radius, self.map.cell_size / 2 - ent_class.radius))
-                self.entity_manager._spawn_ent(ent_class, pos)  # time problem in here
+                self.entity_manager.spawn_ent(ent_class(pos, self.entity_manager))  # time problem in here
 
 
 

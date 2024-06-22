@@ -24,7 +24,6 @@ class Compiler:
         self.camera = Camera()
         self.map = Map()
         self.entity_manager = EntityManager(self.input_manager, self.camera) # camera is for testing
-        self.entity_manager.add_player(Player(self.camera))
         self.displayer = Displayer(self.map, self.camera, self.entity_manager)
 
         self.spawner = Spawner(self.camera, self.map, self.entity_manager)
@@ -65,7 +64,7 @@ class Displayer:
         for i in self.entity_manager.entity_list:
             # trier selon la position
             i.display(self.screen, self.camera)
-            i.hitbox.draw(self.screen, self.camera, 'red') 
+            i.hitbox.draw(self.screen, self.camera) 
         #print(len(self.displayable_entenies))
         # for debugging:
         #self.entity_manager.draw_regions(self.camera.player_displacement)

@@ -7,7 +7,7 @@ class Input_manager:
     def __init__(self):
         pass
 
-    def player_movement(self, dt):
+    def player_movement(self):
         keys = pygame.key.get_pressed()
         direction = VEC_2()
         if keys[pygame.K_w]:
@@ -25,7 +25,8 @@ class Input_manager:
         else:
             movement = direction
 
-        return movement * dt
+        return movement
+    
     
     def speed_up_fps(self, fps):
         keys = pygame.key.get_pressed()

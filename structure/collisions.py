@@ -1,7 +1,8 @@
 import pygame, sys, time
 import math
 from settings import(
-    VEC_2
+    VEC_2, 
+    angle_between_vectors
 )
 
 class Collision_detector:
