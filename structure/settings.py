@@ -2,12 +2,13 @@
 import math
 import pygame
 
-def debug(info, y = 10, x = 10):
+
+def debug(info, y=10, x=10):
     '''displays text on screen'''
     font = pygame.font.Font(None, 30)
     display_surf = pygame.display.get_surface()
     debug_surf = font.render(str(info), True, 'White')
-    debug_rect = debug_surf.get_rect(topleft = (x, y))
+    debug_rect = debug_surf.get_rect(topleft=(x, y))
     pygame.draw.rect(display_surf, 'Black', debug_rect)
     display_surf.blit(debug_surf, debug_rect)
 
@@ -17,6 +18,7 @@ FPS = 60
 
 VEC_2 = pygame.Vector2
 VEC_3 = pygame.Vector3
+
 
 def angle_between_vectors(v1, v2):
     '''inn radients'''

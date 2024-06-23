@@ -9,9 +9,10 @@ from settings import (
     VEC_2,
     angle_between_vectors
     )
-from collisions import(
+from collisions import (
     CollisionDetector
 )
+
 
 class EntityManager:
     '''manages all the entitie interactions'''
@@ -25,7 +26,6 @@ class EntityManager:
         self.collision_detector = CollisionDetector()
         self.add_player()
 
-
     def add_player(self):
         '''creates the player'''
         self.player = Player(self.camera, self.input_manager, self)
@@ -34,14 +34,14 @@ class EntityManager:
         self.player.region = None
         self.update_ent_region(self.player)
 
-    def spawn_ent(self, ent, overide = False):
+    def spawn_ent(self, ent, overide=False):
         '''creates an entity'''
         self.entity_list.append(ent)
         if ent.movable:
             self.movable_entity_list.append(ent)
         ent.region = None
         self.update_ent_region(ent)
-        #print(self.regions[ent.region])
+        # print(self.regions[ent.region])
         collision_state = self.entity_collision_state(ent, do_pushout=False)
         if collision_state and not overide:
             self.remove_entity(ent)
@@ -49,8 +49,8 @@ class EntityManager:
     def update_ent_region(self, entity):
         '''updates the regions if an entity moved grom one region to another'''
         new_region = tuple(entity.hitbox.pos // self.region_size)
-        #print(entity.region, new_region)
-        #print(self.regions[entity.region])
+        # print(entity.region, new_region)
+        # print(self.regions[entity.region])
         if new_region != entity.region:
             if new_region in self.regions:
                 self.regions[new_region].append(entity)
@@ -69,7 +69,7 @@ class EntityManager:
     def ent_density(self):
         '''calculates the density of entities at a point'''
         region = tuple(self.player.hitbox.pos // self.region_size)
-        dist = 5 # radius of regions checked
+        dist = 5  # radius of regions checked
         n = 0
         for i in range(-dist, dist + 1):
             for j in range(-dist, dist + 1):
@@ -88,17 +88,17 @@ class EntityManager:
                 if region in self.regions:
                     for ent_ in self.regions[region]:
                         if ent_ != ent:
-                            #print(ent, ent_)
+                            # print(ent, ent_)
                             collisionn_state, pushout = self.collision_detector.collision(ent.hitbox, ent_.hitbox)
                             if collisionn_state:
                                 if not do_pushout:
                                     return True
                                 else:
                                     self.pushout(ent, ent_, pushout)
-                                collision_detected =  True
+                                collision_detected = True
         return collision_detected
 
-    def entity_collision_state_(self, ent, do_pushout=False):   # temporary, just for testing optimisations
+    def entity_collision_state_(self, ent, do_pushout=False):  # temporary, just for testing optimisations
         '''checks if an entity is colliding with any other entity and potentialy aplies the pushout'''
         check_counter = 0
         skiped_counter = 0
@@ -107,9 +107,9 @@ class EntityManager:
                 region = (ent.region[0] + i, ent.region[1] + j)
                 if region in self.regions:
                     for ent_ in self.regions[region]:
-                        if (not ent_ in ent.ents_alrdy_coll_checked) and ent_.collidable:
+                        if ent_ not in ent.ents_alrdy_coll_checked and ent_.collidable:
                             ent_.ents_alrdy_coll_checked.append(ent)
-                            #print(ent, ent_)
+                            # print(ent, ent_)
                             collisionn_state, pushout = self.collision_detector.collision(ent.hitbox, ent_.hitbox)
                             check_counter += 1
                             if collisionn_state:
@@ -117,7 +117,8 @@ class EntityManager:
                                 ent_.hitbox.color = 'red'
                                 if do_pushout:
                                     self.pushout(ent, ent_, pushout)
-                        else: skiped_counter += 1
+                        else:
+                            skiped_counter += 1
         return check_counter, skiped_counter
 
     def pushout(self, ent, ent_, dissplacement):
@@ -132,7 +133,7 @@ class EntityManager:
             if ent_.movable:
                 ent_.move(-dissplacement)
             else:
-                #print(ent.movable, ent_.movable)
+                # print(ent.movable, ent_.movable)
                 raise ValueError('Two imovable enteties are colliding')
 
     def colisions(self):
@@ -164,28 +165,29 @@ class EntityManager:
             if not ent == self.player:
                 ent.run(dt)
             else:  # debugging
-                #print(tuple(self.player.pos // self.region_size))
+                # print(tuple(self.player.pos // self.region_size))
                 pass
         self.update_regions()
-        #start = time.time()
+        # start = time.time()
         self.colisions()
-        #end = time.time()
-        #print((end - start) * 1000)
+        # end = time.time()
+        # print((end - start) * 1000)
 
     def draw_regions(self, player_displacement):
         '''draws the region borders'''
         r = 20
         for i in range(-r, r + 1):
             k = i * self.region_size
-            pygame.draw.line(pygame.display.get_surface(), 'red', VEC_2(-r* self.region_size, k) + player_displacement, VEC_2(r* self.region_size, k) + player_displacement)
-            pygame.draw.line(pygame.display.get_surface(), 'red', VEC_2(k, -r* self.region_size) + player_displacement, VEC_2(k, r* self.region_size) + player_displacement)
+            pygame.draw.line(pygame.display.get_surface(), 'red', VEC_2(-r * self.region_size, k) + player_displacement, VEC_2(r * self.region_size, k) + player_displacement)
+            pygame.draw.line(pygame.display.get_surface(), 'red', VEC_2(k, -r * self.region_size) + player_displacement, VEC_2(k, r * self.region_size) + player_displacement)
 
 
 class Hitbox:
     '''base hotbox class'''
-    kind = None
+    kind = 'None'
+
     def __init__(self, pos):
-        self.pos =  VEC_2(pos)
+        self.pos = VEC_2(pos)
 
     def scale(self, scalar):
         '''scales the hitbox by a scalar'''
@@ -197,13 +199,13 @@ class Hitbox:
 class Rectangle(Hitbox):
     '''rectangular hitbox class'''
     kind = 'rect'
+
     def __init__(self, pos, angle, length, breadth):
         super().__init__(pos)
         self.color = 'blue'
         self.angle = angle
         self.vec1 = VEC_2(math.cos(angle), math.sin(angle)) * length
         self.vec2 = VEC_2(math.sin(angle), -math.cos(angle)) * breadth
-
 
     def scale(self, scalar):
         self.vec1 = self.vec1 * scalar
@@ -216,10 +218,11 @@ class Rectangle(Hitbox):
 
     def draw(self, display_surface, camera):
         '''draws the boundries of the hitbox'''
-        pygame.draw.line(display_surface, self.color, camera.player_displacement + self.pos + self.vec1 + self.vec2, camera.player_displacement + self.pos + self.vec1 - self.vec2, width = 1)
-        pygame.draw.line(display_surface, self.color, camera.player_displacement + self.pos - self.vec1 + self.vec2, camera.player_displacement + self.pos - self.vec1 - self.vec2, width = 1)
-        pygame.draw.line(display_surface, self.color, camera.player_displacement + self.pos + self.vec2 + self.vec1, camera.player_displacement + self.pos + self.vec2 - self.vec1, width = 1)
-        pygame.draw.line(display_surface, self.color, camera.player_displacement + self.pos - self.vec2 + self.vec1, camera.player_displacement + self.pos - self.vec2 - self.vec1, width = 1)
+        pygame.draw.line(display_surface, self.color, camera.player_displacement + self.pos + self.vec1 + self.vec2, camera.player_displacement + self.pos + self.vec1 - self.vec2, width=1)
+        pygame.draw.line(display_surface, self.color, camera.player_displacement + self.pos - self.vec1 + self.vec2, camera.player_displacement + self.pos - self.vec1 - self.vec2, width=1)
+        pygame.draw.line(display_surface, self.color, camera.player_displacement + self.pos + self.vec2 + self.vec1, camera.player_displacement + self.pos + self.vec2 - self.vec1, width=1)
+        pygame.draw.line(display_surface, self.color, camera.player_displacement + self.pos - self.vec2 + self.vec1, camera.player_displacement + self.pos - self.vec2 - self.vec1, width=1)
+
 
 class Circle(Hitbox):
     '''circular hitbox class'''
@@ -249,7 +252,7 @@ class Entity:
     def __init__(self, pos, entitie_manager):
         self.entitie_manager = entitie_manager
         self.ents_alrdy_coll_checked = [self]
-        self.hitbox = Rectangle(pos, random.randint(0, 100) / 100000, __class__.radius, __class__.radius) # the small angle helps with collision blocks
+        self.hitbox = Rectangle(pos, random.randint(0, 100) / 100000, __class__.radius, __class__.radius)  # the small angle helps with collision blocks
         self.region = tuple(self.hitbox.pos // self.entitie_manager.region_size)
         self.image = pygame.transform.scale(pygame.image.load('../graphics/test/none.png'), (__class__.size, __class__.size))
 
@@ -257,7 +260,7 @@ class Entity:
         '''displays the entity if it is on screen'''
         if -self.radius < self.hitbox.pos.x + camera.player_displacement.x < WIDTH + self.radius:
             if -self.radius < self.hitbox.pos.y + camera.player_displacement.y < HEIGHT + self.radius:
-                screen.blit(self.image, self.image.get_rect(center = VEC_2(self.hitbox.pos + camera.player_displacement)))
+                screen.blit(self.image, self.image.get_rect(center=VEC_2(self.hitbox.pos + camera.player_displacement)))
 
     def move(self, displacement):
         '''moves the entity'''
@@ -289,11 +292,9 @@ class Animal(Entity):
         angle = random.randint(0, 360)
         self.direction = VEC_2(math.sin(angle / math.pi), math.cos(angle / math.pi))
 
-
     def wander(self, dt):
         '''temporairy'''
         self.hitbox.pos += self.direction * dt * 100
-
 
     def run(self, dt):
         self.wander(dt)
@@ -302,14 +303,14 @@ class Animal(Entity):
 class Player(Entity):
     '''player class'''
     movable = True
+
     def __init__(self, camera, input_manager, entitie_manager):
         super().__init__((0, 0), entitie_manager)
-        #self.hitbox = Circle((0, 0), __class__.radius)
+        # self.hitbox = Circle((0, 0), __class__.radius)
         self.image = pygame.transform.scale(pygame.image.load('../graphics/test/player.png'), (self.size, self.size))
         self.speed = 100
         self.camera = camera
         self.input_manager = input_manager
-
 
     def move(self, displacement):
         self.camera.player_displacement -= displacement
@@ -325,20 +326,20 @@ class Player(Entity):
             width = 50
             point = VEC_2(math.cos(angle), math.sin(angle)) * length
             rect = Rectangle(point - self.camera.true_player_displacement, angle, length, width)
-            self.entitie_manager.spawn_ent(Attack(rect, self.entitie_manager), overide = True)
+            self.entitie_manager.spawn_ent(Attack(rect, self.entitie_manager), overide=True)
 
     def display(self, screen, camera):
-        screen.blit(self.image, self.image.get_rect(center = (WIDTH/2, HEIGHT/2)))
+        screen.blit(self.image, self.image.get_rect(center=(WIDTH/2, HEIGHT/2)))
 
     def run(self, dt):
         self.move(self.input_manager.player_movement() * dt * self.speed)
         self.attack()
 
 
-
 class Attack(Entity):
     '''base attack class'''
     collidable = False
+
     def __init__(self, hitbox, entitie_manager):
         super().__init__(hitbox.pos, entitie_manager)
         self.hitbox = hitbox
@@ -352,11 +353,11 @@ class Attack(Entity):
 
     def kill(self):
         '''timer for the attack'''
-        #print(time.time() - self.spawn_time)
+        # print(time.time() - self.spawn_time)
         if time.time() - self.spawn_time > self.stay_time:
-            #print(self.region)
+            # print(self.region)
             self.entitie_manager.remove_entity(self)
-            #print(self)
+            # print(self)
 
     def do_damage(self):
         '''kills entities that tuch the attack'''
@@ -367,22 +368,23 @@ class Attack(Entity):
             for j in range(-dist, dist + 1):
                 region_ = (region[0] + i, region[1] + j)
                 if region_ in self.entitie_manager.regions:
-                    #print(len(self.entityManager.regions[region_]))
+                    # print(len(self.entityManager.regions[region_]))
                     for ent in self.entitie_manager.regions[region_]:
                         if ent.collidable:
-                            #print(ent.hitbox.pos, ent.hitbox.vec1, ent.hitbox.vec2)
+                            # print(ent.hitbox.pos, ent.hitbox.vec1, ent.hitbox.vec2)
                             collision_state = self.entitie_manager.collision_detector.collision(self.hitbox, ent.hitbox, want_pushout=False)
                             if collision_state:
-                                #print(ent)
+                                # print(ent)
                                 enteties_hit.append(ent)
         for ent in enteties_hit:
-            #print(ent)
+            # print(ent)
             if ent != self.entitie_manager.player:
                 self.entitie_manager.remove_entity(ent)
 
     def run(self, dt):
         self.do_damage()
         self.kill()
+
 
 class Structure(Entity):
     '''base structure class'''

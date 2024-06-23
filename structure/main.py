@@ -8,7 +8,7 @@ from settings import (
 )
 from compiler import (
     Compiler,
-    #CompilerForTestingMapGen
+    # CompilerForTestingMapGen
     )
 from input import InputManager
 
@@ -23,14 +23,14 @@ class Game:
         self.input_manager = InputManager()
         self.clock = pygame.time.Clock()
         self.compiler = Compiler(self.input_manager)
-        #self.compiler_for_testing_map_gen = CompilerForTestingMapGen()   # enable this and dissable compiler to test map gen
+        # self.compiler_for_testing_map_gen = CompilerForTestingMapGen()   # enable this and dissable compiler to test map gen
 
     def run(self):
         '''runs the game'''
         game_run = True
         while game_run:
             # testing
-            #print(self.collision_detector.Rect_Circle({'pos': (2, 2), 'r': 1}, {'pos': (0, 0), 'vec1': VEC_2(1, 1), 'vec2': VEC_2(-1, 1)}))
+            # print(self.collision_detector.Rect_Circle({'pos': (2, 2), 'r': 1}, {'pos': (0, 0), 'vec1': VEC_2(1, 1), 'vec2': VEC_2(-1, 1)}))
             for event in pygame.event.get():  # event loop
                 if event.type == pygame.QUIT:  # checks if quit
                     pygame.quit()

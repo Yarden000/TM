@@ -4,10 +4,11 @@ from settings import (
     VEC_2
     )
 
+
 class Spawner:
     '''respomnsible for spawning the entities'''
     def __init__(self, camera, terrain, entity_manager):
-        self.spawn_range = 3 #number of chunks loaded
+        self.spawn_range = 3  # number of chunks loaded
         self.camera = camera
         self.terrain = terrain
         self.entity_manager = entity_manager
@@ -22,7 +23,7 @@ class Spawner:
 
         # décalage si chunk_number est impaire
         d = (self.terrain.chunk_number / 2) % 2 * self.terrain.chunk_size_in_pixel
-        #print(d)
+        # print(d)
 
         chunk_in_x = self.terrain.chunk_number / 2 + (d - self.camera.true_player_displacement[0]) // self.terrain.chunk_size_in_pixel
         chunk_in_y = self.terrain.chunk_number / 2 + (d - self.camera.true_player_displacement[1]) // self.terrain.chunk_size_in_pixel
@@ -37,7 +38,7 @@ class Spawner:
         tile_x_end = min(self.terrain.map_size, max(0, tile_range_x[1]))
         tile_y_start = min(self.terrain.map_size, max(0, tile_range_y[0]))
         tile_y_end = min(self.terrain.map_size, max(0, tile_range_y[1]))
-        #print((tile_x_start, tile_x_end), (tile_y_start, tile_y_end))
+        # print((tile_x_start, tile_x_end), (tile_y_start, tile_y_end))
         for row in self.terrain.grid[tile_x_start:tile_x_end + 1]:
             for tile in row[tile_y_start:tile_y_end + 1]:
                 for n, biome in enumerate(self.terrain.biome_types):
@@ -45,7 +46,6 @@ class Spawner:
                         tiles_ordered[n]['tiles'].append(tile)
                         break
         return tiles_ordered
-
 
     def spawn_ent_v2(self, dt, ent_class):
         '''randomly chooses a tile fron all the loaded tiles and spawns an enitiy there'''

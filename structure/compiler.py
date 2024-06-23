@@ -1,6 +1,7 @@
 '''comèiler and displayer'''
 import pygame
-from map import (Map,
+from map import (
+    Map,
     MapGeneratorTesting
     )
 from entities import (
@@ -24,7 +25,7 @@ class Compiler:
         self.input_manager = input_manager
         self.camera = Camera()
         self.map = Map()
-        self.entity_manager = EntityManager(self.input_manager, self.camera) # camera is for testing
+        self.entity_manager = EntityManager(self.input_manager, self.camera)  # camera is for testing
         self.displayer = Displayer(self.map, self.camera, self.entity_manager)
         self.spawner = Spawner(self.camera, self.map, self.entity_manager)
 
@@ -57,16 +58,14 @@ class Displayer:
         self.screen.fill('blue')
         self.terrain.display(self.camera)
 
-
         for i in self.entity_manager.entity_list:
             # trier selon la position
             i.display(self.screen, self.camera)
             i.hitbox.draw(self.screen, self.camera)
-        #print(len(self.displayable_entenies))
+        # print(len(self.displayable_entenies))
         # for debugging:
-        #self.entity_manager.draw_regions(self.camera.player_displacement)
+        # self.entity_manager.draw_regions(self.camera.player_displacement)
         pygame.display.update()
-
 
 
 class CompilerForTestingMapGen:
@@ -75,5 +74,5 @@ class CompilerForTestingMapGen:
         # to test the map gen, need to dissable the run funcion
         self.maptest = MapGeneratorTesting(4, 3, 1, 5, 0.85, 2, 0.2)
         self.maptest.display_biomes()
-        #self.maptest.display_strengths()
+        # self.maptest.display_strengths()
         pygame.display.update()

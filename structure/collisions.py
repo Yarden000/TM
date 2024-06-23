@@ -1,8 +1,9 @@
 '''collision detection'''
 import math
-from settings import(
+from settings import (
     VEC_2
 )
+
 
 class CollisionDetector:
     '''responsible for detecting collisions and calculating their pushout'''
@@ -38,7 +39,6 @@ class CollisionDetector:
                 if want_pushout:
                     return state, pushout
                 return state
-
 
     def circle_circle(self, circle1, circle2):
         '''circle-circle collision'''
@@ -81,8 +81,8 @@ class CollisionDetector:
     def external_vectors(self, vector_list, axis_vector):
         '''gives the two vectors whitch projections on the axis would be the farthest apart'''
         axis_vector = axis_vector.normalize()
-        l = [vector.dot(axis_vector) for vector in vector_list]
-        return [min(l) * axis_vector, max(l) * axis_vector]
+        vector_list = [vector.dot(axis_vector) for vector in vector_list]
+        return [min(vector_list) * axis_vector, max(vector_list) * axis_vector]
 
     def progections_colliding_with_rect(self, projections, axis_vector):
         '''checks if the line between the tow projections is tuching the rect'''
@@ -99,34 +99,34 @@ class CollisionDetector:
     def rect_rect(self, rect1, rect2):
         '''
         insired by https://stackoverflow.com/questions/62028169/how-to-detect-when-rotated-rectangles-are-colliding-each-other
-        Separating Axis Theorem (SAT)     
+        Separating Axis Theorem (SAT)
         '''
         rect_vectors = [
             [rect2.vec1, rect2.vec2],
             [rect1.vec1, rect1.vec2]
         ]
 
-        #rect corners
+        # rect corners
         rect1_corners = self.rect_corners(rect1)
         rect2_corners = self.rect_corners(rect2)
 
         # finding the corner projections on the two axies of the other rect
         projections = [
             [
-                [self.projection_vect(VEC_2(corner) - VEC_2(rect2.pos), rect2.vec1) for corner in rect1_corners], #(progections_on_rect2_axis1, axis_vector)
-                [self.projection_vect(VEC_2(corner) - VEC_2(rect2.pos), rect2.vec2) for corner in rect1_corners]  #(progections_on_rect2_axis2, axis_vector)
-            ], # rect1
+                [self.projection_vect(VEC_2(corner) - VEC_2(rect2.pos), rect2.vec1) for corner in rect1_corners],  # (progections_on_rect2_axis1, axis_vector)
+                [self.projection_vect(VEC_2(corner) - VEC_2(rect2.pos), rect2.vec2) for corner in rect1_corners]   # (progections_on_rect2_axis2, axis_vector)
+            ],  # rect1
             [
-                [self.projection_vect(VEC_2(corner) - VEC_2(rect1.pos), rect1.vec1) for corner in rect2_corners], #(progections_on_rect1_axis1, axis_vector)
-                [self.projection_vect(VEC_2(corner) - VEC_2(rect1.pos), rect1.vec2) for corner in rect2_corners]  #(progections_on_rect1_axis2, axis_vector)
-            ], # rect2
+                [self.projection_vect(VEC_2(corner) - VEC_2(rect1.pos), rect1.vec1) for corner in rect2_corners],  # (progections_on_rect1_axis1, axis_vector)
+                [self.projection_vect(VEC_2(corner) - VEC_2(rect1.pos), rect1.vec2) for corner in rect2_corners]   # (progections_on_rect1_axis2, axis_vector)
+            ],  # rect2
         ]
 
         # finding the external projections
         external_projections = [
             [
-                self.external_vectors(projections[rect][axis], rect_vectors[rect][axis]) for axis in range(2) # the two axies
-            ] for rect in range(2) # the two rects
+                self.external_vectors(projections[rect][axis], rect_vectors[rect][axis]) for axis in range(2)  # the two axies
+            ] for rect in range(2)  # the two rects
         ]   # external_projections[rect][axis][the two oposite projections]
 
         # finding if all the lines conecting the projections hit the rectangles

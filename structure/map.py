@@ -53,12 +53,12 @@ class Map:
                 for y in range_on_screen[1]:
                     if 0 <= y < self.map_size:
                         image = self.grid[x][y][0]['image']
-                        self.screen.blit(image.convert_alpha(), image.get_rect(center = VEC_2(self.grid[x][y][1] + camera.player_displacement)))
+                        self.screen.blit(image.convert_alpha(), image.get_rect(center=VEC_2(self.grid[x][y][1] + camera.player_displacement)))
 
 
 class MapGeneratorTesting:
     '''visualises the mag gen, helps to finetune the parameters'''
-    def __init__(self, biome_number, pixel_sise, base_grid_size = 4, octaves = 1, persistence = 0.5, frequency = 2, random_prob = 0):
+    def __init__(self, biome_number, pixel_sise, base_grid_size=4, octaves=1, persistence=0.5, frequency=2, random_prob=0):
         self.biome_number = biome_number
         self.pixel_size = pixel_sise
         self.base_gris_size = base_grid_size
@@ -100,7 +100,7 @@ class MapGeneratorTesting:
     def perlin_noise(self):
         '''creates the random noise'''
         total_value_grid = {}
-        total_value_list = [] # for finding the max and min to then map then on a scale of 0-255
+        total_value_list = []  # for finding the max and min to then map then on a scale of 0-255
         for p in range(self.octaves):
             grid_size = round(self.base_gris_size * (self.frequency**p))
             perlin_grid = {}
@@ -124,10 +124,10 @@ class MapGeneratorTesting:
                     vortex_vector_topleft = perlin_grid[(int(_x), int(_y) + 1)]
                     vortex_vector_topright = perlin_grid[(int(_x) + 1, int(_y) + 1)]
                     # displacement vectors from the point to the vertecies
-                    vect_to_vort_bottomleft = VEC_2(_x % 1, _y % 1)#.normalize()
-                    vect_to_vort_bottomright = VEC_2((_x % 1) - 1, _y % 1)#.normalize()
-                    vect_to_vort_topleft = VEC_2(_x % 1, (_y % 1) - 1)#.normalize()
-                    vect_to_vort_topright = VEC_2((_x % 1) - 1, (_y % 1) - 1)#.normalize()
+                    vect_to_vort_bottomleft = VEC_2(_x % 1, _y % 1)  # .normalize()
+                    vect_to_vort_bottomright = VEC_2((_x % 1) - 1, _y % 1)  # .normalize()
+                    vect_to_vort_topleft = VEC_2(_x % 1, (_y % 1) - 1)  # .normalize()
+                    vect_to_vort_topright = VEC_2((_x % 1) - 1, (_y % 1) - 1)  # .normalize()
                     # dot products
                     dot_topleft = vortex_vector_topleft.dot(vect_to_vort_topleft)
                     dot_topright = vortex_vector_topright.dot(vect_to_vort_topright)
@@ -171,7 +171,7 @@ class MapGeneratorTesting:
                 final_biome_grid[(x, y)] = biome_type[values.index(max(values))]
         return final_biome_grid
 
-    def display_biomes(self): #for testing
+    def display_biomes(self):  # for testing
         '''displays withch biomes are at what pixel'''
         colors_list = []
         for _ in range(self.biome_number):
@@ -182,13 +182,13 @@ class MapGeneratorTesting:
             for y in range(self.cell_number):
                 pygame.draw.rect(display_surf, colors_list[grid[(x, y)]], [x*self.pixel_size, y*self.pixel_size, self.pixel_size, self.pixel_size])
 
-    def display_strengths(self): #for testing
+    def display_strengths(self):  # for testing
         '''siaplays the strength of the perlin noise at each pixel'''
         grid = self.perlin_noise()
         display_surf = pygame.display.get_surface()
         for x in range(self.cell_number):
             for y in range(self.cell_number):
-                if grid[(x, y)] > 0.01:   #0:#
+                if grid[(x, y)] > 0.01:   # 0:#
                     color = (0, round((grid[(x, y)] * 255) / self.extreme), 0)
                 elif grid[(x, y)] < -0.01:
                     color = (round(abs(grid[(x, y)] * 255) / self.extreme), 0, 0)
@@ -333,7 +333,7 @@ class MapGenerator:
             if tmp > value:
                 idx = i
                 value = tmp
-        pos = (VEC_2(x, y) - VEC_2(self.cell_number -1,  self.cell_number -1) / 2) * self.cell_size
+        pos = (VEC_2(x, y) - VEC_2(self.cell_number - 1,  self.cell_number - 1) / 2) * self.cell_size
         return (self.biome_types[idx].copy(), pos)  # need to remove the .copy()
 
     def _simple_superposition(self):

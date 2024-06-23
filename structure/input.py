@@ -4,9 +4,10 @@ for exampel a clic normaly is an attack, but whebn the player is in the inventor
 it could mean to select an item
 '''
 import pygame
-from settings import(
+from settings import (
     VEC_2
 )
+
 
 class InputManager:
     '''manages the inputs'''
@@ -33,7 +34,6 @@ class InputManager:
             movement = direction
 
         return movement
-
 
     def speed_up_fps(self, fps):
         '''to see the max fps'''
