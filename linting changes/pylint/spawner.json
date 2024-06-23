@@ -1,0 +1,1084 @@
+[{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/spawner.py",
+	"owner": "_generated_diagnostic_collection_name_#2",
+	"code": {
+		"value": "E1120:no-value-for-parameter",
+		"target": {
+			"$mid": 1,
+			"path": "/en/latest/user_guide/messages/error/no-value-for-parameter.html",
+			"scheme": "https",
+			"authority": "pylint.readthedocs.io"
+		}
+	},
+	"severity": 8,
+	"message": "No value for argument 'camera' in method call",
+	"source": "Pylint",
+	"startLineNumber": 95,
+	"startColumn": 9,
+	"endLineNumber": 95,
+	"endColumn": 27
+},{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/spawner.py",
+	"owner": "_generated_diagnostic_collection_name_#2",
+	"code": {
+		"value": "E1120:no-value-for-parameter",
+		"target": {
+			"$mid": 1,
+			"path": "/en/latest/user_guide/messages/error/no-value-for-parameter.html",
+			"scheme": "https",
+			"authority": "pylint.readthedocs.io"
+		}
+	},
+	"severity": 8,
+	"message": "No value for argument 'map' in method call",
+	"source": "Pylint",
+	"startLineNumber": 95,
+	"startColumn": 9,
+	"endLineNumber": 95,
+	"endColumn": 27
+},{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/spawner.py",
+	"owner": "_generated_diagnostic_collection_name_#2",
+	"code": {
+		"value": "E1120:no-value-for-parameter",
+		"target": {
+			"$mid": 1,
+			"path": "/en/latest/user_guide/messages/error/no-value-for-parameter.html",
+			"scheme": "https",
+			"authority": "pylint.readthedocs.io"
+		}
+	},
+	"severity": 8,
+	"message": "No value for argument 'entity_manager' in method call",
+	"source": "Pylint",
+	"startLineNumber": 95,
+	"startColumn": 9,
+	"endLineNumber": 95,
+	"endColumn": 27
+},{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/spawner.py",
+	"owner": "_generated_diagnostic_collection_name_#2",
+	"code": {
+		"value": "E1120:no-value-for-parameter",
+		"target": {
+			"$mid": 1,
+			"path": "/en/latest/user_guide/messages/error/no-value-for-parameter.html",
+			"scheme": "https",
+			"authority": "pylint.readthedocs.io"
+		}
+	},
+	"severity": 8,
+	"message": "No value for argument 'camera' in method call",
+	"source": "Pylint",
+	"startLineNumber": 102,
+	"startColumn": 9,
+	"endLineNumber": 102,
+	"endColumn": 27
+},{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/spawner.py",
+	"owner": "_generated_diagnostic_collection_name_#2",
+	"code": {
+		"value": "E1120:no-value-for-parameter",
+		"target": {
+			"$mid": 1,
+			"path": "/en/latest/user_guide/messages/error/no-value-for-parameter.html",
+			"scheme": "https",
+			"authority": "pylint.readthedocs.io"
+		}
+	},
+	"severity": 8,
+	"message": "No value for argument 'map' in method call",
+	"source": "Pylint",
+	"startLineNumber": 102,
+	"startColumn": 9,
+	"endLineNumber": 102,
+	"endColumn": 27
+},{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/spawner.py",
+	"owner": "_generated_diagnostic_collection_name_#2",
+	"code": {
+		"value": "E1120:no-value-for-parameter",
+		"target": {
+			"$mid": 1,
+			"path": "/en/latest/user_guide/messages/error/no-value-for-parameter.html",
+			"scheme": "https",
+			"authority": "pylint.readthedocs.io"
+		}
+	},
+	"severity": 8,
+	"message": "No value for argument 'entity_manager' in method call",
+	"source": "Pylint",
+	"startLineNumber": 102,
+	"startColumn": 9,
+	"endLineNumber": 102,
+	"endColumn": 27
+},{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/spawner.py",
+	"owner": "_generated_diagnostic_collection_name_#2",
+	"code": {
+		"value": "E1120:no-value-for-parameter",
+		"target": {
+			"$mid": 1,
+			"path": "/en/latest/user_guide/messages/error/no-value-for-parameter.html",
+			"scheme": "https",
+			"authority": "pylint.readthedocs.io"
+		}
+	},
+	"severity": 8,
+	"message": "No value for argument 'camera' in method call",
+	"source": "Pylint",
+	"startLineNumber": 109,
+	"startColumn": 9,
+	"endLineNumber": 109,
+	"endColumn": 27
+},{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/spawner.py",
+	"owner": "_generated_diagnostic_collection_name_#2",
+	"code": {
+		"value": "E1120:no-value-for-parameter",
+		"target": {
+			"$mid": 1,
+			"path": "/en/latest/user_guide/messages/error/no-value-for-parameter.html",
+			"scheme": "https",
+			"authority": "pylint.readthedocs.io"
+		}
+	},
+	"severity": 8,
+	"message": "No value for argument 'map' in method call",
+	"source": "Pylint",
+	"startLineNumber": 109,
+	"startColumn": 9,
+	"endLineNumber": 109,
+	"endColumn": 27
+},{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/spawner.py",
+	"owner": "_generated_diagnostic_collection_name_#2",
+	"code": {
+		"value": "E1120:no-value-for-parameter",
+		"target": {
+			"$mid": 1,
+			"path": "/en/latest/user_guide/messages/error/no-value-for-parameter.html",
+			"scheme": "https",
+			"authority": "pylint.readthedocs.io"
+		}
+	},
+	"severity": 8,
+	"message": "No value for argument 'entity_manager' in method call",
+	"source": "Pylint",
+	"startLineNumber": 109,
+	"startColumn": 9,
+	"endLineNumber": 109,
+	"endColumn": 27
+},{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/spawner.py",
+	"owner": "_generated_diagnostic_collection_name_#2",
+	"code": {
+		"value": "W0611:unused-import",
+		"target": {
+			"$mid": 1,
+			"path": "/en/latest/user_guide/messages/warning/unused-import.html",
+			"scheme": "https",
+			"authority": "pylint.readthedocs.io"
+		}
+	},
+	"severity": 4,
+	"message": "Unused import pygame",
+	"source": "Pylint",
+	"startLineNumber": 1,
+	"startColumn": 1,
+	"endLineNumber": 1,
+	"endColumn": 19
+},{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/spawner.py",
+	"owner": "_generated_diagnostic_collection_name_#2",
+	"code": {
+		"value": "W0611:unused-import",
+		"target": {
+			"$mid": 1,
+			"path": "/en/latest/user_guide/messages/warning/unused-import.html",
+			"scheme": "https",
+			"authority": "pylint.readthedocs.io"
+		}
+	},
+	"severity": 4,
+	"message": "Unused import sys",
+	"source": "Pylint",
+	"startLineNumber": 1,
+	"startColumn": 1,
+	"endLineNumber": 1,
+	"endColumn": 19
+},{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/spawner.py",
+	"owner": "_generated_diagnostic_collection_name_#2",
+	"code": {
+		"value": "W0611:unused-import",
+		"target": {
+			"$mid": 1,
+			"path": "/en/latest/user_guide/messages/warning/unused-import.html",
+			"scheme": "https",
+			"authority": "pylint.readthedocs.io"
+		}
+	},
+	"severity": 4,
+	"message": "Unused import time",
+	"source": "Pylint",
+	"startLineNumber": 2,
+	"startColumn": 1,
+	"endLineNumber": 2,
+	"endColumn": 12
+},{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/spawner.py",
+	"owner": "_generated_diagnostic_collection_name_#2",
+	"code": {
+		"value": "W0611:unused-import",
+		"target": {
+			"$mid": 1,
+			"path": "/en/latest/user_guide/messages/warning/unused-import.html",
+			"scheme": "https",
+			"authority": "pylint.readthedocs.io"
+		}
+	},
+	"severity": 4,
+	"message": "Unused debug imported from settings",
+	"source": "Pylint",
+	"startLineNumber": 4,
+	"startColumn": 1,
+	"endLineNumber": 9,
+	"endColumn": 6
+},{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/spawner.py",
+	"owner": "_generated_diagnostic_collection_name_#2",
+	"code": {
+		"value": "W0611:unused-import",
+		"target": {
+			"$mid": 1,
+			"path": "/en/latest/user_guide/messages/warning/unused-import.html",
+			"scheme": "https",
+			"authority": "pylint.readthedocs.io"
+		}
+	},
+	"severity": 4,
+	"message": "Unused WIDTH imported from settings",
+	"source": "Pylint",
+	"startLineNumber": 4,
+	"startColumn": 1,
+	"endLineNumber": 9,
+	"endColumn": 6
+},{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/spawner.py",
+	"owner": "_generated_diagnostic_collection_name_#2",
+	"code": {
+		"value": "W0611:unused-import",
+		"target": {
+			"$mid": 1,
+			"path": "/en/latest/user_guide/messages/warning/unused-import.html",
+			"scheme": "https",
+			"authority": "pylint.readthedocs.io"
+		}
+	},
+	"severity": 4,
+	"message": "Unused HEIGHT imported from settings",
+	"source": "Pylint",
+	"startLineNumber": 4,
+	"startColumn": 1,
+	"endLineNumber": 9,
+	"endColumn": 6
+},{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/spawner.py",
+	"owner": "_generated_diagnostic_collection_name_#2",
+	"code": {
+		"value": "W0611:unused-import",
+		"target": {
+			"$mid": 1,
+			"path": "/en/latest/user_guide/messages/warning/unused-import.html",
+			"scheme": "https",
+			"authority": "pylint.readthedocs.io"
+		}
+	},
+	"severity": 4,
+	"message": "Unused Entity imported from entities",
+	"source": "Pylint",
+	"startLineNumber": 10,
+	"startColumn": 1,
+	"endLineNumber": 12,
+	"endColumn": 2
+},{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/spawner.py",
+	"owner": "_generated_diagnostic_collection_name_#2",
+	"code": {
+		"value": "W0622:redefined-builtin",
+		"target": {
+			"$mid": 1,
+			"path": "/en/latest/user_guide/messages/warning/redefined-builtin.html",
+			"scheme": "https",
+			"authority": "pylint.readthedocs.io"
+		}
+	},
+	"severity": 4,
+	"message": "Redefining built-in 'map'",
+	"source": "Pylint",
+	"startLineNumber": 16,
+	"startColumn": 32,
+	"endLineNumber": 16,
+	"endColumn": 35
+},{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/spawner.py",
+	"owner": "_generated_diagnostic_collection_name_#2",
+	"code": {
+		"value": "W0105:pointless-string-statement",
+		"target": {
+			"$mid": 1,
+			"path": "/en/latest/user_guide/messages/warning/pointless-string-statement.html",
+			"scheme": "https",
+			"authority": "pylint.readthedocs.io"
+		}
+	},
+	"severity": 4,
+	"message": "String statement has no effect",
+	"source": "Pylint",
+	"startLineNumber": 73,
+	"startColumn": 13,
+	"endLineNumber": 73,
+	"endColumn": 74
+},{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/spawner.py",
+	"owner": "_generated_diagnostic_collection_name_#2",
+	"code": {
+		"value": "W0105:pointless-string-statement",
+		"target": {
+			"$mid": 1,
+			"path": "/en/latest/user_guide/messages/warning/pointless-string-statement.html",
+			"scheme": "https",
+			"authority": "pylint.readthedocs.io"
+		}
+	},
+	"severity": 4,
+	"message": "String statement has no effect",
+	"source": "Pylint",
+	"startLineNumber": 82,
+	"startColumn": 13,
+	"endLineNumber": 82,
+	"endColumn": 38
+},{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/spawner.py",
+	"owner": "_generated_diagnostic_collection_name_#2",
+	"code": {
+		"value": "W0246:useless-parent-delegation",
+		"target": {
+			"$mid": 1,
+			"path": "/en/latest/user_guide/messages/warning/useless-parent-delegation.html",
+			"scheme": "https",
+			"authority": "pylint.readthedocs.io"
+		}
+	},
+	"severity": 4,
+	"message": "Useless parent or super() delegation in method '__init__'",
+	"source": "Pylint",
+	"startLineNumber": 94,
+	"startColumn": 5,
+	"endLineNumber": 94,
+	"endColumn": 17
+},{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/spawner.py",
+	"owner": "_generated_diagnostic_collection_name_#2",
+	"code": {
+		"value": "W0246:useless-parent-delegation",
+		"target": {
+			"$mid": 1,
+			"path": "/en/latest/user_guide/messages/warning/useless-parent-delegation.html",
+			"scheme": "https",
+			"authority": "pylint.readthedocs.io"
+		}
+	},
+	"severity": 4,
+	"message": "Useless parent or super() delegation in method '__init__'",
+	"source": "Pylint",
+	"startLineNumber": 101,
+	"startColumn": 5,
+	"endLineNumber": 101,
+	"endColumn": 17
+},{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/spawner.py",
+	"owner": "_generated_diagnostic_collection_name_#2",
+	"code": {
+		"value": "W0246:useless-parent-delegation",
+		"target": {
+			"$mid": 1,
+			"path": "/en/latest/user_guide/messages/warning/useless-parent-delegation.html",
+			"scheme": "https",
+			"authority": "pylint.readthedocs.io"
+		}
+	},
+	"severity": 4,
+	"message": "Useless parent or super() delegation in method '__init__'",
+	"source": "Pylint",
+	"startLineNumber": 108,
+	"startColumn": 5,
+	"endLineNumber": 108,
+	"endColumn": 17
+},{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/spawner.py",
+	"owner": "_generated_diagnostic_collection_name_#2",
+	"code": {
+		"value": "C0114:missing-module-docstring",
+		"target": {
+			"$mid": 1,
+			"path": "/en/latest/user_guide/messages/convention/missing-module-docstring.html",
+			"scheme": "https",
+			"authority": "pylint.readthedocs.io"
+		}
+	},
+	"severity": 2,
+	"message": "Missing module docstring",
+	"source": "Pylint",
+	"startLineNumber": 1,
+	"startColumn": 1,
+	"endLineNumber": 1,
+	"endColumn": 1
+},{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/spawner.py",
+	"owner": "_generated_diagnostic_collection_name_#2",
+	"code": {
+		"value": "C0410:multiple-imports",
+		"target": {
+			"$mid": 1,
+			"path": "/en/latest/user_guide/messages/convention/multiple-imports.html",
+			"scheme": "https",
+			"authority": "pylint.readthedocs.io"
+		}
+	},
+	"severity": 2,
+	"message": "Multiple imports on one line (pygame, sys)",
+	"source": "Pylint",
+	"startLineNumber": 1,
+	"startColumn": 1,
+	"endLineNumber": 1,
+	"endColumn": 19
+},{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/spawner.py",
+	"owner": "_generated_diagnostic_collection_name_#2",
+	"code": {
+		"value": "C0411:wrong-import-order",
+		"target": {
+			"$mid": 1,
+			"path": "/en/latest/user_guide/messages/convention/wrong-import-order.html",
+			"scheme": "https",
+			"authority": "pylint.readthedocs.io"
+		}
+	},
+	"severity": 2,
+	"message": "standard import \"import pygame, sys\" should be placed before \"import pygame, sys\"",
+	"source": "Pylint",
+	"startLineNumber": 1,
+	"startColumn": 1,
+	"endLineNumber": 1,
+	"endColumn": 19
+},{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/spawner.py",
+	"owner": "_generated_diagnostic_collection_name_#2",
+	"code": {
+		"value": "C0411:wrong-import-order",
+		"target": {
+			"$mid": 1,
+			"path": "/en/latest/user_guide/messages/convention/wrong-import-order.html",
+			"scheme": "https",
+			"authority": "pylint.readthedocs.io"
+		}
+	},
+	"severity": 2,
+	"message": "standard import \"import time\" should be placed before \"import pygame, sys\"",
+	"source": "Pylint",
+	"startLineNumber": 2,
+	"startColumn": 1,
+	"endLineNumber": 2,
+	"endColumn": 12
+},{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/spawner.py",
+	"owner": "_generated_diagnostic_collection_name_#2",
+	"code": {
+		"value": "C0411:wrong-import-order",
+		"target": {
+			"$mid": 1,
+			"path": "/en/latest/user_guide/messages/convention/wrong-import-order.html",
+			"scheme": "https",
+			"authority": "pylint.readthedocs.io"
+		}
+	},
+	"severity": 2,
+	"message": "standard import \"import random as rnd\" should be placed before \"import pygame, sys\"",
+	"source": "Pylint",
+	"startLineNumber": 3,
+	"startColumn": 1,
+	"endLineNumber": 3,
+	"endColumn": 21
+},{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/spawner.py",
+	"owner": "_generated_diagnostic_collection_name_#2",
+	"code": {
+		"value": "C0303:trailing-whitespace",
+		"target": {
+			"$mid": 1,
+			"path": "/en/latest/user_guide/messages/convention/trailing-whitespace.html",
+			"scheme": "https",
+			"authority": "pylint.readthedocs.io"
+		}
+	},
+	"severity": 2,
+	"message": "Trailing whitespace",
+	"source": "Pylint",
+	"startLineNumber": 5,
+	"startColumn": 11,
+	"endLineNumber": 5,
+	"endColumn": 11
+},{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/spawner.py",
+	"owner": "_generated_diagnostic_collection_name_#2",
+	"code": {
+		"value": "C0303:trailing-whitespace",
+		"target": {
+			"$mid": 1,
+			"path": "/en/latest/user_guide/messages/convention/trailing-whitespace.html",
+			"scheme": "https",
+			"authority": "pylint.readthedocs.io"
+		}
+	},
+	"severity": 2,
+	"message": "Trailing whitespace",
+	"source": "Pylint",
+	"startLineNumber": 6,
+	"startColumn": 11,
+	"endLineNumber": 6,
+	"endColumn": 11
+},{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/spawner.py",
+	"owner": "_generated_diagnostic_collection_name_#2",
+	"code": {
+		"value": "C0303:trailing-whitespace",
+		"target": {
+			"$mid": 1,
+			"path": "/en/latest/user_guide/messages/convention/trailing-whitespace.html",
+			"scheme": "https",
+			"authority": "pylint.readthedocs.io"
+		}
+	},
+	"severity": 2,
+	"message": "Trailing whitespace",
+	"source": "Pylint",
+	"startLineNumber": 7,
+	"startColumn": 12,
+	"endLineNumber": 7,
+	"endColumn": 12
+},{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/spawner.py",
+	"owner": "_generated_diagnostic_collection_name_#2",
+	"code": {
+		"value": "C0303:trailing-whitespace",
+		"target": {
+			"$mid": 1,
+			"path": "/en/latest/user_guide/messages/convention/trailing-whitespace.html",
+			"scheme": "https",
+			"authority": "pylint.readthedocs.io"
+		}
+	},
+	"severity": 2,
+	"message": "Trailing whitespace",
+	"source": "Pylint",
+	"startLineNumber": 8,
+	"startColumn": 11,
+	"endLineNumber": 8,
+	"endColumn": 11
+},{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/spawner.py",
+	"owner": "_generated_diagnostic_collection_name_#2",
+	"code": {
+		"value": "C0115:missing-class-docstring",
+		"target": {
+			"$mid": 1,
+			"path": "/en/latest/user_guide/messages/convention/missing-class-docstring.html",
+			"scheme": "https",
+			"authority": "pylint.readthedocs.io"
+		}
+	},
+	"severity": 2,
+	"message": "Missing class docstring",
+	"source": "Pylint",
+	"startLineNumber": 14,
+	"startColumn": 1,
+	"endLineNumber": 14,
+	"endColumn": 14
+},{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/spawner.py",
+	"owner": "_generated_diagnostic_collection_name_#2",
+	"code": {
+		"value": "C0303:trailing-whitespace",
+		"target": {
+			"$mid": 1,
+			"path": "/en/latest/user_guide/messages/convention/trailing-whitespace.html",
+			"scheme": "https",
+			"authority": "pylint.readthedocs.io"
+		}
+	},
+	"severity": 2,
+	"message": "Trailing whitespace",
+	"source": "Pylint",
+	"startLineNumber": 15,
+	"startColumn": 1,
+	"endLineNumber": 15,
+	"endColumn": 1
+},{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/spawner.py",
+	"owner": "_generated_diagnostic_collection_name_#2",
+	"code": {
+		"value": "C0303:trailing-whitespace",
+		"target": {
+			"$mid": 1,
+			"path": "/en/latest/user_guide/messages/convention/trailing-whitespace.html",
+			"scheme": "https",
+			"authority": "pylint.readthedocs.io"
+		}
+	},
+	"severity": 2,
+	"message": "Trailing whitespace",
+	"source": "Pylint",
+	"startLineNumber": 23,
+	"startColumn": 1,
+	"endLineNumber": 23,
+	"endColumn": 1
+},{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/spawner.py",
+	"owner": "_generated_diagnostic_collection_name_#2",
+	"code": {
+		"value": "C0303:trailing-whitespace",
+		"target": {
+			"$mid": 1,
+			"path": "/en/latest/user_guide/messages/convention/trailing-whitespace.html",
+			"scheme": "https",
+			"authority": "pylint.readthedocs.io"
+		}
+	},
+	"severity": 2,
+	"message": "Trailing whitespace",
+	"source": "Pylint",
+	"startLineNumber": 26,
+	"startColumn": 26,
+	"endLineNumber": 26,
+	"endColumn": 26
+},{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/spawner.py",
+	"owner": "_generated_diagnostic_collection_name_#2",
+	"code": {
+		"value": "C0301:line-too-long",
+		"target": {
+			"$mid": 1,
+			"path": "/en/latest/user_guide/messages/convention/line-too-long.html",
+			"scheme": "https",
+			"authority": "pylint.readthedocs.io"
+		}
+	},
+	"severity": 2,
+	"message": "Line too long (126/100)",
+	"source": "Pylint",
+	"startLineNumber": 34,
+	"startColumn": 1,
+	"endLineNumber": 34,
+	"endColumn": 1
+},{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/spawner.py",
+	"owner": "_generated_diagnostic_collection_name_#2",
+	"code": {
+		"value": "C0301:line-too-long",
+		"target": {
+			"$mid": 1,
+			"path": "/en/latest/user_guide/messages/convention/line-too-long.html",
+			"scheme": "https",
+			"authority": "pylint.readthedocs.io"
+		}
+	},
+	"severity": 2,
+	"message": "Line too long (126/100)",
+	"source": "Pylint",
+	"startLineNumber": 35,
+	"startColumn": 1,
+	"endLineNumber": 35,
+	"endColumn": 1
+},{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/spawner.py",
+	"owner": "_generated_diagnostic_collection_name_#2",
+	"code": {
+		"value": "C0301:line-too-long",
+		"target": {
+			"$mid": 1,
+			"path": "/en/latest/user_guide/messages/convention/line-too-long.html",
+			"scheme": "https",
+			"authority": "pylint.readthedocs.io"
+		}
+	},
+	"severity": 2,
+	"message": "Line too long (103/100)",
+	"source": "Pylint",
+	"startLineNumber": 40,
+	"startColumn": 1,
+	"endLineNumber": 40,
+	"endColumn": 1
+},{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/spawner.py",
+	"owner": "_generated_diagnostic_collection_name_#2",
+	"code": {
+		"value": "C0301:line-too-long",
+		"target": {
+			"$mid": 1,
+			"path": "/en/latest/user_guide/messages/convention/line-too-long.html",
+			"scheme": "https",
+			"authority": "pylint.readthedocs.io"
+		}
+	},
+	"severity": 2,
+	"message": "Line too long (103/100)",
+	"source": "Pylint",
+	"startLineNumber": 41,
+	"startColumn": 1,
+	"endLineNumber": 41,
+	"endColumn": 1
+},{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/spawner.py",
+	"owner": "_generated_diagnostic_collection_name_#2",
+	"code": {
+		"value": "C0303:trailing-whitespace",
+		"target": {
+			"$mid": 1,
+			"path": "/en/latest/user_guide/messages/convention/trailing-whitespace.html",
+			"scheme": "https",
+			"authority": "pylint.readthedocs.io"
+		}
+	},
+	"severity": 2,
+	"message": "Trailing whitespace",
+	"source": "Pylint",
+	"startLineNumber": 42,
+	"startColumn": 1,
+	"endLineNumber": 42,
+	"endColumn": 1
+},{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/spawner.py",
+	"owner": "_generated_diagnostic_collection_name_#2",
+	"code": {
+		"value": "C0303:trailing-whitespace",
+		"target": {
+			"$mid": 1,
+			"path": "/en/latest/user_guide/messages/convention/trailing-whitespace.html",
+			"scheme": "https",
+			"authority": "pylint.readthedocs.io"
+		}
+	},
+	"severity": 2,
+	"message": "Trailing whitespace",
+	"source": "Pylint",
+	"startLineNumber": 53,
+	"startColumn": 30,
+	"endLineNumber": 53,
+	"endColumn": 30
+},{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/spawner.py",
+	"owner": "_generated_diagnostic_collection_name_#2",
+	"code": {
+		"value": "C0116:missing-function-docstring",
+		"target": {
+			"$mid": 1,
+			"path": "/en/latest/user_guide/messages/convention/missing-function-docstring.html",
+			"scheme": "https",
+			"authority": "pylint.readthedocs.io"
+		}
+	},
+	"severity": 2,
+	"message": "Missing function or method docstring",
+	"source": "Pylint",
+	"startLineNumber": 56,
+	"startColumn": 5,
+	"endLineNumber": 56,
+	"endColumn": 18
+},{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/spawner.py",
+	"owner": "_generated_diagnostic_collection_name_#2",
+	"code": {
+		"value": "C0301:line-too-long",
+		"target": {
+			"$mid": 1,
+			"path": "/en/latest/user_guide/messages/convention/line-too-long.html",
+			"scheme": "https",
+			"authority": "pylint.readthedocs.io"
+		}
+	},
+	"severity": 2,
+	"message": "Line too long (134/100)",
+	"source": "Pylint",
+	"startLineNumber": 62,
+	"startColumn": 1,
+	"endLineNumber": 62,
+	"endColumn": 1
+},{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/spawner.py",
+	"owner": "_generated_diagnostic_collection_name_#2",
+	"code": {
+		"value": "C0303:trailing-whitespace",
+		"target": {
+			"$mid": 1,
+			"path": "/en/latest/user_guide/messages/convention/trailing-whitespace.html",
+			"scheme": "https",
+			"authority": "pylint.readthedocs.io"
+		}
+	},
+	"severity": 2,
+	"message": "Trailing whitespace",
+	"source": "Pylint",
+	"startLineNumber": 62,
+	"startColumn": 135,
+	"endLineNumber": 62,
+	"endColumn": 135
+},{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/spawner.py",
+	"owner": "_generated_diagnostic_collection_name_#2",
+	"code": {
+		"value": "C0301:line-too-long",
+		"target": {
+			"$mid": 1,
+			"path": "/en/latest/user_guide/messages/convention/line-too-long.html",
+			"scheme": "https",
+			"authority": "pylint.readthedocs.io"
+		}
+	},
+	"severity": 2,
+	"message": "Line too long (134/100)",
+	"source": "Pylint",
+	"startLineNumber": 63,
+	"startColumn": 1,
+	"endLineNumber": 63,
+	"endColumn": 1
+},{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/spawner.py",
+	"owner": "_generated_diagnostic_collection_name_#2",
+	"code": {
+		"value": "C0116:missing-function-docstring",
+		"target": {
+			"$mid": 1,
+			"path": "/en/latest/user_guide/messages/convention/missing-function-docstring.html",
+			"scheme": "https",
+			"authority": "pylint.readthedocs.io"
+		}
+	},
+	"severity": 2,
+	"message": "Missing function or method docstring",
+	"source": "Pylint",
+	"startLineNumber": 69,
+	"startColumn": 5,
+	"endLineNumber": 69,
+	"endColumn": 21
+},{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/spawner.py",
+	"owner": "_generated_diagnostic_collection_name_#2",
+	"code": {
+		"value": "C0301:line-too-long",
+		"target": {
+			"$mid": 1,
+			"path": "/en/latest/user_guide/messages/convention/line-too-long.html",
+			"scheme": "https",
+			"authority": "pylint.readthedocs.io"
+		}
+	},
+	"severity": 2,
+	"message": "Line too long (101/100)",
+	"source": "Pylint",
+	"startLineNumber": 73,
+	"startColumn": 1,
+	"endLineNumber": 73,
+	"endColumn": 1
+},{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/spawner.py",
+	"owner": "_generated_diagnostic_collection_name_#2",
+	"code": {
+		"value": "C0301:line-too-long",
+		"target": {
+			"$mid": 1,
+			"path": "/en/latest/user_guide/messages/convention/line-too-long.html",
+			"scheme": "https",
+			"authority": "pylint.readthedocs.io"
+		}
+	},
+	"severity": 2,
+	"message": "Line too long (105/100)",
+	"source": "Pylint",
+	"startLineNumber": 74,
+	"startColumn": 1,
+	"endLineNumber": 74,
+	"endColumn": 1
+},{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/spawner.py",
+	"owner": "_generated_diagnostic_collection_name_#2",
+	"code": {
+		"value": "C0303:trailing-whitespace",
+		"target": {
+			"$mid": 1,
+			"path": "/en/latest/user_guide/messages/convention/trailing-whitespace.html",
+			"scheme": "https",
+			"authority": "pylint.readthedocs.io"
+		}
+	},
+	"severity": 2,
+	"message": "Trailing whitespace",
+	"source": "Pylint",
+	"startLineNumber": 84,
+	"startColumn": 31,
+	"endLineNumber": 84,
+	"endColumn": 31
+},{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/spawner.py",
+	"owner": "_generated_diagnostic_collection_name_#2",
+	"code": {
+		"value": "C0301:line-too-long",
+		"target": {
+			"$mid": 1,
+			"path": "/en/latest/user_guide/messages/convention/line-too-long.html",
+			"scheme": "https",
+			"authority": "pylint.readthedocs.io"
+		}
+	},
+	"severity": 2,
+	"message": "Line too long (137/100)",
+	"source": "Pylint",
+	"startLineNumber": 85,
+	"startColumn": 1,
+	"endLineNumber": 85,
+	"endColumn": 1
+},{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/spawner.py",
+	"owner": "_generated_diagnostic_collection_name_#2",
+	"code": {
+		"value": "C0303:trailing-whitespace",
+		"target": {
+			"$mid": 1,
+			"path": "/en/latest/user_guide/messages/convention/trailing-whitespace.html",
+			"scheme": "https",
+			"authority": "pylint.readthedocs.io"
+		}
+	},
+	"severity": 2,
+	"message": "Trailing whitespace",
+	"source": "Pylint",
+	"startLineNumber": 85,
+	"startColumn": 138,
+	"endLineNumber": 85,
+	"endColumn": 138
+},{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/spawner.py",
+	"owner": "_generated_diagnostic_collection_name_#2",
+	"code": {
+		"value": "C0301:line-too-long",
+		"target": {
+			"$mid": 1,
+			"path": "/en/latest/user_guide/messages/convention/line-too-long.html",
+			"scheme": "https",
+			"authority": "pylint.readthedocs.io"
+		}
+	},
+	"severity": 2,
+	"message": "Line too long (137/100)",
+	"source": "Pylint",
+	"startLineNumber": 86,
+	"startColumn": 1,
+	"endLineNumber": 86,
+	"endColumn": 1
+},{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/spawner.py",
+	"owner": "_generated_diagnostic_collection_name_#2",
+	"code": {
+		"value": "C0301:line-too-long",
+		"target": {
+			"$mid": 1,
+			"path": "/en/latest/user_guide/messages/convention/line-too-long.html",
+			"scheme": "https",
+			"authority": "pylint.readthedocs.io"
+		}
+	},
+	"severity": 2,
+	"message": "Line too long (106/100)",
+	"source": "Pylint",
+	"startLineNumber": 87,
+	"startColumn": 1,
+	"endLineNumber": 87,
+	"endColumn": 1
+},{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/spawner.py",
+	"owner": "_generated_diagnostic_collection_name_#2",
+	"code": {
+		"value": "C0303:trailing-whitespace",
+		"target": {
+			"$mid": 1,
+			"path": "/en/latest/user_guide/messages/convention/trailing-whitespace.html",
+			"scheme": "https",
+			"authority": "pylint.readthedocs.io"
+		}
+	},
+	"severity": 2,
+	"message": "Trailing whitespace",
+	"source": "Pylint",
+	"startLineNumber": 91,
+	"startColumn": 1,
+	"endLineNumber": 91,
+	"endColumn": 1
+},{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/spawner.py",
+	"owner": "_generated_diagnostic_collection_name_#2",
+	"code": {
+		"value": "C0115:missing-class-docstring",
+		"target": {
+			"$mid": 1,
+			"path": "/en/latest/user_guide/messages/convention/missing-class-docstring.html",
+			"scheme": "https",
+			"authority": "pylint.readthedocs.io"
+		}
+	},
+	"severity": 2,
+	"message": "Missing class docstring",
+	"source": "Pylint",
+	"startLineNumber": 92,
+	"startColumn": 1,
+	"endLineNumber": 92,
+	"endColumn": 23
+},{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/spawner.py",
+	"owner": "_generated_diagnostic_collection_name_#2",
+	"code": {
+		"value": "C0115:missing-class-docstring",
+		"target": {
+			"$mid": 1,
+			"path": "/en/latest/user_guide/messages/convention/missing-class-docstring.html",
+			"scheme": "https",
+			"authority": "pylint.readthedocs.io"
+		}
+	},
+	"severity": 2,
+	"message": "Missing class docstring",
+	"source": "Pylint",
+	"startLineNumber": 99,
+	"startColumn": 1,
+	"endLineNumber": 99,
+	"endColumn": 20
+},{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/spawner.py",
+	"owner": "_generated_diagnostic_collection_name_#2",
+	"code": {
+		"value": "C0115:missing-class-docstring",
+		"target": {
+			"$mid": 1,
+			"path": "/en/latest/user_guide/messages/convention/missing-class-docstring.html",
+			"scheme": "https",
+			"authority": "pylint.readthedocs.io"
+		}
+	},
+	"severity": 2,
+	"message": "Missing class docstring",
+	"source": "Pylint",
+	"startLineNumber": 106,
+	"startColumn": 1,
+	"endLineNumber": 106,
+	"endColumn": 23
+}]

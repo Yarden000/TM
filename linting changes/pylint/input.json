@@ -1,0 +1,400 @@
+[{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/input.py",
+	"owner": "_generated_diagnostic_collection_name_#2",
+	"code": {
+		"value": "E1101:no-member",
+		"target": {
+			"$mid": 1,
+			"path": "/en/latest/user_guide/messages/error/no-member.html",
+			"scheme": "https",
+			"authority": "pylint.readthedocs.io"
+		}
+	},
+	"severity": 8,
+	"message": "Module 'pygame' has no 'K_w' member",
+	"source": "Pylint",
+	"startLineNumber": 13,
+	"startColumn": 17,
+	"endLineNumber": 13,
+	"endColumn": 27
+},{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/input.py",
+	"owner": "_generated_diagnostic_collection_name_#2",
+	"code": {
+		"value": "E1101:no-member",
+		"target": {
+			"$mid": 1,
+			"path": "/en/latest/user_guide/messages/error/no-member.html",
+			"scheme": "https",
+			"authority": "pylint.readthedocs.io"
+		}
+	},
+	"severity": 8,
+	"message": "Module 'pygame' has no 'K_s' member",
+	"source": "Pylint",
+	"startLineNumber": 15,
+	"startColumn": 17,
+	"endLineNumber": 15,
+	"endColumn": 27
+},{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/input.py",
+	"owner": "_generated_diagnostic_collection_name_#2",
+	"code": {
+		"value": "E1101:no-member",
+		"target": {
+			"$mid": 1,
+			"path": "/en/latest/user_guide/messages/error/no-member.html",
+			"scheme": "https",
+			"authority": "pylint.readthedocs.io"
+		}
+	},
+	"severity": 8,
+	"message": "Module 'pygame' has no 'K_d' member",
+	"source": "Pylint",
+	"startLineNumber": 17,
+	"startColumn": 17,
+	"endLineNumber": 17,
+	"endColumn": 27
+},{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/input.py",
+	"owner": "_generated_diagnostic_collection_name_#2",
+	"code": {
+		"value": "E1101:no-member",
+		"target": {
+			"$mid": 1,
+			"path": "/en/latest/user_guide/messages/error/no-member.html",
+			"scheme": "https",
+			"authority": "pylint.readthedocs.io"
+		}
+	},
+	"severity": 8,
+	"message": "Module 'pygame' has no 'K_a' member",
+	"source": "Pylint",
+	"startLineNumber": 19,
+	"startColumn": 17,
+	"endLineNumber": 19,
+	"endColumn": 27
+},{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/input.py",
+	"owner": "_generated_diagnostic_collection_name_#2",
+	"code": {
+		"value": "E1101:no-member",
+		"target": {
+			"$mid": 1,
+			"path": "/en/latest/user_guide/messages/error/no-member.html",
+			"scheme": "https",
+			"authority": "pylint.readthedocs.io"
+		}
+	},
+	"severity": 8,
+	"message": "Module 'pygame' has no 'K_c' member",
+	"source": "Pylint",
+	"startLineNumber": 23,
+	"startColumn": 17,
+	"endLineNumber": 23,
+	"endColumn": 27
+},{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/input.py",
+	"owner": "_generated_diagnostic_collection_name_#2",
+	"code": {
+		"value": "E1101:no-member",
+		"target": {
+			"$mid": 1,
+			"path": "/en/latest/user_guide/messages/error/no-member.html",
+			"scheme": "https",
+			"authority": "pylint.readthedocs.io"
+		}
+	},
+	"severity": 8,
+	"message": "Module 'pygame' has no 'K_p' member",
+	"source": "Pylint",
+	"startLineNumber": 33,
+	"startColumn": 17,
+	"endLineNumber": 33,
+	"endColumn": 27
+},{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/input.py",
+	"owner": "_generated_diagnostic_collection_name_#2",
+	"code": {
+		"value": "W0611:unused-import",
+		"target": {
+			"$mid": 1,
+			"path": "/en/latest/user_guide/messages/warning/unused-import.html",
+			"scheme": "https",
+			"authority": "pylint.readthedocs.io"
+		}
+	},
+	"severity": 4,
+	"message": "Unused import sys",
+	"source": "Pylint",
+	"startLineNumber": 1,
+	"startColumn": 1,
+	"endLineNumber": 1,
+	"endColumn": 25
+},{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/input.py",
+	"owner": "_generated_diagnostic_collection_name_#2",
+	"code": {
+		"value": "W0611:unused-import",
+		"target": {
+			"$mid": 1,
+			"path": "/en/latest/user_guide/messages/warning/unused-import.html",
+			"scheme": "https",
+			"authority": "pylint.readthedocs.io"
+		}
+	},
+	"severity": 4,
+	"message": "Unused import time",
+	"source": "Pylint",
+	"startLineNumber": 1,
+	"startColumn": 1,
+	"endLineNumber": 1,
+	"endColumn": 25
+},{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/input.py",
+	"owner": "_generated_diagnostic_collection_name_#2",
+	"code": {
+		"value": "C0114:missing-module-docstring",
+		"target": {
+			"$mid": 1,
+			"path": "/en/latest/user_guide/messages/convention/missing-module-docstring.html",
+			"scheme": "https",
+			"authority": "pylint.readthedocs.io"
+		}
+	},
+	"severity": 2,
+	"message": "Missing module docstring",
+	"source": "Pylint",
+	"startLineNumber": 1,
+	"startColumn": 1,
+	"endLineNumber": 1,
+	"endColumn": 1
+},{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/input.py",
+	"owner": "_generated_diagnostic_collection_name_#2",
+	"code": {
+		"value": "C0410:multiple-imports",
+		"target": {
+			"$mid": 1,
+			"path": "/en/latest/user_guide/messages/convention/multiple-imports.html",
+			"scheme": "https",
+			"authority": "pylint.readthedocs.io"
+		}
+	},
+	"severity": 2,
+	"message": "Multiple imports on one line (pygame, sys, time)",
+	"source": "Pylint",
+	"startLineNumber": 1,
+	"startColumn": 1,
+	"endLineNumber": 1,
+	"endColumn": 25
+},{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/input.py",
+	"owner": "_generated_diagnostic_collection_name_#2",
+	"code": {
+		"value": "C0411:wrong-import-order",
+		"target": {
+			"$mid": 1,
+			"path": "/en/latest/user_guide/messages/convention/wrong-import-order.html",
+			"scheme": "https",
+			"authority": "pylint.readthedocs.io"
+		}
+	},
+	"severity": 2,
+	"message": "standard import \"import pygame, sys, time\" should be placed before \"import pygame, sys, time\"",
+	"source": "Pylint",
+	"startLineNumber": 1,
+	"startColumn": 1,
+	"endLineNumber": 1,
+	"endColumn": 25
+},{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/input.py",
+	"owner": "_generated_diagnostic_collection_name_#2",
+	"code": {
+		"value": "C0411:wrong-import-order",
+		"target": {
+			"$mid": 1,
+			"path": "/en/latest/user_guide/messages/convention/wrong-import-order.html",
+			"scheme": "https",
+			"authority": "pylint.readthedocs.io"
+		}
+	},
+	"severity": 2,
+	"message": "standard import \"import pygame, sys, time\" should be placed before \"import pygame, sys, time\"",
+	"source": "Pylint",
+	"startLineNumber": 1,
+	"startColumn": 1,
+	"endLineNumber": 1,
+	"endColumn": 25
+},{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/input.py",
+	"owner": "_generated_diagnostic_collection_name_#2",
+	"code": {
+		"value": "C0115:missing-class-docstring",
+		"target": {
+			"$mid": 1,
+			"path": "/en/latest/user_guide/messages/convention/missing-class-docstring.html",
+			"scheme": "https",
+			"authority": "pylint.readthedocs.io"
+		}
+	},
+	"severity": 2,
+	"message": "Missing class docstring",
+	"source": "Pylint",
+	"startLineNumber": 6,
+	"startColumn": 1,
+	"endLineNumber": 6,
+	"endColumn": 20
+},{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/input.py",
+	"owner": "_generated_diagnostic_collection_name_#2",
+	"code": {
+		"value": "C0103:invalid-name",
+		"target": {
+			"$mid": 1,
+			"path": "/en/latest/user_guide/messages/convention/invalid-name.html",
+			"scheme": "https",
+			"authority": "pylint.readthedocs.io"
+		}
+	},
+	"severity": 2,
+	"message": "Class name \"Input_manager\" doesn't conform to PascalCase naming style",
+	"source": "Pylint",
+	"startLineNumber": 6,
+	"startColumn": 1,
+	"endLineNumber": 6,
+	"endColumn": 20
+},{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/input.py",
+	"owner": "_generated_diagnostic_collection_name_#2",
+	"code": {
+		"value": "C0116:missing-function-docstring",
+		"target": {
+			"$mid": 1,
+			"path": "/en/latest/user_guide/messages/convention/missing-function-docstring.html",
+			"scheme": "https",
+			"authority": "pylint.readthedocs.io"
+		}
+	},
+	"severity": 2,
+	"message": "Missing function or method docstring",
+	"source": "Pylint",
+	"startLineNumber": 10,
+	"startColumn": 5,
+	"endLineNumber": 10,
+	"endColumn": 24
+},{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/input.py",
+	"owner": "_generated_diagnostic_collection_name_#2",
+	"code": {
+		"value": "C0303:trailing-whitespace",
+		"target": {
+			"$mid": 1,
+			"path": "/en/latest/user_guide/messages/convention/trailing-whitespace.html",
+			"scheme": "https",
+			"authority": "pylint.readthedocs.io"
+		}
+	},
+	"severity": 2,
+	"message": "Trailing whitespace",
+	"source": "Pylint",
+	"startLineNumber": 29,
+	"startColumn": 1,
+	"endLineNumber": 29,
+	"endColumn": 1
+},{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/input.py",
+	"owner": "_generated_diagnostic_collection_name_#2",
+	"code": {
+		"value": "C0303:trailing-whitespace",
+		"target": {
+			"$mid": 1,
+			"path": "/en/latest/user_guide/messages/convention/trailing-whitespace.html",
+			"scheme": "https",
+			"authority": "pylint.readthedocs.io"
+		}
+	},
+	"severity": 2,
+	"message": "Trailing whitespace",
+	"source": "Pylint",
+	"startLineNumber": 30,
+	"startColumn": 1,
+	"endLineNumber": 30,
+	"endColumn": 1
+},{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/input.py",
+	"owner": "_generated_diagnostic_collection_name_#2",
+	"code": {
+		"value": "C0116:missing-function-docstring",
+		"target": {
+			"$mid": 1,
+			"path": "/en/latest/user_guide/messages/convention/missing-function-docstring.html",
+			"scheme": "https",
+			"authority": "pylint.readthedocs.io"
+		}
+	},
+	"severity": 2,
+	"message": "Missing function or method docstring",
+	"source": "Pylint",
+	"startLineNumber": 31,
+	"startColumn": 5,
+	"endLineNumber": 31,
+	"endColumn": 21
+},{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/input.py",
+	"owner": "_generated_diagnostic_collection_name_#2",
+	"code": {
+		"value": "C0303:trailing-whitespace",
+		"target": {
+			"$mid": 1,
+			"path": "/en/latest/user_guide/messages/convention/trailing-whitespace.html",
+			"scheme": "https",
+			"authority": "pylint.readthedocs.io"
+		}
+	},
+	"severity": 2,
+	"message": "Trailing whitespace",
+	"source": "Pylint",
+	"startLineNumber": 36,
+	"startColumn": 1,
+	"endLineNumber": 36,
+	"endColumn": 1
+},{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/input.py",
+	"owner": "_generated_diagnostic_collection_name_#2",
+	"code": {
+		"value": "C0116:missing-function-docstring",
+		"target": {
+			"$mid": 1,
+			"path": "/en/latest/user_guide/messages/convention/missing-function-docstring.html",
+			"scheme": "https",
+			"authority": "pylint.readthedocs.io"
+		}
+	},
+	"severity": 2,
+	"message": "Missing function or method docstring",
+	"source": "Pylint",
+	"startLineNumber": 37,
+	"startColumn": 5,
+	"endLineNumber": 37,
+	"endColumn": 21
+},{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/input.py",
+	"owner": "_generated_diagnostic_collection_name_#2",
+	"code": {
+		"value": "C0304:missing-final-newline",
+		"target": {
+			"$mid": 1,
+			"path": "/en/latest/user_guide/messages/convention/missing-final-newline.html",
+			"scheme": "https",
+			"authority": "pylint.readthedocs.io"
+		}
+	},
+	"severity": 2,
+	"message": "Final newline missing",
+	"source": "Pylint",
+	"startLineNumber": 40,
+	"startColumn": 1,
+	"endLineNumber": 40,
+	"endColumn": 1
+}]

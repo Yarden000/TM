@@ -1,0 +1,153 @@
+[{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/camera.py",
+	"owner": "_generated_diagnostic_collection_name_#2",
+	"code": {
+		"value": "W0611:unused-import",
+		"target": {
+			"$mid": 1,
+			"path": "/en/latest/user_guide/messages/warning/unused-import.html",
+			"scheme": "https",
+			"authority": "pylint.readthedocs.io"
+		}
+	},
+	"severity": 4,
+	"message": "Unused import pygame",
+	"source": "Pylint",
+	"startLineNumber": 1,
+	"startColumn": 1,
+	"endLineNumber": 1,
+	"endColumn": 19
+},{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/camera.py",
+	"owner": "_generated_diagnostic_collection_name_#2",
+	"code": {
+		"value": "W0611:unused-import",
+		"target": {
+			"$mid": 1,
+			"path": "/en/latest/user_guide/messages/warning/unused-import.html",
+			"scheme": "https",
+			"authority": "pylint.readthedocs.io"
+		}
+	},
+	"severity": 4,
+	"message": "Unused import sys",
+	"source": "Pylint",
+	"startLineNumber": 1,
+	"startColumn": 1,
+	"endLineNumber": 1,
+	"endColumn": 19
+},{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/camera.py",
+	"owner": "_generated_diagnostic_collection_name_#2",
+	"code": {
+		"value": "C0114:missing-module-docstring",
+		"target": {
+			"$mid": 1,
+			"path": "/en/latest/user_guide/messages/convention/missing-module-docstring.html",
+			"scheme": "https",
+			"authority": "pylint.readthedocs.io"
+		}
+	},
+	"severity": 2,
+	"message": "Missing module docstring",
+	"source": "Pylint",
+	"startLineNumber": 1,
+	"startColumn": 1,
+	"endLineNumber": 1,
+	"endColumn": 1
+},{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/camera.py",
+	"owner": "_generated_diagnostic_collection_name_#2",
+	"code": {
+		"value": "C0410:multiple-imports",
+		"target": {
+			"$mid": 1,
+			"path": "/en/latest/user_guide/messages/convention/multiple-imports.html",
+			"scheme": "https",
+			"authority": "pylint.readthedocs.io"
+		}
+	},
+	"severity": 2,
+	"message": "Multiple imports on one line (pygame, sys)",
+	"source": "Pylint",
+	"startLineNumber": 1,
+	"startColumn": 1,
+	"endLineNumber": 1,
+	"endColumn": 19
+},{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/camera.py",
+	"owner": "_generated_diagnostic_collection_name_#2",
+	"code": {
+		"value": "C0411:wrong-import-order",
+		"target": {
+			"$mid": 1,
+			"path": "/en/latest/user_guide/messages/convention/wrong-import-order.html",
+			"scheme": "https",
+			"authority": "pylint.readthedocs.io"
+		}
+	},
+	"severity": 2,
+	"message": "standard import \"import pygame, sys\" should be placed before \"import pygame, sys\"",
+	"source": "Pylint",
+	"startLineNumber": 1,
+	"startColumn": 1,
+	"endLineNumber": 1,
+	"endColumn": 19
+},{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/camera.py",
+	"owner": "_generated_diagnostic_collection_name_#2",
+	"code": {
+		"value": "C0303:trailing-whitespace",
+		"target": {
+			"$mid": 1,
+			"path": "/en/latest/user_guide/messages/convention/trailing-whitespace.html",
+			"scheme": "https",
+			"authority": "pylint.readthedocs.io"
+		}
+	},
+	"severity": 2,
+	"message": "Trailing whitespace",
+	"source": "Pylint",
+	"startLineNumber": 3,
+	"startColumn": 11,
+	"endLineNumber": 3,
+	"endColumn": 11
+},{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/camera.py",
+	"owner": "_generated_diagnostic_collection_name_#2",
+	"code": {
+		"value": "C0303:trailing-whitespace",
+		"target": {
+			"$mid": 1,
+			"path": "/en/latest/user_guide/messages/convention/trailing-whitespace.html",
+			"scheme": "https",
+			"authority": "pylint.readthedocs.io"
+		}
+	},
+	"severity": 2,
+	"message": "Trailing whitespace",
+	"source": "Pylint",
+	"startLineNumber": 4,
+	"startColumn": 12,
+	"endLineNumber": 4,
+	"endColumn": 12
+},{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/camera.py",
+	"owner": "_generated_diagnostic_collection_name_#2",
+	"code": {
+		"value": "C0115:missing-class-docstring",
+		"target": {
+			"$mid": 1,
+			"path": "/en/latest/user_guide/messages/convention/missing-class-docstring.html",
+			"scheme": "https",
+			"authority": "pylint.readthedocs.io"
+		}
+	},
+	"severity": 2,
+	"message": "Missing class docstring",
+	"source": "Pylint",
+	"startLineNumber": 9,
+	"startColumn": 1,
+	"endLineNumber": 9,
+	"endColumn": 13
+}]

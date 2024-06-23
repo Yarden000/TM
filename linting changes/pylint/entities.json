@@ -1,0 +1,2034 @@
+[{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/entities.py",
+	"owner": "_generated_diagnostic_collection_name_#2",
+	"code": {
+		"value": "E1101:no-member",
+		"target": {
+			"$mid": 1,
+			"path": "/en/latest/user_guide/messages/error/no-member.html",
+			"scheme": "https",
+			"authority": "pylint.readthedocs.io"
+		}
+	},
+	"severity": 8,
+	"message": "Instance of 'Rectangle' has no 'vectors' member",
+	"source": "Pylint",
+	"startLineNumber": 198,
+	"startColumn": 9,
+	"endLineNumber": 198,
+	"endColumn": 21
+},{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/entities.py",
+	"owner": "_generated_diagnostic_collection_name_#2",
+	"code": {
+		"value": "E1101:no-member",
+		"target": {
+			"$mid": 1,
+			"path": "/en/latest/user_guide/messages/error/no-member.html",
+			"scheme": "https",
+			"authority": "pylint.readthedocs.io"
+		}
+	},
+	"severity": 8,
+	"message": "Instance of 'Rectangle' has no 'vectors' member",
+	"source": "Pylint",
+	"startLineNumber": 198,
+	"startColumn": 27,
+	"endLineNumber": 198,
+	"endColumn": 39
+},{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/entities.py",
+	"owner": "_generated_diagnostic_collection_name_#2",
+	"code": {
+		"value": "E1101:no-member",
+		"target": {
+			"$mid": 1,
+			"path": "/en/latest/user_guide/messages/error/no-member.html",
+			"scheme": "https",
+			"authority": "pylint.readthedocs.io"
+		}
+	},
+	"severity": 8,
+	"message": "Instance of 'Rectangle' has no 'vectors' member",
+	"source": "Pylint",
+	"startLineNumber": 199,
+	"startColumn": 9,
+	"endLineNumber": 199,
+	"endColumn": 21
+},{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/entities.py",
+	"owner": "_generated_diagnostic_collection_name_#2",
+	"code": {
+		"value": "E1101:no-member",
+		"target": {
+			"$mid": 1,
+			"path": "/en/latest/user_guide/messages/error/no-member.html",
+			"scheme": "https",
+			"authority": "pylint.readthedocs.io"
+		}
+	},
+	"severity": 8,
+	"message": "Instance of 'Rectangle' has no 'vectors' member",
+	"source": "Pylint",
+	"startLineNumber": 199,
+	"startColumn": 27,
+	"endLineNumber": 199,
+	"endColumn": 39
+},{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/entities.py",
+	"owner": "_generated_diagnostic_collection_name_#2",
+	"code": {
+		"value": "E1101:no-member",
+		"target": {
+			"$mid": 1,
+			"path": "/en/latest/user_guide/messages/error/no-member.html",
+			"scheme": "https",
+			"authority": "pylint.readthedocs.io"
+		}
+	},
+	"severity": 8,
+	"message": "Instance of 'Rectangle' has no 'vectors' member",
+	"source": "Pylint",
+	"startLineNumber": 203,
+	"startColumn": 9,
+	"endLineNumber": 203,
+	"endColumn": 21
+},{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/entities.py",
+	"owner": "_generated_diagnostic_collection_name_#2",
+	"code": {
+		"value": "E1101:no-member",
+		"target": {
+			"$mid": 1,
+			"path": "/en/latest/user_guide/messages/error/no-member.html",
+			"scheme": "https",
+			"authority": "pylint.readthedocs.io"
+		}
+	},
+	"severity": 8,
+	"message": "Instance of 'Rectangle' has no 'vectors' member",
+	"source": "Pylint",
+	"startLineNumber": 203,
+	"startColumn": 27,
+	"endLineNumber": 203,
+	"endColumn": 39
+},{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/entities.py",
+	"owner": "_generated_diagnostic_collection_name_#2",
+	"code": {
+		"value": "E1101:no-member",
+		"target": {
+			"$mid": 1,
+			"path": "/en/latest/user_guide/messages/error/no-member.html",
+			"scheme": "https",
+			"authority": "pylint.readthedocs.io"
+		}
+	},
+	"severity": 8,
+	"message": "Instance of 'Rectangle' has no 'vectors' member",
+	"source": "Pylint",
+	"startLineNumber": 204,
+	"startColumn": 9,
+	"endLineNumber": 204,
+	"endColumn": 21
+},{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/entities.py",
+	"owner": "_generated_diagnostic_collection_name_#2",
+	"code": {
+		"value": "E1101:no-member",
+		"target": {
+			"$mid": 1,
+			"path": "/en/latest/user_guide/messages/error/no-member.html",
+			"scheme": "https",
+			"authority": "pylint.readthedocs.io"
+		}
+	},
+	"severity": 8,
+	"message": "Instance of 'Rectangle' has no 'vectors' member",
+	"source": "Pylint",
+	"startLineNumber": 204,
+	"startColumn": 27,
+	"endLineNumber": 204,
+	"endColumn": 39
+},{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/entities.py",
+	"owner": "_generated_diagnostic_collection_name_#2",
+	"code": {
+		"value": "E1120:no-value-for-parameter",
+		"target": {
+			"$mid": 1,
+			"path": "/en/latest/user_guide/messages/error/no-value-for-parameter.html",
+			"scheme": "https",
+			"authority": "pylint.readthedocs.io"
+		}
+	},
+	"severity": 8,
+	"message": "No value for argument 'pos' in method call",
+	"source": "Pylint",
+	"startLineNumber": 370,
+	"startColumn": 9,
+	"endLineNumber": 370,
+	"endColumn": 27
+},{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/entities.py",
+	"owner": "_generated_diagnostic_collection_name_#2",
+	"code": {
+		"value": "E1120:no-value-for-parameter",
+		"target": {
+			"$mid": 1,
+			"path": "/en/latest/user_guide/messages/error/no-value-for-parameter.html",
+			"scheme": "https",
+			"authority": "pylint.readthedocs.io"
+		}
+	},
+	"severity": 8,
+	"message": "No value for argument 'entitie_manager' in method call",
+	"source": "Pylint",
+	"startLineNumber": 370,
+	"startColumn": 9,
+	"endLineNumber": 370,
+	"endColumn": 27
+},{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/entities.py",
+	"owner": "_generated_diagnostic_collection_name_#2",
+	"code": {
+		"value": "W0611:unused-import",
+		"target": {
+			"$mid": 1,
+			"path": "/en/latest/user_guide/messages/warning/unused-import.html",
+			"scheme": "https",
+			"authority": "pylint.readthedocs.io"
+		}
+	},
+	"severity": 4,
+	"message": "Unused import sys",
+	"source": "Pylint",
+	"startLineNumber": 1,
+	"startColumn": 1,
+	"endLineNumber": 1,
+	"endColumn": 25
+},{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/entities.py",
+	"owner": "_generated_diagnostic_collection_name_#2",
+	"code": {
+		"value": "W0201:attribute-defined-outside-init",
+		"target": {
+			"$mid": 1,
+			"path": "/en/latest/user_guide/messages/warning/attribute-defined-outside-init.html",
+			"scheme": "https",
+			"authority": "pylint.readthedocs.io"
+		}
+	},
+	"severity": 4,
+	"message": "Attribute 'region' defined outside __init__",
+	"source": "Pylint",
+	"startLineNumber": 30,
+	"startColumn": 9,
+	"endLineNumber": 30,
+	"endColumn": 27
+},{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/entities.py",
+	"owner": "_generated_diagnostic_collection_name_#2",
+	"code": {
+		"value": "W0105:pointless-string-statement",
+		"target": {
+			"$mid": 1,
+			"path": "/en/latest/user_guide/messages/warning/pointless-string-statement.html",
+			"scheme": "https",
+			"authority": "pylint.readthedocs.io"
+		}
+	},
+	"severity": 4,
+	"message": "String statement has no effect",
+	"source": "Pylint",
+	"startLineNumber": 88,
+	"startColumn": 37,
+	"endLineNumber": 89,
+	"endColumn": 69
+},{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/entities.py",
+	"owner": "_generated_diagnostic_collection_name_#2",
+	"code": {
+		"value": "W0613:unused-argument",
+		"target": {
+			"$mid": 1,
+			"path": "/en/latest/user_guide/messages/warning/unused-argument.html",
+			"scheme": "https",
+			"authority": "pylint.readthedocs.io"
+		}
+	},
+	"severity": 4,
+	"message": "Unused argument 'do_pushout'",
+	"source": "Pylint",
+	"startLineNumber": 94,
+	"startColumn": 44,
+	"endLineNumber": 94,
+	"endColumn": 54
+},{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/entities.py",
+	"owner": "_generated_diagnostic_collection_name_#2",
+	"code": {
+		"value": "W0105:pointless-string-statement",
+		"target": {
+			"$mid": 1,
+			"path": "/en/latest/user_guide/messages/warning/pointless-string-statement.html",
+			"scheme": "https",
+			"authority": "pylint.readthedocs.io"
+		}
+	},
+	"severity": 4,
+	"message": "String statement has no effect",
+	"source": "Pylint",
+	"startLineNumber": 110,
+	"startColumn": 33,
+	"endLineNumber": 111,
+	"endColumn": 65
+},{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/entities.py",
+	"owner": "_generated_diagnostic_collection_name_#2",
+	"code": {
+		"value": "W0612:unused-variable",
+		"target": {
+			"$mid": 1,
+			"path": "/en/latest/user_guide/messages/warning/unused-variable.html",
+			"scheme": "https",
+			"authority": "pylint.readthedocs.io"
+		}
+	},
+	"severity": 4,
+	"message": "Unused variable 'start'",
+	"source": "Pylint",
+	"startLineNumber": 160,
+	"startColumn": 9,
+	"endLineNumber": 160,
+	"endColumn": 14
+},{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/entities.py",
+	"owner": "_generated_diagnostic_collection_name_#2",
+	"code": {
+		"value": "W0612:unused-variable",
+		"target": {
+			"$mid": 1,
+			"path": "/en/latest/user_guide/messages/warning/unused-variable.html",
+			"scheme": "https",
+			"authority": "pylint.readthedocs.io"
+		}
+	},
+	"severity": 4,
+	"message": "Unused variable 'end'",
+	"source": "Pylint",
+	"startLineNumber": 162,
+	"startColumn": 9,
+	"endLineNumber": 162,
+	"endColumn": 12
+},{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/entities.py",
+	"owner": "_generated_diagnostic_collection_name_#2",
+	"code": {
+		"value": "W0612:unused-variable",
+		"target": {
+			"$mid": 1,
+			"path": "/en/latest/user_guide/messages/warning/unused-variable.html",
+			"scheme": "https",
+			"authority": "pylint.readthedocs.io"
+		}
+	},
+	"severity": 4,
+	"message": "Unused variable 'poushout'",
+	"source": "Pylint",
+	"startLineNumber": 354,
+	"startColumn": 46,
+	"endLineNumber": 354,
+	"endColumn": 54
+},{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/entities.py",
+	"owner": "_generated_diagnostic_collection_name_#2",
+	"code": {
+		"value": "W0246:useless-parent-delegation",
+		"target": {
+			"$mid": 1,
+			"path": "/en/latest/user_guide/messages/warning/useless-parent-delegation.html",
+			"scheme": "https",
+			"authority": "pylint.readthedocs.io"
+		}
+	},
+	"severity": 4,
+	"message": "Useless parent or super() delegation in method '__init__'",
+	"source": "Pylint",
+	"startLineNumber": 369,
+	"startColumn": 5,
+	"endLineNumber": 369,
+	"endColumn": 17
+},{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/entities.py",
+	"owner": "_generated_diagnostic_collection_name_#2",
+	"code": {
+		"value": "C0114:missing-module-docstring",
+		"target": {
+			"$mid": 1,
+			"path": "/en/latest/user_guide/messages/convention/missing-module-docstring.html",
+			"scheme": "https",
+			"authority": "pylint.readthedocs.io"
+		}
+	},
+	"severity": 2,
+	"message": "Missing module docstring",
+	"source": "Pylint",
+	"startLineNumber": 1,
+	"startColumn": 1,
+	"endLineNumber": 1,
+	"endColumn": 1
+},{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/entities.py",
+	"owner": "_generated_diagnostic_collection_name_#2",
+	"code": {
+		"value": "C0410:multiple-imports",
+		"target": {
+			"$mid": 1,
+			"path": "/en/latest/user_guide/messages/convention/multiple-imports.html",
+			"scheme": "https",
+			"authority": "pylint.readthedocs.io"
+		}
+	},
+	"severity": 2,
+	"message": "Multiple imports on one line (pygame, sys, time)",
+	"source": "Pylint",
+	"startLineNumber": 1,
+	"startColumn": 1,
+	"endLineNumber": 1,
+	"endColumn": 25
+},{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/entities.py",
+	"owner": "_generated_diagnostic_collection_name_#2",
+	"code": {
+		"value": "C0411:wrong-import-order",
+		"target": {
+			"$mid": 1,
+			"path": "/en/latest/user_guide/messages/convention/wrong-import-order.html",
+			"scheme": "https",
+			"authority": "pylint.readthedocs.io"
+		}
+	},
+	"severity": 2,
+	"message": "standard import \"import pygame, sys, time\" should be placed before \"import pygame, sys, time\"",
+	"source": "Pylint",
+	"startLineNumber": 1,
+	"startColumn": 1,
+	"endLineNumber": 1,
+	"endColumn": 25
+},{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/entities.py",
+	"owner": "_generated_diagnostic_collection_name_#2",
+	"code": {
+		"value": "C0411:wrong-import-order",
+		"target": {
+			"$mid": 1,
+			"path": "/en/latest/user_guide/messages/convention/wrong-import-order.html",
+			"scheme": "https",
+			"authority": "pylint.readthedocs.io"
+		}
+	},
+	"severity": 2,
+	"message": "standard import \"import pygame, sys, time\" should be placed before \"import pygame, sys, time\"",
+	"source": "Pylint",
+	"startLineNumber": 1,
+	"startColumn": 1,
+	"endLineNumber": 1,
+	"endColumn": 25
+},{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/entities.py",
+	"owner": "_generated_diagnostic_collection_name_#2",
+	"code": {
+		"value": "C0411:wrong-import-order",
+		"target": {
+			"$mid": 1,
+			"path": "/en/latest/user_guide/messages/convention/wrong-import-order.html",
+			"scheme": "https",
+			"authority": "pylint.readthedocs.io"
+		}
+	},
+	"severity": 2,
+	"message": "standard import \"import random\" should be placed before \"import pygame, sys, time\"",
+	"source": "Pylint",
+	"startLineNumber": 2,
+	"startColumn": 1,
+	"endLineNumber": 2,
+	"endColumn": 14
+},{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/entities.py",
+	"owner": "_generated_diagnostic_collection_name_#2",
+	"code": {
+		"value": "C0411:wrong-import-order",
+		"target": {
+			"$mid": 1,
+			"path": "/en/latest/user_guide/messages/convention/wrong-import-order.html",
+			"scheme": "https",
+			"authority": "pylint.readthedocs.io"
+		}
+	},
+	"severity": 2,
+	"message": "standard import \"import math\" should be placed before \"import pygame, sys, time\"",
+	"source": "Pylint",
+	"startLineNumber": 3,
+	"startColumn": 1,
+	"endLineNumber": 3,
+	"endColumn": 12
+},{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/entities.py",
+	"owner": "_generated_diagnostic_collection_name_#2",
+	"code": {
+		"value": "C0303:trailing-whitespace",
+		"target": {
+			"$mid": 1,
+			"path": "/en/latest/user_guide/messages/convention/trailing-whitespace.html",
+			"scheme": "https",
+			"authority": "pylint.readthedocs.io"
+		}
+	},
+	"severity": 2,
+	"message": "Trailing whitespace",
+	"source": "Pylint",
+	"startLineNumber": 5,
+	"startColumn": 11,
+	"endLineNumber": 5,
+	"endColumn": 11
+},{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/entities.py",
+	"owner": "_generated_diagnostic_collection_name_#2",
+	"code": {
+		"value": "C0303:trailing-whitespace",
+		"target": {
+			"$mid": 1,
+			"path": "/en/latest/user_guide/messages/convention/trailing-whitespace.html",
+			"scheme": "https",
+			"authority": "pylint.readthedocs.io"
+		}
+	},
+	"severity": 2,
+	"message": "Trailing whitespace",
+	"source": "Pylint",
+	"startLineNumber": 6,
+	"startColumn": 12,
+	"endLineNumber": 6,
+	"endColumn": 12
+},{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/entities.py",
+	"owner": "_generated_diagnostic_collection_name_#2",
+	"code": {
+		"value": "C0303:trailing-whitespace",
+		"target": {
+			"$mid": 1,
+			"path": "/en/latest/user_guide/messages/convention/trailing-whitespace.html",
+			"scheme": "https",
+			"authority": "pylint.readthedocs.io"
+		}
+	},
+	"severity": 2,
+	"message": "Trailing whitespace",
+	"source": "Pylint",
+	"startLineNumber": 7,
+	"startColumn": 11,
+	"endLineNumber": 7,
+	"endColumn": 11
+},{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/entities.py",
+	"owner": "_generated_diagnostic_collection_name_#2",
+	"code": {
+		"value": "C0115:missing-class-docstring",
+		"target": {
+			"$mid": 1,
+			"path": "/en/latest/user_guide/messages/convention/missing-class-docstring.html",
+			"scheme": "https",
+			"authority": "pylint.readthedocs.io"
+		}
+	},
+	"severity": 2,
+	"message": "Missing class docstring",
+	"source": "Pylint",
+	"startLineNumber": 14,
+	"startColumn": 1,
+	"endLineNumber": 14,
+	"endColumn": 20
+},{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/entities.py",
+	"owner": "_generated_diagnostic_collection_name_#2",
+	"code": {
+		"value": "C0303:trailing-whitespace",
+		"target": {
+			"$mid": 1,
+			"path": "/en/latest/user_guide/messages/convention/trailing-whitespace.html",
+			"scheme": "https",
+			"authority": "pylint.readthedocs.io"
+		}
+	},
+	"severity": 2,
+	"message": "Trailing whitespace",
+	"source": "Pylint",
+	"startLineNumber": 24,
+	"startColumn": 1,
+	"endLineNumber": 24,
+	"endColumn": 1
+},{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/entities.py",
+	"owner": "_generated_diagnostic_collection_name_#2",
+	"code": {
+		"value": "C0116:missing-function-docstring",
+		"target": {
+			"$mid": 1,
+			"path": "/en/latest/user_guide/messages/convention/missing-function-docstring.html",
+			"scheme": "https",
+			"authority": "pylint.readthedocs.io"
+		}
+	},
+	"severity": 2,
+	"message": "Missing function or method docstring",
+	"source": "Pylint",
+	"startLineNumber": 26,
+	"startColumn": 5,
+	"endLineNumber": 26,
+	"endColumn": 19
+},{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/entities.py",
+	"owner": "_generated_diagnostic_collection_name_#2",
+	"code": {
+		"value": "C0303:trailing-whitespace",
+		"target": {
+			"$mid": 1,
+			"path": "/en/latest/user_guide/messages/convention/trailing-whitespace.html",
+			"scheme": "https",
+			"authority": "pylint.readthedocs.io"
+		}
+	},
+	"severity": 2,
+	"message": "Trailing whitespace",
+	"source": "Pylint",
+	"startLineNumber": 32,
+	"startColumn": 1,
+	"endLineNumber": 32,
+	"endColumn": 1
+},{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/entities.py",
+	"owner": "_generated_diagnostic_collection_name_#2",
+	"code": {
+		"value": "C0116:missing-function-docstring",
+		"target": {
+			"$mid": 1,
+			"path": "/en/latest/user_guide/messages/convention/missing-function-docstring.html",
+			"scheme": "https",
+			"authority": "pylint.readthedocs.io"
+		}
+	},
+	"severity": 2,
+	"message": "Missing function or method docstring",
+	"source": "Pylint",
+	"startLineNumber": 33,
+	"startColumn": 5,
+	"endLineNumber": 33,
+	"endColumn": 18
+},{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/entities.py",
+	"owner": "_generated_diagnostic_collection_name_#2",
+	"code": {
+		"value": "C0303:trailing-whitespace",
+		"target": {
+			"$mid": 1,
+			"path": "/en/latest/user_guide/messages/convention/trailing-whitespace.html",
+			"scheme": "https",
+			"authority": "pylint.readthedocs.io"
+		}
+	},
+	"severity": 2,
+	"message": "Trailing whitespace",
+	"source": "Pylint",
+	"startLineNumber": 33,
+	"startColumn": 47,
+	"endLineNumber": 33,
+	"endColumn": 47
+},{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/entities.py",
+	"owner": "_generated_diagnostic_collection_name_#2",
+	"code": {
+		"value": "C0116:missing-function-docstring",
+		"target": {
+			"$mid": 1,
+			"path": "/en/latest/user_guide/messages/convention/missing-function-docstring.html",
+			"scheme": "https",
+			"authority": "pylint.readthedocs.io"
+		}
+	},
+	"severity": 2,
+	"message": "Missing function or method docstring",
+	"source": "Pylint",
+	"startLineNumber": 44,
+	"startColumn": 5,
+	"endLineNumber": 44,
+	"endColumn": 26
+},{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/entities.py",
+	"owner": "_generated_diagnostic_collection_name_#2",
+	"code": {
+		"value": "C0116:missing-function-docstring",
+		"target": {
+			"$mid": 1,
+			"path": "/en/latest/user_guide/messages/convention/missing-function-docstring.html",
+			"scheme": "https",
+			"authority": "pylint.readthedocs.io"
+		}
+	},
+	"severity": 2,
+	"message": "Missing function or method docstring",
+	"source": "Pylint",
+	"startLineNumber": 58,
+	"startColumn": 5,
+	"endLineNumber": 58,
+	"endColumn": 23
+},{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/entities.py",
+	"owner": "_generated_diagnostic_collection_name_#2",
+	"code": {
+		"value": "C0116:missing-function-docstring",
+		"target": {
+			"$mid": 1,
+			"path": "/en/latest/user_guide/messages/convention/missing-function-docstring.html",
+			"scheme": "https",
+			"authority": "pylint.readthedocs.io"
+		}
+	},
+	"severity": 2,
+	"message": "Missing function or method docstring",
+	"source": "Pylint",
+	"startLineNumber": 62,
+	"startColumn": 5,
+	"endLineNumber": 62,
+	"endColumn": 20
+},{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/entities.py",
+	"owner": "_generated_diagnostic_collection_name_#2",
+	"code": {
+		"value": "C0301:line-too-long",
+		"target": {
+			"$mid": 1,
+			"path": "/en/latest/user_guide/messages/convention/line-too-long.html",
+			"scheme": "https",
+			"authority": "pylint.readthedocs.io"
+		}
+	},
+	"severity": 2,
+	"message": "Line too long (151/100)",
+	"source": "Pylint",
+	"startLineNumber": 71,
+	"startColumn": 1,
+	"endLineNumber": 71,
+	"endColumn": 1
+},{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/entities.py",
+	"owner": "_generated_diagnostic_collection_name_#2",
+	"code": {
+		"value": "C0303:trailing-whitespace",
+		"target": {
+			"$mid": 1,
+			"path": "/en/latest/user_guide/messages/convention/trailing-whitespace.html",
+			"scheme": "https",
+			"authority": "pylint.readthedocs.io"
+		}
+	},
+	"severity": 2,
+	"message": "Trailing whitespace",
+	"source": "Pylint",
+	"startLineNumber": 73,
+	"startColumn": 1,
+	"endLineNumber": 73,
+	"endColumn": 1
+},{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/entities.py",
+	"owner": "_generated_diagnostic_collection_name_#2",
+	"code": {
+		"value": "C0116:missing-function-docstring",
+		"target": {
+			"$mid": 1,
+			"path": "/en/latest/user_guide/messages/convention/missing-function-docstring.html",
+			"scheme": "https",
+			"authority": "pylint.readthedocs.io"
+		}
+	},
+	"severity": 2,
+	"message": "Missing function or method docstring",
+	"source": "Pylint",
+	"startLineNumber": 74,
+	"startColumn": 5,
+	"endLineNumber": 74,
+	"endColumn": 31
+},{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/entities.py",
+	"owner": "_generated_diagnostic_collection_name_#2",
+	"code": {
+		"value": "C0301:line-too-long",
+		"target": {
+			"$mid": 1,
+			"path": "/en/latest/user_guide/messages/convention/line-too-long.html",
+			"scheme": "https",
+			"authority": "pylint.readthedocs.io"
+		}
+	},
+	"severity": 2,
+	"message": "Line too long (114/100)",
+	"source": "Pylint",
+	"startLineNumber": 83,
+	"startColumn": 1,
+	"endLineNumber": 83,
+	"endColumn": 1
+},{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/entities.py",
+	"owner": "_generated_diagnostic_collection_name_#2",
+	"code": {
+		"value": "C0303:trailing-whitespace",
+		"target": {
+			"$mid": 1,
+			"path": "/en/latest/user_guide/messages/convention/trailing-whitespace.html",
+			"scheme": "https",
+			"authority": "pylint.readthedocs.io"
+		}
+	},
+	"severity": 2,
+	"message": "Trailing whitespace",
+	"source": "Pylint",
+	"startLineNumber": 93,
+	"startColumn": 1,
+	"endLineNumber": 93,
+	"endColumn": 1
+},{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/entities.py",
+	"owner": "_generated_diagnostic_collection_name_#2",
+	"code": {
+		"value": "C0116:missing-function-docstring",
+		"target": {
+			"$mid": 1,
+			"path": "/en/latest/user_guide/messages/convention/missing-function-docstring.html",
+			"scheme": "https",
+			"authority": "pylint.readthedocs.io"
+		}
+	},
+	"severity": 2,
+	"message": "Missing function or method docstring",
+	"source": "Pylint",
+	"startLineNumber": 94,
+	"startColumn": 5,
+	"endLineNumber": 94,
+	"endColumn": 32
+},{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/entities.py",
+	"owner": "_generated_diagnostic_collection_name_#2",
+	"code": {
+		"value": "C0301:line-too-long",
+		"target": {
+			"$mid": 1,
+			"path": "/en/latest/user_guide/messages/convention/line-too-long.html",
+			"scheme": "https",
+			"authority": "pylint.readthedocs.io"
+		}
+	},
+	"severity": 2,
+	"message": "Line too long (114/100)",
+	"source": "Pylint",
+	"startLineNumber": 105,
+	"startColumn": 1,
+	"endLineNumber": 105,
+	"endColumn": 1
+},{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/entities.py",
+	"owner": "_generated_diagnostic_collection_name_#2",
+	"code": {
+		"value": "C0303:trailing-whitespace",
+		"target": {
+			"$mid": 1,
+			"path": "/en/latest/user_guide/messages/convention/trailing-whitespace.html",
+			"scheme": "https",
+			"authority": "pylint.readthedocs.io"
+		}
+	},
+	"severity": 2,
+	"message": "Trailing whitespace",
+	"source": "Pylint",
+	"startLineNumber": 115,
+	"startColumn": 1,
+	"endLineNumber": 115,
+	"endColumn": 1
+},{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/entities.py",
+	"owner": "_generated_diagnostic_collection_name_#2",
+	"code": {
+		"value": "C0116:missing-function-docstring",
+		"target": {
+			"$mid": 1,
+			"path": "/en/latest/user_guide/messages/convention/missing-function-docstring.html",
+			"scheme": "https",
+			"authority": "pylint.readthedocs.io"
+		}
+	},
+	"severity": 2,
+	"message": "Missing function or method docstring",
+	"source": "Pylint",
+	"startLineNumber": 116,
+	"startColumn": 5,
+	"endLineNumber": 116,
+	"endColumn": 16
+},{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/entities.py",
+	"owner": "_generated_diagnostic_collection_name_#2",
+	"code": {
+		"value": "C0303:trailing-whitespace",
+		"target": {
+			"$mid": 1,
+			"path": "/en/latest/user_guide/messages/convention/trailing-whitespace.html",
+			"scheme": "https",
+			"authority": "pylint.readthedocs.io"
+		}
+	},
+	"severity": 2,
+	"message": "Trailing whitespace",
+	"source": "Pylint",
+	"startLineNumber": 119,
+	"startColumn": 44,
+	"endLineNumber": 119,
+	"endColumn": 44
+},{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/entities.py",
+	"owner": "_generated_diagnostic_collection_name_#2",
+	"code": {
+		"value": "C0303:trailing-whitespace",
+		"target": {
+			"$mid": 1,
+			"path": "/en/latest/user_guide/messages/convention/trailing-whitespace.html",
+			"scheme": "https",
+			"authority": "pylint.readthedocs.io"
+		}
+	},
+	"severity": 2,
+	"message": "Trailing whitespace",
+	"source": "Pylint",
+	"startLineNumber": 120,
+	"startColumn": 46,
+	"endLineNumber": 120,
+	"endColumn": 46
+},{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/entities.py",
+	"owner": "_generated_diagnostic_collection_name_#2",
+	"code": {
+		"value": "C0303:trailing-whitespace",
+		"target": {
+			"$mid": 1,
+			"path": "/en/latest/user_guide/messages/convention/trailing-whitespace.html",
+			"scheme": "https",
+			"authority": "pylint.readthedocs.io"
+		}
+	},
+	"severity": 2,
+	"message": "Trailing whitespace",
+	"source": "Pylint",
+	"startLineNumber": 122,
+	"startColumn": 40,
+	"endLineNumber": 122,
+	"endColumn": 40
+},{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/entities.py",
+	"owner": "_generated_diagnostic_collection_name_#2",
+	"code": {
+		"value": "C0303:trailing-whitespace",
+		"target": {
+			"$mid": 1,
+			"path": "/en/latest/user_guide/messages/convention/trailing-whitespace.html",
+			"scheme": "https",
+			"authority": "pylint.readthedocs.io"
+		}
+	},
+	"severity": 2,
+	"message": "Trailing whitespace",
+	"source": "Pylint",
+	"startLineNumber": 125,
+	"startColumn": 42,
+	"endLineNumber": 125,
+	"endColumn": 42
+},{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/entities.py",
+	"owner": "_generated_diagnostic_collection_name_#2",
+	"code": {
+		"value": "C0303:trailing-whitespace",
+		"target": {
+			"$mid": 1,
+			"path": "/en/latest/user_guide/messages/convention/trailing-whitespace.html",
+			"scheme": "https",
+			"authority": "pylint.readthedocs.io"
+		}
+	},
+	"severity": 2,
+	"message": "Trailing whitespace",
+	"source": "Pylint",
+	"startLineNumber": 129,
+	"startColumn": 1,
+	"endLineNumber": 129,
+	"endColumn": 1
+},{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/entities.py",
+	"owner": "_generated_diagnostic_collection_name_#2",
+	"code": {
+		"value": "C0116:missing-function-docstring",
+		"target": {
+			"$mid": 1,
+			"path": "/en/latest/user_guide/messages/convention/missing-function-docstring.html",
+			"scheme": "https",
+			"authority": "pylint.readthedocs.io"
+		}
+	},
+	"severity": 2,
+	"message": "Missing function or method docstring",
+	"source": "Pylint",
+	"startLineNumber": 130,
+	"startColumn": 5,
+	"endLineNumber": 130,
+	"endColumn": 18
+},{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/entities.py",
+	"owner": "_generated_diagnostic_collection_name_#2",
+	"code": {
+		"value": "C0303:trailing-whitespace",
+		"target": {
+			"$mid": 1,
+			"path": "/en/latest/user_guide/messages/convention/trailing-whitespace.html",
+			"scheme": "https",
+			"authority": "pylint.readthedocs.io"
+		}
+	},
+	"severity": 2,
+	"message": "Trailing whitespace",
+	"source": "Pylint",
+	"startLineNumber": 137,
+	"startColumn": 76,
+	"endLineNumber": 137,
+	"endColumn": 76
+},{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/entities.py",
+	"owner": "_generated_diagnostic_collection_name_#2",
+	"code": {
+		"value": "C0116:missing-function-docstring",
+		"target": {
+			"$mid": 1,
+			"path": "/en/latest/user_guide/messages/convention/missing-function-docstring.html",
+			"scheme": "https",
+			"authority": "pylint.readthedocs.io"
+		}
+	},
+	"severity": 2,
+	"message": "Missing function or method docstring",
+	"source": "Pylint",
+	"startLineNumber": 143,
+	"startColumn": 5,
+	"endLineNumber": 143,
+	"endColumn": 22
+},{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/entities.py",
+	"owner": "_generated_diagnostic_collection_name_#2",
+	"code": {
+		"value": "C0116:missing-function-docstring",
+		"target": {
+			"$mid": 1,
+			"path": "/en/latest/user_guide/messages/convention/missing-function-docstring.html",
+			"scheme": "https",
+			"authority": "pylint.readthedocs.io"
+		}
+	},
+	"severity": 2,
+	"message": "Missing function or method docstring",
+	"source": "Pylint",
+	"startLineNumber": 151,
+	"startColumn": 5,
+	"endLineNumber": 151,
+	"endColumn": 12
+},{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/entities.py",
+	"owner": "_generated_diagnostic_collection_name_#2",
+	"code": {
+		"value": "C0116:missing-function-docstring",
+		"target": {
+			"$mid": 1,
+			"path": "/en/latest/user_guide/messages/convention/missing-function-docstring.html",
+			"scheme": "https",
+			"authority": "pylint.readthedocs.io"
+		}
+	},
+	"severity": 2,
+	"message": "Missing function or method docstring",
+	"source": "Pylint",
+	"startLineNumber": 165,
+	"startColumn": 5,
+	"endLineNumber": 165,
+	"endColumn": 21
+},{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/entities.py",
+	"owner": "_generated_diagnostic_collection_name_#2",
+	"code": {
+		"value": "C0301:line-too-long",
+		"target": {
+			"$mid": 1,
+			"path": "/en/latest/user_guide/messages/convention/line-too-long.html",
+			"scheme": "https",
+			"authority": "pylint.readthedocs.io"
+		}
+	},
+	"severity": 2,
+	"message": "Line too long (172/100)",
+	"source": "Pylint",
+	"startLineNumber": 169,
+	"startColumn": 1,
+	"endLineNumber": 169,
+	"endColumn": 1
+},{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/entities.py",
+	"owner": "_generated_diagnostic_collection_name_#2",
+	"code": {
+		"value": "C0301:line-too-long",
+		"target": {
+			"$mid": 1,
+			"path": "/en/latest/user_guide/messages/convention/line-too-long.html",
+			"scheme": "https",
+			"authority": "pylint.readthedocs.io"
+		}
+	},
+	"severity": 2,
+	"message": "Line too long (172/100)",
+	"source": "Pylint",
+	"startLineNumber": 170,
+	"startColumn": 1,
+	"endLineNumber": 170,
+	"endColumn": 1
+},{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/entities.py",
+	"owner": "_generated_diagnostic_collection_name_#2",
+	"code": {
+		"value": "C0115:missing-class-docstring",
+		"target": {
+			"$mid": 1,
+			"path": "/en/latest/user_guide/messages/convention/missing-class-docstring.html",
+			"scheme": "https",
+			"authority": "pylint.readthedocs.io"
+		}
+	},
+	"severity": 2,
+	"message": "Missing class docstring",
+	"source": "Pylint",
+	"startLineNumber": 173,
+	"startColumn": 1,
+	"endLineNumber": 173,
+	"endColumn": 13
+},{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/entities.py",
+	"owner": "_generated_diagnostic_collection_name_#2",
+	"code": {
+		"value": "C0116:missing-function-docstring",
+		"target": {
+			"$mid": 1,
+			"path": "/en/latest/user_guide/messages/convention/missing-function-docstring.html",
+			"scheme": "https",
+			"authority": "pylint.readthedocs.io"
+		}
+	},
+	"severity": 2,
+	"message": "Missing function or method docstring",
+	"source": "Pylint",
+	"startLineNumber": 178,
+	"startColumn": 5,
+	"endLineNumber": 178,
+	"endColumn": 14
+},{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/entities.py",
+	"owner": "_generated_diagnostic_collection_name_#2",
+	"code": {
+		"value": "C0116:missing-function-docstring",
+		"target": {
+			"$mid": 1,
+			"path": "/en/latest/user_guide/messages/convention/missing-function-docstring.html",
+			"scheme": "https",
+			"authority": "pylint.readthedocs.io"
+		}
+	},
+	"severity": 2,
+	"message": "Missing function or method docstring",
+	"source": "Pylint",
+	"startLineNumber": 181,
+	"startColumn": 5,
+	"endLineNumber": 181,
+	"endColumn": 15
+},{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/entities.py",
+	"owner": "_generated_diagnostic_collection_name_#2",
+	"code": {
+		"value": "C0116:missing-function-docstring",
+		"target": {
+			"$mid": 1,
+			"path": "/en/latest/user_guide/messages/convention/missing-function-docstring.html",
+			"scheme": "https",
+			"authority": "pylint.readthedocs.io"
+		}
+	},
+	"severity": 2,
+	"message": "Missing function or method docstring",
+	"source": "Pylint",
+	"startLineNumber": 184,
+	"startColumn": 5,
+	"endLineNumber": 184,
+	"endColumn": 18
+},{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/entities.py",
+	"owner": "_generated_diagnostic_collection_name_#2",
+	"code": {
+		"value": "C0115:missing-class-docstring",
+		"target": {
+			"$mid": 1,
+			"path": "/en/latest/user_guide/messages/convention/missing-class-docstring.html",
+			"scheme": "https",
+			"authority": "pylint.readthedocs.io"
+		}
+	},
+	"severity": 2,
+	"message": "Missing class docstring",
+	"source": "Pylint",
+	"startLineNumber": 187,
+	"startColumn": 1,
+	"endLineNumber": 187,
+	"endColumn": 16
+},{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/entities.py",
+	"owner": "_generated_diagnostic_collection_name_#2",
+	"code": {
+		"value": "C0303:trailing-whitespace",
+		"target": {
+			"$mid": 1,
+			"path": "/en/latest/user_guide/messages/convention/trailing-whitespace.html",
+			"scheme": "https",
+			"authority": "pylint.readthedocs.io"
+		}
+	},
+	"severity": 2,
+	"message": "Trailing whitespace",
+	"source": "Pylint",
+	"startLineNumber": 195,
+	"startColumn": 1,
+	"endLineNumber": 195,
+	"endColumn": 1
+},{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/entities.py",
+	"owner": "_generated_diagnostic_collection_name_#2",
+	"code": {
+		"value": "C0303:trailing-whitespace",
+		"target": {
+			"$mid": 1,
+			"path": "/en/latest/user_guide/messages/convention/trailing-whitespace.html",
+			"scheme": "https",
+			"authority": "pylint.readthedocs.io"
+		}
+	},
+	"severity": 2,
+	"message": "Trailing whitespace",
+	"source": "Pylint",
+	"startLineNumber": 205,
+	"startColumn": 1,
+	"endLineNumber": 205,
+	"endColumn": 1
+},{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/entities.py",
+	"owner": "_generated_diagnostic_collection_name_#2",
+	"code": {
+		"value": "C0116:missing-function-docstring",
+		"target": {
+			"$mid": 1,
+			"path": "/en/latest/user_guide/messages/convention/missing-function-docstring.html",
+			"scheme": "https",
+			"authority": "pylint.readthedocs.io"
+		}
+	},
+	"severity": 2,
+	"message": "Missing function or method docstring",
+	"source": "Pylint",
+	"startLineNumber": 206,
+	"startColumn": 5,
+	"endLineNumber": 206,
+	"endColumn": 13
+},{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/entities.py",
+	"owner": "_generated_diagnostic_collection_name_#2",
+	"code": {
+		"value": "C0301:line-too-long",
+		"target": {
+			"$mid": 1,
+			"path": "/en/latest/user_guide/messages/convention/line-too-long.html",
+			"scheme": "https",
+			"authority": "pylint.readthedocs.io"
+		}
+	},
+	"severity": 2,
+	"message": "Line too long (190/100)",
+	"source": "Pylint",
+	"startLineNumber": 208,
+	"startColumn": 1,
+	"endLineNumber": 208,
+	"endColumn": 1
+},{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/entities.py",
+	"owner": "_generated_diagnostic_collection_name_#2",
+	"code": {
+		"value": "C0301:line-too-long",
+		"target": {
+			"$mid": 1,
+			"path": "/en/latest/user_guide/messages/convention/line-too-long.html",
+			"scheme": "https",
+			"authority": "pylint.readthedocs.io"
+		}
+	},
+	"severity": 2,
+	"message": "Line too long (190/100)",
+	"source": "Pylint",
+	"startLineNumber": 209,
+	"startColumn": 1,
+	"endLineNumber": 209,
+	"endColumn": 1
+},{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/entities.py",
+	"owner": "_generated_diagnostic_collection_name_#2",
+	"code": {
+		"value": "C0301:line-too-long",
+		"target": {
+			"$mid": 1,
+			"path": "/en/latest/user_guide/messages/convention/line-too-long.html",
+			"scheme": "https",
+			"authority": "pylint.readthedocs.io"
+		}
+	},
+	"severity": 2,
+	"message": "Line too long (190/100)",
+	"source": "Pylint",
+	"startLineNumber": 210,
+	"startColumn": 1,
+	"endLineNumber": 210,
+	"endColumn": 1
+},{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/entities.py",
+	"owner": "_generated_diagnostic_collection_name_#2",
+	"code": {
+		"value": "C0301:line-too-long",
+		"target": {
+			"$mid": 1,
+			"path": "/en/latest/user_guide/messages/convention/line-too-long.html",
+			"scheme": "https",
+			"authority": "pylint.readthedocs.io"
+		}
+	},
+	"severity": 2,
+	"message": "Line too long (190/100)",
+	"source": "Pylint",
+	"startLineNumber": 211,
+	"startColumn": 1,
+	"endLineNumber": 211,
+	"endColumn": 1
+},{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/entities.py",
+	"owner": "_generated_diagnostic_collection_name_#2",
+	"code": {
+		"value": "C0115:missing-class-docstring",
+		"target": {
+			"$mid": 1,
+			"path": "/en/latest/user_guide/messages/convention/missing-class-docstring.html",
+			"scheme": "https",
+			"authority": "pylint.readthedocs.io"
+		}
+	},
+	"severity": 2,
+	"message": "Missing class docstring",
+	"source": "Pylint",
+	"startLineNumber": 213,
+	"startColumn": 1,
+	"endLineNumber": 213,
+	"endColumn": 13
+},{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/entities.py",
+	"owner": "_generated_diagnostic_collection_name_#2",
+	"code": {
+		"value": "C0116:missing-function-docstring",
+		"target": {
+			"$mid": 1,
+			"path": "/en/latest/user_guide/messages/convention/missing-function-docstring.html",
+			"scheme": "https",
+			"authority": "pylint.readthedocs.io"
+		}
+	},
+	"severity": 2,
+	"message": "Missing function or method docstring",
+	"source": "Pylint",
+	"startLineNumber": 224,
+	"startColumn": 5,
+	"endLineNumber": 224,
+	"endColumn": 13
+},{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/entities.py",
+	"owner": "_generated_diagnostic_collection_name_#2",
+	"code": {
+		"value": "C0301:line-too-long",
+		"target": {
+			"$mid": 1,
+			"path": "/en/latest/user_guide/messages/convention/line-too-long.html",
+			"scheme": "https",
+			"authority": "pylint.readthedocs.io"
+		}
+	},
+	"severity": 2,
+	"message": "Line too long (105/100)",
+	"source": "Pylint",
+	"startLineNumber": 225,
+	"startColumn": 1,
+	"endLineNumber": 225,
+	"endColumn": 1
+},{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/entities.py",
+	"owner": "_generated_diagnostic_collection_name_#2",
+	"code": {
+		"value": "C0115:missing-class-docstring",
+		"target": {
+			"$mid": 1,
+			"path": "/en/latest/user_guide/messages/convention/missing-class-docstring.html",
+			"scheme": "https",
+			"authority": "pylint.readthedocs.io"
+		}
+	},
+	"severity": 2,
+	"message": "Missing class docstring",
+	"source": "Pylint",
+	"startLineNumber": 228,
+	"startColumn": 1,
+	"endLineNumber": 228,
+	"endColumn": 13
+},{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/entities.py",
+	"owner": "_generated_diagnostic_collection_name_#2",
+	"code": {
+		"value": "C0301:line-too-long",
+		"target": {
+			"$mid": 1,
+			"path": "/en/latest/user_guide/messages/convention/line-too-long.html",
+			"scheme": "https",
+			"authority": "pylint.readthedocs.io"
+		}
+	},
+	"severity": 2,
+	"message": "Line too long (151/100)",
+	"source": "Pylint",
+	"startLineNumber": 239,
+	"startColumn": 1,
+	"endLineNumber": 239,
+	"endColumn": 1
+},{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/entities.py",
+	"owner": "_generated_diagnostic_collection_name_#2",
+	"code": {
+		"value": "C0301:line-too-long",
+		"target": {
+			"$mid": 1,
+			"path": "/en/latest/user_guide/messages/convention/line-too-long.html",
+			"scheme": "https",
+			"authority": "pylint.readthedocs.io"
+		}
+	},
+	"severity": 2,
+	"message": "Line too long (125/100)",
+	"source": "Pylint",
+	"startLineNumber": 240,
+	"startColumn": 1,
+	"endLineNumber": 240,
+	"endColumn": 1
+},{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/entities.py",
+	"owner": "_generated_diagnostic_collection_name_#2",
+	"code": {
+		"value": "C0116:missing-function-docstring",
+		"target": {
+			"$mid": 1,
+			"path": "/en/latest/user_guide/messages/convention/missing-function-docstring.html",
+			"scheme": "https",
+			"authority": "pylint.readthedocs.io"
+		}
+	},
+	"severity": 2,
+	"message": "Missing function or method docstring",
+	"source": "Pylint",
+	"startLineNumber": 242,
+	"startColumn": 5,
+	"endLineNumber": 242,
+	"endColumn": 16
+},{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/entities.py",
+	"owner": "_generated_diagnostic_collection_name_#2",
+	"code": {
+		"value": "C0301:line-too-long",
+		"target": {
+			"$mid": 1,
+			"path": "/en/latest/user_guide/messages/convention/line-too-long.html",
+			"scheme": "https",
+			"authority": "pylint.readthedocs.io"
+		}
+	},
+	"severity": 2,
+	"message": "Line too long (102/100)",
+	"source": "Pylint",
+	"startLineNumber": 244,
+	"startColumn": 1,
+	"endLineNumber": 244,
+	"endColumn": 1
+},{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/entities.py",
+	"owner": "_generated_diagnostic_collection_name_#2",
+	"code": {
+		"value": "C0301:line-too-long",
+		"target": {
+			"$mid": 1,
+			"path": "/en/latest/user_guide/messages/convention/line-too-long.html",
+			"scheme": "https",
+			"authority": "pylint.readthedocs.io"
+		}
+	},
+	"severity": 2,
+	"message": "Line too long (122/100)",
+	"source": "Pylint",
+	"startLineNumber": 245,
+	"startColumn": 1,
+	"endLineNumber": 245,
+	"endColumn": 1
+},{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/entities.py",
+	"owner": "_generated_diagnostic_collection_name_#2",
+	"code": {
+		"value": "C0116:missing-function-docstring",
+		"target": {
+			"$mid": 1,
+			"path": "/en/latest/user_guide/messages/convention/missing-function-docstring.html",
+			"scheme": "https",
+			"authority": "pylint.readthedocs.io"
+		}
+	},
+	"severity": 2,
+	"message": "Missing function or method docstring",
+	"source": "Pylint",
+	"startLineNumber": 247,
+	"startColumn": 5,
+	"endLineNumber": 247,
+	"endColumn": 13
+},{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/entities.py",
+	"owner": "_generated_diagnostic_collection_name_#2",
+	"code": {
+		"value": "C0116:missing-function-docstring",
+		"target": {
+			"$mid": 1,
+			"path": "/en/latest/user_guide/messages/convention/missing-function-docstring.html",
+			"scheme": "https",
+			"authority": "pylint.readthedocs.io"
+		}
+	},
+	"severity": 2,
+	"message": "Missing function or method docstring",
+	"source": "Pylint",
+	"startLineNumber": 250,
+	"startColumn": 5,
+	"endLineNumber": 250,
+	"endColumn": 12
+},{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/entities.py",
+	"owner": "_generated_diagnostic_collection_name_#2",
+	"code": {
+		"value": "C0115:missing-class-docstring",
+		"target": {
+			"$mid": 1,
+			"path": "/en/latest/user_guide/messages/convention/missing-class-docstring.html",
+			"scheme": "https",
+			"authority": "pylint.readthedocs.io"
+		}
+	},
+	"severity": 2,
+	"message": "Missing class docstring",
+	"source": "Pylint",
+	"startLineNumber": 254,
+	"startColumn": 1,
+	"endLineNumber": 254,
+	"endColumn": 16
+},{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/entities.py",
+	"owner": "_generated_diagnostic_collection_name_#2",
+	"code": {
+		"value": "C0301:line-too-long",
+		"target": {
+			"$mid": 1,
+			"path": "/en/latest/user_guide/messages/convention/line-too-long.html",
+			"scheme": "https",
+			"authority": "pylint.readthedocs.io"
+		}
+	},
+	"severity": 2,
+	"message": "Line too long (130/100)",
+	"source": "Pylint",
+	"startLineNumber": 259,
+	"startColumn": 1,
+	"endLineNumber": 259,
+	"endColumn": 1
+},{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/entities.py",
+	"owner": "_generated_diagnostic_collection_name_#2",
+	"code": {
+		"value": "C0115:missing-class-docstring",
+		"target": {
+			"$mid": 1,
+			"path": "/en/latest/user_guide/messages/convention/missing-class-docstring.html",
+			"scheme": "https",
+			"authority": "pylint.readthedocs.io"
+		}
+	},
+	"severity": 2,
+	"message": "Missing class docstring",
+	"source": "Pylint",
+	"startLineNumber": 262,
+	"startColumn": 1,
+	"endLineNumber": 262,
+	"endColumn": 13
+},{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/entities.py",
+	"owner": "_generated_diagnostic_collection_name_#2",
+	"code": {
+		"value": "C0301:line-too-long",
+		"target": {
+			"$mid": 1,
+			"path": "/en/latest/user_guide/messages/convention/line-too-long.html",
+			"scheme": "https",
+			"authority": "pylint.readthedocs.io"
+		}
+	},
+	"severity": 2,
+	"message": "Line too long (117/100)",
+	"source": "Pylint",
+	"startLineNumber": 269,
+	"startColumn": 1,
+	"endLineNumber": 269,
+	"endColumn": 1
+},{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/entities.py",
+	"owner": "_generated_diagnostic_collection_name_#2",
+	"code": {
+		"value": "C0303:trailing-whitespace",
+		"target": {
+			"$mid": 1,
+			"path": "/en/latest/user_guide/messages/convention/trailing-whitespace.html",
+			"scheme": "https",
+			"authority": "pylint.readthedocs.io"
+		}
+	},
+	"severity": 2,
+	"message": "Trailing whitespace",
+	"source": "Pylint",
+	"startLineNumber": 273,
+	"startColumn": 1,
+	"endLineNumber": 273,
+	"endColumn": 1
+},{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/entities.py",
+	"owner": "_generated_diagnostic_collection_name_#2",
+	"code": {
+		"value": "C0116:missing-function-docstring",
+		"target": {
+			"$mid": 1,
+			"path": "/en/latest/user_guide/messages/convention/missing-function-docstring.html",
+			"scheme": "https",
+			"authority": "pylint.readthedocs.io"
+		}
+	},
+	"severity": 2,
+	"message": "Missing function or method docstring",
+	"source": "Pylint",
+	"startLineNumber": 275,
+	"startColumn": 5,
+	"endLineNumber": 275,
+	"endColumn": 15
+},{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/entities.py",
+	"owner": "_generated_diagnostic_collection_name_#2",
+	"code": {
+		"value": "C0303:trailing-whitespace",
+		"target": {
+			"$mid": 1,
+			"path": "/en/latest/user_guide/messages/convention/trailing-whitespace.html",
+			"scheme": "https",
+			"authority": "pylint.readthedocs.io"
+		}
+	},
+	"severity": 2,
+	"message": "Trailing whitespace",
+	"source": "Pylint",
+	"startLineNumber": 281,
+	"startColumn": 1,
+	"endLineNumber": 281,
+	"endColumn": 1
+},{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/entities.py",
+	"owner": "_generated_diagnostic_collection_name_#2",
+	"code": {
+		"value": "C0115:missing-class-docstring",
+		"target": {
+			"$mid": 1,
+			"path": "/en/latest/user_guide/messages/convention/missing-class-docstring.html",
+			"scheme": "https",
+			"authority": "pylint.readthedocs.io"
+		}
+	},
+	"severity": 2,
+	"message": "Missing class docstring",
+	"source": "Pylint",
+	"startLineNumber": 283,
+	"startColumn": 1,
+	"endLineNumber": 283,
+	"endColumn": 13
+},{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/entities.py",
+	"owner": "_generated_diagnostic_collection_name_#2",
+	"code": {
+		"value": "C0301:line-too-long",
+		"target": {
+			"$mid": 1,
+			"path": "/en/latest/user_guide/messages/convention/line-too-long.html",
+			"scheme": "https",
+			"authority": "pylint.readthedocs.io"
+		}
+	},
+	"severity": 2,
+	"message": "Line too long (117/100)",
+	"source": "Pylint",
+	"startLineNumber": 288,
+	"startColumn": 1,
+	"endLineNumber": 288,
+	"endColumn": 1
+},{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/entities.py",
+	"owner": "_generated_diagnostic_collection_name_#2",
+	"code": {
+		"value": "C0303:trailing-whitespace",
+		"target": {
+			"$mid": 1,
+			"path": "/en/latest/user_guide/messages/convention/trailing-whitespace.html",
+			"scheme": "https",
+			"authority": "pylint.readthedocs.io"
+		}
+	},
+	"severity": 2,
+	"message": "Trailing whitespace",
+	"source": "Pylint",
+	"startLineNumber": 292,
+	"startColumn": 1,
+	"endLineNumber": 292,
+	"endColumn": 1
+},{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/entities.py",
+	"owner": "_generated_diagnostic_collection_name_#2",
+	"code": {
+		"value": "C0116:missing-function-docstring",
+		"target": {
+			"$mid": 1,
+			"path": "/en/latest/user_guide/messages/convention/missing-function-docstring.html",
+			"scheme": "https",
+			"authority": "pylint.readthedocs.io"
+		}
+	},
+	"severity": 2,
+	"message": "Missing function or method docstring",
+	"source": "Pylint",
+	"startLineNumber": 299,
+	"startColumn": 5,
+	"endLineNumber": 299,
+	"endColumn": 15
+},{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/entities.py",
+	"owner": "_generated_diagnostic_collection_name_#2",
+	"code": {
+		"value": "C0121:singleton-comparison",
+		"target": {
+			"$mid": 1,
+			"path": "/en/latest/user_guide/messages/convention/singleton-comparison.html",
+			"scheme": "https",
+			"authority": "pylint.readthedocs.io"
+		}
+	},
+	"severity": 2,
+	"message": "Comparison 'click != None' should be 'click is not None'",
+	"source": "Pylint",
+	"startLineNumber": 301,
+	"startColumn": 12,
+	"endLineNumber": 301,
+	"endColumn": 25
+},{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/entities.py",
+	"owner": "_generated_diagnostic_collection_name_#2",
+	"code": {
+		"value": "C0301:line-too-long",
+		"target": {
+			"$mid": 1,
+			"path": "/en/latest/user_guide/messages/convention/line-too-long.html",
+			"scheme": "https",
+			"authority": "pylint.readthedocs.io"
+		}
+	},
+	"severity": 2,
+	"message": "Line too long (121/100)",
+	"source": "Pylint",
+	"startLineNumber": 302,
+	"startColumn": 1,
+	"endLineNumber": 302,
+	"endColumn": 1
+},{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/entities.py",
+	"owner": "_generated_diagnostic_collection_name_#2",
+	"code": {
+		"value": "C0303:trailing-whitespace",
+		"target": {
+			"$mid": 1,
+			"path": "/en/latest/user_guide/messages/convention/trailing-whitespace.html",
+			"scheme": "https",
+			"authority": "pylint.readthedocs.io"
+		}
+	},
+	"severity": 2,
+	"message": "Trailing whitespace",
+	"source": "Pylint",
+	"startLineNumber": 308,
+	"startColumn": 43,
+	"endLineNumber": 308,
+	"endColumn": 43
+},{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/entities.py",
+	"owner": "_generated_diagnostic_collection_name_#2",
+	"code": {
+		"value": "C0303:trailing-whitespace",
+		"target": {
+			"$mid": 1,
+			"path": "/en/latest/user_guide/messages/convention/trailing-whitespace.html",
+			"scheme": "https",
+			"authority": "pylint.readthedocs.io"
+		}
+	},
+	"severity": 2,
+	"message": "Trailing whitespace",
+	"source": "Pylint",
+	"startLineNumber": 311,
+	"startColumn": 1,
+	"endLineNumber": 311,
+	"endColumn": 1
+},{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/entities.py",
+	"owner": "_generated_diagnostic_collection_name_#2",
+	"code": {
+		"value": "C0303:trailing-whitespace",
+		"target": {
+			"$mid": 1,
+			"path": "/en/latest/user_guide/messages/convention/trailing-whitespace.html",
+			"scheme": "https",
+			"authority": "pylint.readthedocs.io"
+		}
+	},
+	"severity": 2,
+	"message": "Trailing whitespace",
+	"source": "Pylint",
+	"startLineNumber": 319,
+	"startColumn": 1,
+	"endLineNumber": 319,
+	"endColumn": 1
+},{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/entities.py",
+	"owner": "_generated_diagnostic_collection_name_#2",
+	"code": {
+		"value": "C0115:missing-class-docstring",
+		"target": {
+			"$mid": 1,
+			"path": "/en/latest/user_guide/messages/convention/missing-class-docstring.html",
+			"scheme": "https",
+			"authority": "pylint.readthedocs.io"
+		}
+	},
+	"severity": 2,
+	"message": "Missing class docstring",
+	"source": "Pylint",
+	"startLineNumber": 322,
+	"startColumn": 1,
+	"endLineNumber": 322,
+	"endColumn": 14
+},{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/entities.py",
+	"owner": "_generated_diagnostic_collection_name_#2",
+	"code": {
+		"value": "C0103:invalid-name",
+		"target": {
+			"$mid": 1,
+			"path": "/en/latest/user_guide/messages/convention/invalid-name.html",
+			"scheme": "https",
+			"authority": "pylint.readthedocs.io"
+		}
+	},
+	"severity": 2,
+	"message": "Class name \"Attack_\" doesn't conform to PascalCase naming style",
+	"source": "Pylint",
+	"startLineNumber": 322,
+	"startColumn": 1,
+	"endLineNumber": 322,
+	"endColumn": 14
+},{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/entities.py",
+	"owner": "_generated_diagnostic_collection_name_#2",
+	"code": {
+		"value": "C0301:line-too-long",
+		"target": {
+			"$mid": 1,
+			"path": "/en/latest/user_guide/messages/convention/line-too-long.html",
+			"scheme": "https",
+			"authority": "pylint.readthedocs.io"
+		}
+	},
+	"severity": 2,
+	"message": "Line too long (162/100)",
+	"source": "Pylint",
+	"startLineNumber": 327,
+	"startColumn": 1,
+	"endLineNumber": 327,
+	"endColumn": 1
+},{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/entities.py",
+	"owner": "_generated_diagnostic_collection_name_#2",
+	"code": {
+		"value": "C0116:missing-function-docstring",
+		"target": {
+			"$mid": 1,
+			"path": "/en/latest/user_guide/messages/convention/missing-function-docstring.html",
+			"scheme": "https",
+			"authority": "pylint.readthedocs.io"
+		}
+	},
+	"severity": 2,
+	"message": "Missing function or method docstring",
+	"source": "Pylint",
+	"startLineNumber": 335,
+	"startColumn": 5,
+	"endLineNumber": 335,
+	"endColumn": 13
+},{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/entities.py",
+	"owner": "_generated_diagnostic_collection_name_#2",
+	"code": {
+		"value": "C0116:missing-function-docstring",
+		"target": {
+			"$mid": 1,
+			"path": "/en/latest/user_guide/messages/convention/missing-function-docstring.html",
+			"scheme": "https",
+			"authority": "pylint.readthedocs.io"
+		}
+	},
+	"severity": 2,
+	"message": "Missing function or method docstring",
+	"source": "Pylint",
+	"startLineNumber": 342,
+	"startColumn": 5,
+	"endLineNumber": 342,
+	"endColumn": 18
+},{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/entities.py",
+	"owner": "_generated_diagnostic_collection_name_#2",
+	"code": {
+		"value": "C0301:line-too-long",
+		"target": {
+			"$mid": 1,
+			"path": "/en/latest/user_guide/messages/convention/line-too-long.html",
+			"scheme": "https",
+			"authority": "pylint.readthedocs.io"
+		}
+	},
+	"severity": 2,
+	"message": "Line too long (130/100)",
+	"source": "Pylint",
+	"startLineNumber": 354,
+	"startColumn": 1,
+	"endLineNumber": 354,
+	"endColumn": 1
+},{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/entities.py",
+	"owner": "_generated_diagnostic_collection_name_#2",
+	"code": {
+		"value": "C0303:trailing-whitespace",
+		"target": {
+			"$mid": 1,
+			"path": "/en/latest/user_guide/messages/convention/trailing-whitespace.html",
+			"scheme": "https",
+			"authority": "pylint.readthedocs.io"
+		}
+	},
+	"severity": 2,
+	"message": "Trailing whitespace",
+	"source": "Pylint",
+	"startLineNumber": 358,
+	"startColumn": 33,
+	"endLineNumber": 358,
+	"endColumn": 33
+},{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/entities.py",
+	"owner": "_generated_diagnostic_collection_name_#2",
+	"code": {
+		"value": "C0303:trailing-whitespace",
+		"target": {
+			"$mid": 1,
+			"path": "/en/latest/user_guide/messages/convention/trailing-whitespace.html",
+			"scheme": "https",
+			"authority": "pylint.readthedocs.io"
+		}
+	},
+	"severity": 2,
+	"message": "Trailing whitespace",
+	"source": "Pylint",
+	"startLineNumber": 361,
+	"startColumn": 56,
+	"endLineNumber": 361,
+	"endColumn": 56
+},{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/entities.py",
+	"owner": "_generated_diagnostic_collection_name_#2",
+	"code": {
+		"value": "C0115:missing-class-docstring",
+		"target": {
+			"$mid": 1,
+			"path": "/en/latest/user_guide/messages/convention/missing-class-docstring.html",
+			"scheme": "https",
+			"authority": "pylint.readthedocs.io"
+		}
+	},
+	"severity": 2,
+	"message": "Missing class docstring",
+	"source": "Pylint",
+	"startLineNumber": 367,
+	"startColumn": 1,
+	"endLineNumber": 367,
+	"endColumn": 16
+},{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/entities.py",
+	"owner": "_generated_diagnostic_collection_name_#2",
+	"code": {
+		"value": "C0305:trailing-newlines",
+		"target": {
+			"$mid": 1,
+			"path": "/en/latest/user_guide/messages/convention/trailing-newlines.html",
+			"scheme": "https",
+			"authority": "pylint.readthedocs.io"
+		}
+	},
+	"severity": 2,
+	"message": "Trailing newlines",
+	"source": "Pylint",
+	"startLineNumber": 372,
+	"startColumn": 1,
+	"endLineNumber": 372,
+	"endColumn": 1
+}]

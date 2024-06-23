@@ -1,0 +1,111 @@
+[{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/settings.py",
+	"owner": "_generated_diagnostic_collection_name_#4",
+	"code": "E251",
+	"severity": 8,
+	"message": "unexpected spaces around keyword / parameter equals",
+	"source": "Flake8",
+	"startLineNumber": 7,
+	"startColumn": 18,
+	"endLineNumber": 7,
+	"endColumn": 18
+},{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/settings.py",
+	"owner": "_generated_diagnostic_collection_name_#4",
+	"code": "E251",
+	"severity": 8,
+	"message": "unexpected spaces around keyword / parameter equals",
+	"source": "Flake8",
+	"startLineNumber": 7,
+	"startColumn": 20,
+	"endLineNumber": 7,
+	"endColumn": 20
+},{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/settings.py",
+	"owner": "_generated_diagnostic_collection_name_#4",
+	"code": "E251",
+	"severity": 8,
+	"message": "unexpected spaces around keyword / parameter equals",
+	"source": "Flake8",
+	"startLineNumber": 7,
+	"startColumn": 26,
+	"endLineNumber": 7,
+	"endColumn": 26
+},{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/settings.py",
+	"owner": "_generated_diagnostic_collection_name_#4",
+	"code": "E251",
+	"severity": 8,
+	"message": "unexpected spaces around keyword / parameter equals",
+	"source": "Flake8",
+	"startLineNumber": 7,
+	"startColumn": 28,
+	"endLineNumber": 7,
+	"endColumn": 28
+},{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/settings.py",
+	"owner": "_generated_diagnostic_collection_name_#4",
+	"code": "E251",
+	"severity": 8,
+	"message": "unexpected spaces around keyword / parameter equals",
+	"source": "Flake8",
+	"startLineNumber": 11,
+	"startColumn": 45,
+	"endLineNumber": 11,
+	"endColumn": 45
+},{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/settings.py",
+	"owner": "_generated_diagnostic_collection_name_#4",
+	"code": "E251",
+	"severity": 8,
+	"message": "unexpected spaces around keyword / parameter equals",
+	"source": "Flake8",
+	"startLineNumber": 11,
+	"startColumn": 47,
+	"endLineNumber": 11,
+	"endColumn": 47
+},{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/settings.py",
+	"owner": "_generated_diagnostic_collection_name_#4",
+	"code": "E302",
+	"severity": 8,
+	"message": "expected 2 blank lines, found 1",
+	"source": "Flake8",
+	"startLineNumber": 22,
+	"startColumn": 1,
+	"endLineNumber": 22,
+	"endColumn": 1
+},{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/settings.py",
+	"owner": "_generated_diagnostic_collection_name_#4",
+	"code": "E261",
+	"severity": 8,
+	"message": "at least two spaces before inline comment",
+	"source": "Flake8",
+	"startLineNumber": 22,
+	"startColumn": 35,
+	"endLineNumber": 22,
+	"endColumn": 35
+},{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/settings.py",
+	"owner": "_generated_diagnostic_collection_name_#4",
+	"code": "E117",
+	"severity": 8,
+	"message": "over-indented",
+	"source": "Flake8",
+	"startLineNumber": 23,
+	"startColumn": 9,
+	"endLineNumber": 23,
+	"endColumn": 9
+},{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/settings.py",
+	"owner": "_generated_diagnostic_collection_name_#4",
+	"code": "W391",
+	"severity": 4,
+	"message": "blank line at end of file",
+	"source": "Flake8",
+	"startLineNumber": 27,
+	"startColumn": 1,
+	"endLineNumber": 27,
+	"endColumn": 1
+}]

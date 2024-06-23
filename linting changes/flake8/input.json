@@ -1,0 +1,111 @@
+[{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/input.py",
+	"owner": "_generated_diagnostic_collection_name_#4",
+	"code": "F401",
+	"severity": 8,
+	"message": "'sys' imported but unused",
+	"source": "Flake8",
+	"startLineNumber": 1,
+	"startColumn": 1,
+	"endLineNumber": 1,
+	"endColumn": 1
+},{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/input.py",
+	"owner": "_generated_diagnostic_collection_name_#4",
+	"code": "F401",
+	"severity": 8,
+	"message": "'time' imported but unused",
+	"source": "Flake8",
+	"startLineNumber": 1,
+	"startColumn": 1,
+	"endLineNumber": 1,
+	"endColumn": 1
+},{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/input.py",
+	"owner": "_generated_diagnostic_collection_name_#4",
+	"code": "E401",
+	"severity": 8,
+	"message": "multiple imports on one line",
+	"source": "Flake8",
+	"startLineNumber": 1,
+	"startColumn": 14,
+	"endLineNumber": 1,
+	"endColumn": 14
+},{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/input.py",
+	"owner": "_generated_diagnostic_collection_name_#4",
+	"code": "E275",
+	"severity": 8,
+	"message": "missing whitespace after keyword",
+	"source": "Flake8",
+	"startLineNumber": 2,
+	"startColumn": 21,
+	"endLineNumber": 2,
+	"endColumn": 21
+},{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/input.py",
+	"owner": "_generated_diagnostic_collection_name_#4",
+	"code": "E302",
+	"severity": 8,
+	"message": "expected 2 blank lines, found 1",
+	"source": "Flake8",
+	"startLineNumber": 6,
+	"startColumn": 1,
+	"endLineNumber": 6,
+	"endColumn": 1
+},{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/input.py",
+	"owner": "_generated_diagnostic_collection_name_#4",
+	"code": "E303",
+	"severity": 8,
+	"message": "too many blank lines (2)",
+	"source": "Flake8",
+	"startLineNumber": 31,
+	"startColumn": 5,
+	"endLineNumber": 31,
+	"endColumn": 5
+},{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/input.py",
+	"owner": "_generated_diagnostic_collection_name_#4",
+	"code": "W293",
+	"severity": 4,
+	"message": "blank line contains whitespace",
+	"source": "Flake8",
+	"startLineNumber": 29,
+	"startColumn": 1,
+	"endLineNumber": 29,
+	"endColumn": 1
+},{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/input.py",
+	"owner": "_generated_diagnostic_collection_name_#4",
+	"code": "W293",
+	"severity": 4,
+	"message": "blank line contains whitespace",
+	"source": "Flake8",
+	"startLineNumber": 30,
+	"startColumn": 1,
+	"endLineNumber": 30,
+	"endColumn": 1
+},{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/input.py",
+	"owner": "_generated_diagnostic_collection_name_#4",
+	"code": "W293",
+	"severity": 4,
+	"message": "blank line contains whitespace",
+	"source": "Flake8",
+	"startLineNumber": 36,
+	"startColumn": 1,
+	"endLineNumber": 36,
+	"endColumn": 1
+},{
+	"resource": "/c:/Users/yarde/OneDrive/Desktop/TM/structure/input.py",
+	"owner": "_generated_diagnostic_collection_name_#4",
+	"code": "W292",
+	"severity": 4,
+	"message": "no newline at end of file",
+	"source": "Flake8",
+	"startLineNumber": 40,
+	"startColumn": 20,
+	"endLineNumber": 40,
+	"endColumn": 20
+}]
