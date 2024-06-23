@@ -1,8 +1,7 @@
-import pygame, sys
-
+'''items'''
 
 class Items:
-    pass
+    '''how items behave'''
 
 class Inventorty:
-    pass
+    '''how to interact and craft with items'''
