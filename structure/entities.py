@@ -7,9 +7,6 @@ from settings import (
     VEC_2, 
     angle_between_vectors
     )
-from attack import(
-    Attack
-    )
 from collisions import(
     Collision_detector
 )
@@ -23,7 +20,6 @@ class EntityManager:
         self.entity_list = []
         self.movable_entity_list = []
         self.collision_detector = Collision_detector()
-        self.attack = Attack(self, camera)
         self.add_player()
         
 

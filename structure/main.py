@@ -6,7 +6,10 @@ from settings import (
     FPS,
     VEC_2
 )
-from compiler import Compiler
+from compiler import (
+    Compiler, 
+    Compiler_for_testing_map_gen
+    )
 from input import Input_manager
 # testing
 from collisions import Collision_detector
@@ -20,6 +23,7 @@ class Game:
         self.input_manager = Input_manager()
         self.clock = pygame.time.Clock()
         self.compiler = Compiler(self.input_manager)
+        #self.compiler_for_testing_map_gen = Compiler_for_testing_map_gen()   # enable this and dissable compiler to test map gen
         self.collision_detector = Collision_detector()
 
     def run(self):

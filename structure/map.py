@@ -1,5 +1,9 @@
 import pygame
-from random import random
+from random import (
+    random, 
+    randrange, 
+    randint
+    )
 from numpy import array
 import math
 from settings import (
@@ -85,8 +89,8 @@ class MapGenerator_testing:
             self.perlin_grid = {}
             for x in range(self.grid_size + 1):
                 for y in range(self.grid_size + 1):
-                    self.angle = random.randrange(0, 360)
-                    self.perlin_grid[(x, y)] = settings.VEC_2(math.cos(self.angle), math.sin(self.angle))
+                    self.angle = randrange(0, 360)
+                    self.perlin_grid[(x, y)] = VEC_2(math.cos(self.angle), math.sin(self.angle))
 
             # creates a grid of values
             self.value_grid = {}
@@ -105,10 +109,10 @@ class MapGenerator_testing:
                     self.vortex_vector_topleft = self.perlin_grid[(int(self.x), int(self.y) + 1)]
                     self.vortex_vector_topright = self.perlin_grid[(int(self.x) + 1, int(self.y) + 1)]
                     # displacement vectors from the point to the vertecies
-                    self.vect_to_vort_bottomleft = settings.VEC_2(self.x % 1, self.y % 1)#.normalize()
-                    self.vect_to_vort_bottomright = settings.VEC_2((self.x % 1) - 1, self.y % 1)#.normalize()
-                    self.vect_to_vort_topleft = settings.VEC_2(self.x % 1, (self.y % 1) - 1)#.normalize()
-                    self.vect_to_vort_topright = settings.VEC_2((self.x % 1) - 1, (self.y % 1) - 1)#.normalize()
+                    self.vect_to_vort_bottomleft = VEC_2(self.x % 1, self.y % 1)#.normalize()
+                    self.vect_to_vort_bottomright = VEC_2((self.x % 1) - 1, self.y % 1)#.normalize()
+                    self.vect_to_vort_topleft = VEC_2(self.x % 1, (self.y % 1) - 1)#.normalize()
+                    self.vect_to_vort_topright = VEC_2((self.x % 1) - 1, (self.y % 1) - 1)#.normalize()
                     # dot products
                     self.dot_topleft = self.vortex_vector_topleft.dot(self.vect_to_vort_topleft)
                     self.dot_topright = self.vortex_vector_topright.dot(self.vect_to_vort_topright)
@@ -118,7 +122,7 @@ class MapGenerator_testing:
                     self.top_inter = self.dot_topleft + self.smooth_step_1(self.cell_pos[0]) * (self.dot_topright - self.dot_topleft)
                     self.bottom_inter = self.dot_bottomleft + self.smooth_step_1(self.cell_pos[0]) * (self.dot_bottomright - self.dot_bottomleft)
                     self.value = (self.bottom_inter + self.smooth_step_1(self.cell_pos[1]) * (self.top_inter - self.bottom_inter)) * (self.persistence**p)
-                    self.value_grid[(x, y)] = self.value + random.randint(round(-100 * self.random_prob), round(100 * self.random_prob)) / 2000
+                    self.value_grid[(x, y)] = self.value + randint(round(-100 * self.random_prob), round(100 * self.random_prob)) / 2000
 
             for x in range(self.cell_number):
                 for y in range(self.cell_number):
@@ -153,18 +157,18 @@ class MapGenerator_testing:
                 self.final_biome_grid[(x, y)] = self.biome_type[self.values.index(max(self.values))]
         return(self.final_biome_grid)
 
-    def display_biomes(self, grid): #for testing
+    def display_biomes(self): #for testing
         self.colors_list = []
         for i in range(self.biome_number):
-            self.colors_list.append((random.randint(0, 255), random.randint(0, 255), random.randint(0, 255)))
-        self.grid = grid
+            self.colors_list.append((randint(0, 255), randint(0, 255), randint(0, 255)))
+        self.grid = self.simple_superposition()
         self.display_surf = pygame.display.get_surface()
         for x in range(self.cell_number):
             for y in range(self.cell_number):
                 pygame.draw.rect(self.display_surf, self.colors_list[self.grid[(x, y)]], [x*self.pixel_size, y*self.pixel_size, self.pixel_size, self.pixel_size])
 
-    def display_strengths(self, grid): #for testing
-        self.grid = grid
+    def display_strengths(self): #for testing
+        self.grid = self.perlin_noise()
         self.display_surf = pygame.display.get_surface()
         for x in range(self.cell_number):
             for y in range(self.cell_number):
