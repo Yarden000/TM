@@ -1,5 +1,6 @@
 '''the passive random spawning of entities'''
 import random as rnd
+import pygame
 from settings import (
     VEC_2
     )
@@ -7,7 +8,7 @@ from settings import (
 
 class Spawner:
     '''respomnsible for spawning the entities'''
-    def __init__(self, camera, terrain, entity_manager):
+    def __init__(self, camera, terrain, entity_manager) -> None:
         self.spawn_range = 3  # number of chunks loaded
         self.camera = camera
         self.terrain = terrain
@@ -47,7 +48,7 @@ class Spawner:
                         break
         return tiles_ordered
 
-    def spawn_ent_v2(self, dt, ent_class):
+    def spawn_ent_v2(self, dt, ent_class) -> None:
         '''randomly chooses a tile fron all the loaded tiles and spawns an enitiy there'''
         tiles_loaded = self._tiles_loaded()  # not the speed problem
         density = self.entity_manager.ent_density()

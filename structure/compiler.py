@@ -5,6 +5,7 @@ from map import (
     MapGeneratorTesting
     )
 from entities import (
+    Entity,
     EntityManager,
     Ressource,
     Animal
@@ -20,8 +21,8 @@ class Compiler:
     all the playable part of the game
     '''
 
-    def __init__(self, input_manager):
-        self.outside_range_enteties = []
+    def __init__(self, input_manager) -> None:
+        self.outside_range_enteties: list[Entity] = []
         self.input_manager = input_manager
         self.camera = Camera()
         self.map = Map()
@@ -29,7 +30,7 @@ class Compiler:
         self.displayer = Displayer(self.map, self.camera, self.entity_manager)
         self.spawner = Spawner(self.camera, self.map, self.entity_manager)
 
-    def run(self, dt):
+    def run(self, dt) -> None:
         '''all the interactions / events / calculations of the game'''
         self.entity_manager.run(dt)
 
@@ -47,13 +48,13 @@ class Displayer:
     '''
     # il faut ajouter une fonction qui verifie si un element est dans la window avant de le display
 
-    def __init__(self, terrain, camera, entity_manager):
+    def __init__(self, terrain, camera, entity_manager) -> None:
         self.screen = pygame.display.get_surface()
         self.terrain = terrain
         self.camera = camera
         self.entity_manager = entity_manager
 
-    def run(self):
+    def run(self) -> None:
         '''displays'''
         self.screen.fill('blue')
         self.terrain.display(self.camera)
@@ -70,7 +71,7 @@ class Displayer:
 
 class CompilerForTestingMapGen:
     '''calculates and visualises the map gen'''
-    def __init__(self):
+    def __init__(self) -> None:
         # to test the map gen, need to dissable the run funcion
         self.maptest = MapGeneratorTesting(4, 3, 1, 5, 0.85, 2, 0.2)
         self.maptest.display_biomes()

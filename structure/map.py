@@ -6,7 +6,7 @@ from random import (
     )
 import math
 import pygame
-from numpy import array
+import numpy
 from settings import (
     WIDTH,
     HEIGHT,
@@ -16,7 +16,7 @@ from settings import (
 
 class Map:
     '''responsible for giving the displayer the right tiles and positions for displaying'''
-    def __init__(self):
+    def __init__(self) -> None:
         self.screen = pygame.display.get_surface()
         self.cell_size = 100
         self.chunk_number = 3  # number of chunks
@@ -24,15 +24,15 @@ class Map:
         self.chunk_size_in_pixel = self.chunk_size * self.cell_size
         self.map_size = self.chunk_number * self.chunk_size
         self.biome_types = [
-            {'type': 'desert', 'image': pygame.transform.scale(pygame.image.load('../graphics/test/desert.png'), (self.cell_size, self.cell_size))},
-            {'type': 'plains', 'image': pygame.transform.scale(pygame.image.load('../graphics/test/plains.png'), (self.cell_size, self.cell_size))},
-            {'type': 'forest', 'image': pygame.transform.scale(pygame.image.load('../graphics/test/forest.png'), (self.cell_size, self.cell_size))}
+            {'type': 'desert', 'image': pygame.transform.scale(pygame.image.load('../graphics/test/desert.png').convert_alpha(), (self.cell_size, self.cell_size))},
+            {'type': 'plains', 'image': pygame.transform.scale(pygame.image.load('../graphics/test/plains.png').convert_alpha(), (self.cell_size, self.cell_size))},
+            {'type': 'forest', 'image': pygame.transform.scale(pygame.image.load('../graphics/test/forest.png').convert_alpha(), (self.cell_size, self.cell_size))}
         ]
 
         map_gen = MapGenerator(self.map_size, self.cell_size, self.biome_types)  # (self.map_size, self.biome_types[, base_gris_size, octaves, persistence, frequency, random])
         self.grid = map_gen.make_map()
 
-    def _range_on_screen(self, camera):
+    def _range_on_screen(self, camera) -> tuple[range, range]:
         # Calculate horizontal range (x-axis) visible on screen
         start_x = round((self.map_size / 2) - ((WIDTH + camera.player_displacement[0]) // self.cell_size))
         end_x = round((self.map_size / 2) + ((WIDTH - camera.player_displacement[0]) // self.cell_size)) + 1
@@ -45,7 +45,7 @@ class Map:
 
         return (range_x, range_y)
 
-    def display(self, camera):
+    def display(self, camera) -> None:
         '''displays only the tiles that are on the screen'''
         range_on_screen = self._range_on_screen(camera)
         for x in range_on_screen[0]:
@@ -53,12 +53,12 @@ class Map:
                 for y in range_on_screen[1]:
                     if 0 <= y < self.map_size:
                         image = self.grid[x][y][0]['image']
-                        self.screen.blit(image.convert_alpha(), image.get_rect(center=VEC_2(self.grid[x][y][1] + camera.player_displacement)))
+                        self.screen.blit(image, image.get_rect(center=VEC_2(self.grid[x][y][1] + camera.player_displacement)))
 
 
 class MapGeneratorTesting:
     '''visualises the mag gen, helps to finetune the parameters'''
-    def __init__(self, biome_number, pixel_sise, base_grid_size=4, octaves=1, persistence=0.5, frequency=2, random_prob=0):
+    def __init__(self, biome_number, pixel_sise, base_grid_size=4, octaves=1, persistence=0.5, frequency=2, random_prob=0) -> None:
         self.biome_number = biome_number
         self.pixel_size = pixel_sise
         self.base_gris_size = base_grid_size
@@ -70,7 +70,7 @@ class MapGeneratorTesting:
 
         self.extreme = 0
 
-    def smooth_step_1(self, x):
+    def smooth_step_1(self, x: float) -> float:
         '''smoothing funcion whith first and second derivative equal to 0 if 0 < x < 1'''
         if x < 0:
             return 0
@@ -79,7 +79,7 @@ class MapGeneratorTesting:
         else:
             return (6 * x**5) - (15 * x**4) + (10 * x**3)
 
-    def smooth_step_2(self, x):
+    def smooth_step_2(self, x: float) -> float:
         '''smoothing funcion whith first derivative equal to 0 if 0 < x < 1'''
         if x < 0:
             return 0
@@ -88,7 +88,7 @@ class MapGeneratorTesting:
         else:
             return (3 * x**2) - (2 * x**3)
 
-    def smooth_step_3(self, x):
+    def smooth_step_3(self, x: float) -> float:
         '''smoothing funcion '''
         if x < 0:
             return 0
@@ -199,7 +199,7 @@ class MapGeneratorTesting:
 
 class MapGenerator:
     '''generates the map grid'''
-    def __init__(self, map_size, cell_size, biome_types, base_grid_size=3, octaves=6, persistence=0.5, frequency=2, random_prob=0.00015):
+    def __init__(self, map_size, cell_size, biome_types, base_grid_size=3, octaves=6, persistence=0.5, frequency=2, random_prob=0.00015) -> None:
         self.cell_size = cell_size
         self.biome_types = biome_types
         self.biome_number = len(self.biome_types)
@@ -210,7 +210,7 @@ class MapGenerator:
         self.frequency = frequency
         self.random_prob = random_prob
 
-    def _smooth_step_1(self, x):
+    def _smooth_step_1(self, x: float) -> float:
         if x < 0:
             raise ValueError
         elif x > 1:
@@ -218,7 +218,7 @@ class MapGenerator:
         else:
             return (6*x*x - 15*x + 10)*x*x*x
 
-    def _smooth_step_2(self, x):
+    def _smooth_step_2(self, x: float) -> float:
         if x < 0:
             return 0
         elif x > 1:
@@ -226,7 +226,7 @@ class MapGenerator:
         else:
             return (3 * x**2) - (2 * x**3)
 
-    def _smooth_step_3(self, x):
+    def _smooth_step_3(self, x: float) -> float:
         if x < 0:
             return 0
         elif x > 1:
@@ -234,15 +234,15 @@ class MapGenerator:
         else:
             return x
 
-    def _create_random_uni_vec(self):
+    def _create_random_uni_vec(self) -> tuple[float, float]:
         angle = random()*360
         return math.cos(angle), math.sin(angle)
 
-    def _create_vector_grid(self, grid_size):
+    def _create_vector_grid(self, grid_size) -> numpy.ndarray[tuple[float, float]]:
         '''
         creates a grid of random vectors
         '''
-        return array(
+        return numpy.array(
             [
                 [
                     self._create_random_uni_vec()
@@ -252,7 +252,7 @@ class MapGenerator:
             ]
         )
 
-    def _perlin_dot(self, v1, v2):
+    def _perlin_dot(self, v1: tuple[float, float], v2: tuple[float, float]) -> float:
         return v1[0] * v2[0] + v1[1] * v2[1]
 
     def _perlin_noise_at_point(self, i, j, grid_size, vector_grid, octave) -> float:
@@ -293,7 +293,7 @@ class MapGenerator:
             + (random() - 0.5) * self.random_prob
         )
 
-    def _simple_perlin_noise(self, grid_size, octave):
+    def _simple_perlin_noise(self, grid_size: int, octave: int) -> list[list[float]]:
         '''
         creates a grid of simple(only one octave) perlin-noise values
         '''
@@ -305,7 +305,7 @@ class MapGenerator:
             ] for j in range(self.cell_number)
         ]
 
-    def _complex_perlin_noise(self):
+    def _complex_perlin_noise(self) -> list[list[float]]:
         total_value_grid = []
         grid_size = self.base_grid_size
         for p in range(self.octaves):
@@ -325,7 +325,7 @@ class MapGenerator:
 
         return total_value_grid
 
-    def _get_max_biome_val(self, x, y, grid):
+    def _get_max_biome_val(self, x, y, grid) -> tuple[dict[str, str | pygame.surface.Surface], tuple[float, float]]:
         value = 0
         idx = 0
         for i, biome in enumerate(grid):
@@ -334,9 +334,9 @@ class MapGenerator:
                 idx = i
                 value = tmp
         pos = (VEC_2(x, y) - VEC_2(self.cell_number - 1,  self.cell_number - 1) / 2) * self.cell_size
-        return (self.biome_types[idx].copy(), pos)  # need to remove the .copy()
+        return (self.biome_types[idx], pos)
 
-    def _simple_superposition(self):
+    def _simple_superposition(self) -> list[list[tuple[dict[str, str | pygame.surface.Surface], tuple[float, float]]]]:
         # chooses whitch biome is in witch cell based on their value strength
         '''
         self.final_biome_grid = []

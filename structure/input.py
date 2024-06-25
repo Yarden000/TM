@@ -11,10 +11,10 @@ from settings import (
 
 class InputManager:
     '''manages the inputs'''
-    def __init__(self):
+    def __init__(self) -> None:
         pass
 
-    def player_movement(self):
+    def player_movement(self) -> VEC_2:
         '''whitch direction teh player is moving'''
         keys = pygame.key.get_pressed()
         direction = VEC_2()
@@ -35,14 +35,14 @@ class InputManager:
 
         return movement
 
-    def speed_up_fps(self, fps):
+    def speed_up_fps(self, fps) -> int:
         '''to see the max fps'''
         keys = pygame.key.get_pressed()
         if keys[pygame.K_p]:
             return 100 * fps
         return fps
 
-    def attack_click(self):
+    def attack_click(self) -> tuple[int,int] | None:
         '''testing'''
         if pygame.mouse.get_pressed()[0]:
             return pygame.mouse.get_pos()

@@ -3,7 +3,7 @@ import math
 import pygame
 
 
-def debug(info, y=10, x=10):
+def debug(info, y=10, x=10) -> None:
     '''displays text on screen'''
     font = pygame.font.Font(None, 30)
     display_surf = pygame.display.get_surface()
@@ -20,7 +20,7 @@ VEC_2 = pygame.Vector2
 VEC_3 = pygame.Vector3
 
 
-def angle_between_vectors(v1, v2):
+def angle_between_vectors(v1: VEC_2, v2: VEC_2) -> float:
     '''inn radients'''
     if v1.magnitude() == 0 or v2.magnitude() == 0:
         raise ValueError('Null Vector')

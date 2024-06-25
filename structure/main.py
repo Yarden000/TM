@@ -15,9 +15,10 @@ from input import InputManager
 
 class Game:
     '''game class'''
-    def __init__(self):
+    def __init__(self) -> None:
         pygame.init()
-        self.screen = pygame.display.set_mode((WIDTH, HEIGHT))
+        flags = pygame.DOUBLEBUF
+        self.screen = pygame.display.set_mode((WIDTH, HEIGHT), flags, 16)
         pygame.display.set_caption('Survivorio')
 
         self.input_manager = InputManager()
@@ -25,7 +26,7 @@ class Game:
         self.compiler = Compiler(self.input_manager)
         # self.compiler_for_testing_map_gen = CompilerForTestingMapGen()   # enable this and dissable compiler to test map gen
 
-    def run(self):
+    def run(self) -> None:
         '''runs the game'''
         game_run = True
         while game_run:
