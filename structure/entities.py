@@ -67,7 +67,7 @@ class EntityManager:
             self.update_ent_region(ent)
 
     def ent_density(self) -> float:
-        '''calculates the density of entities at a point'''
+        '''calculates the density of entities arround the player'''
         region = tuple(self.player.hitbox.pos // self.region_size)
         dist = 5  # radius of regions checked
         n = 0
@@ -146,7 +146,7 @@ class EntityManager:
                 check_counter += c1
                 skiped_counter += c2
                 ent.ents_alrdy_coll_checked = [ent]
-        print(check_counter, skiped_counter)
+        # print(check_counter, skiped_counter)
 
     def remove_entity(self, ent) -> None:
         '''removes/kills an entity'''
@@ -245,13 +245,14 @@ class Entity:
     collidable = True
     size = 64
     radius = size / 2
+    image = pygame.image.load('../graphics/test/none.png')
 
     def __init__(self, pos, entitie_manager) -> None:
         self.entitie_manager = entitie_manager
         self.ents_alrdy_coll_checked = [self]
         self.hitbox: Hitbox = Rectangle(pos, random.randint(0, 100) / 100000, self.radius, self.radius)  # the small angle helps with collision blocks
         self.region = tuple(self.hitbox.pos // self.entitie_manager.region_size)
-        self.image = pygame.transform.scale(pygame.image.load('../graphics/test/none.png'), (self.size, self.size))
+        self.image = pygame.transform.scale(self.image.convert_alpha(), (self.size, self.size))
 
     def display(self, screen, camera) -> None:
         '''displays the entity if it is on screen'''
@@ -270,21 +271,23 @@ class Entity:
 class Ressource(Entity):
     '''resource class'''
     spawning_rates = {'desert': 0, 'plains': 1, 'forest': 0}
+    image = pygame.image.load('../graphics/test/ressource.png')
 
     def __init__(self, pos, entitie_manager) -> None:
         super().__init__(pos, entitie_manager)
-        self.image = pygame.transform.scale(pygame.image.load('../graphics/test/ressource.png'), (self.size, self.size))
+        self.image = pygame.transform.scale(self.image.convert_alpha(), (self.size, self.size))
 
 
 class Animal(Entity):
     '''animal class'''
     spawning_rates = {'desert': 0, 'plains': 0, 'forest': 1}
     movable = True
+    image = pygame.image.load('../graphics/test/animal.png')
 
     def __init__(self, pos, entitie_manager) -> None:
         super().__init__(pos, entitie_manager)
         self.hitbox = Circle(pos, self.radius)
-        self.image = pygame.transform.scale(pygame.image.load('../graphics/test/animal.png'), (self.size, self.size))
+        self.image = pygame.transform.scale(self.image.convert_alpha(), (self.size, self.size))
         # for testing
         angle = random.randint(0, 360)
         self.direction = VEC_2(math.sin(angle / math.pi), math.cos(angle / math.pi))
@@ -300,11 +303,12 @@ class Animal(Entity):
 class Player(Entity):
     '''player class'''
     movable = True
+    image = pygame.image.load('../graphics/test/player.png')
 
     def __init__(self, camera, input_manager, entitie_manager) -> None:
         super().__init__((0, 0), entitie_manager)
         # self.hitbox = Circle((0, 0), __class__.radius)
-        self.image = pygame.transform.scale(pygame.image.load('../graphics/test/player.png'), (self.size, self.size))
+        self.image = pygame.transform.scale(self.image.convert_alpha(), (self.size, self.size))
         self.speed = 100
         self.camera = camera
         self.input_manager = input_manager
@@ -336,12 +340,13 @@ class Player(Entity):
 class Attack(Entity):
     '''base attack class'''
     collidable = False
+    image = pygame.image.load('../graphics/test/flame.png')
 
     def __init__(self, hitbox: Rectangle, entitie_manager) -> None:
         super().__init__(hitbox.pos, entitie_manager)
         self.hitbox = hitbox
-        self.image = pygame.transform.scale(pygame.image.load('../graphics/test/flame.png'), (self.hitbox.vec1.magnitude() * 2, self.hitbox.vec2.magnitude() * 2))
-        self.image = pygame.transform.rotate(self.image, -self.hitbox.angle * 180 / math.pi)
+        self.image = pygame.transform.scale(self.image, (self.hitbox.vec1.magnitude() * 2, self.hitbox.vec2.magnitude() * 2))
+        self.image = pygame.transform.rotate(self.image.convert_alpha(), -self.hitbox.angle * 180 / math.pi)
         self.spawn_time = time.time()
         self.stay_time = 0.5
 

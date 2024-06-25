@@ -24,9 +24,9 @@ class Map:
         self.chunk_size_in_pixel = self.chunk_size * self.cell_size
         self.map_size = self.chunk_number * self.chunk_size
         self.biome_types = [
-            {'type': 'desert', 'image': pygame.transform.scale(pygame.image.load('../graphics/test/desert.png').convert_alpha(), (self.cell_size, self.cell_size))},
-            {'type': 'plains', 'image': pygame.transform.scale(pygame.image.load('../graphics/test/plains.png').convert_alpha(), (self.cell_size, self.cell_size))},
-            {'type': 'forest', 'image': pygame.transform.scale(pygame.image.load('../graphics/test/forest.png').convert_alpha(), (self.cell_size, self.cell_size))}
+            {'type': 'desert', 'image': pygame.transform.scale(pygame.image.load('../graphics/test/desert.png').convert(), (self.cell_size, self.cell_size))},
+            {'type': 'plains', 'image': pygame.transform.scale(pygame.image.load('../graphics/test/plains.png').convert(), (self.cell_size, self.cell_size))},
+            {'type': 'forest', 'image': pygame.transform.scale(pygame.image.load('../graphics/test/forest.png').convert(), (self.cell_size, self.cell_size))}
         ]
 
         map_gen = MapGenerator(self.map_size, self.cell_size, self.biome_types)  # (self.map_size, self.biome_types[, base_gris_size, octaves, persistence, frequency, random])
@@ -53,7 +53,8 @@ class Map:
                 for y in range_on_screen[1]:
                     if 0 <= y < self.map_size:
                         image = self.grid[x][y][0]['image']
-                        self.screen.blit(image, image.get_rect(center=VEC_2(self.grid[x][y][1] + camera.player_displacement)))
+                        image_rect = image.get_rect(center=VEC_2(self.grid[x][y][1] + camera.player_displacement))
+                        self.screen.blit(image, image_rect)
 
 
 class MapGeneratorTesting:

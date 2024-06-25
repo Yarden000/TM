@@ -14,6 +14,12 @@ class InputManager:
     def __init__(self) -> None:
         pass
 
+    def quit(self) -> bool:
+        keys = pygame.key.get_pressed()
+        if keys[pygame.K_q]:
+            return True
+        return False
+
     def player_movement(self) -> VEC_2:
         '''whitch direction teh player is moving'''
         keys = pygame.key.get_pressed()
