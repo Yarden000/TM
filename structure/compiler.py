@@ -35,8 +35,8 @@ class Compiler:
         self.entity_manager.run(dt)
 
         # test
-        self.spawner.spawn_ent_v2(dt, Animal)
-        self.spawner.spawn_ent_v2(dt, Ressource)
+        # self.spawner.spawn_ent_v2(dt, Animal)
+        # self.spawner.spawn_ent_v2(dt, Ressource)
 
         self.displayer.run()
 
@@ -63,6 +63,8 @@ class Displayer:
             # trier selon la position
             i.display(self.screen, self.camera)
             i.hitbox.draw(self.screen, self.camera)
+
+        self.entity_manager.player.visualise_directions(self.screen)
         # print(len(self.displayable_entenies))
         # for debugging:
         # self.entity_manager.draw_regions(self.camera.player_displacement)

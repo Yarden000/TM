@@ -35,6 +35,7 @@ print(b.dtype)
 a = np.array(['hellosss', 'good'])
 print(a.dtype)
 '''
+'''
 WIDTH = 1000
 HEIGHT = 600
 
@@ -282,6 +283,54 @@ class Rect:
 game = Game()
 game.run()
 
+'''
+def power_mean(values:list[float], power: float, weights:list[float] | None = None):
+        '''all values must be positif'''
+        if weights:
+            values_size = len(values)
+            weights_size = len(weights)
+            if values_size != weights_size:
+                raise ValueError('diffrent number of values and weights')
+        n: float = 0
+        sum: float = 0
+        if weights:
+            for i in range(values_size):
+                sum += values[i] ** power * weights[i]
+                n += weights[i]
+        else:
+            for value in values:
+                n += 1
+                sum += value ** power
+        sum = sum / n
+        return sum ** (1 / power)
 
 
+def lehmer_mean(values:list[float], power: float, weights:list[float] | None = None) -> float:
+        '''all values must be positif'''
+        if weights:
+            values_size = len(values)
+            weights_size = len(weights)
+            if values_size != weights_size:
+                raise ValueError('diffrent number of values and weights')
+        sum_1: float = 0
+        sum_2: float = 0
+        if weights:
+            for i in range(values_size):
+                sum_1 += values[i] ** power * weights[i]
+                sum_2 += values[i] ** (power - 1) * weights[i]
+        else:
+            for value in values:
+                sum_1 += value ** power
+                sum_2 += value ** (power - 1)
+        return sum_1 / sum_2
 
+values = [1, 2, 4.5, 6857, 1, 1, 1]
+weights = [ 3, 5, 2, 0.05, 33, 4, 2]
+start = time.time()
+n = 0
+for i in range(1000000):
+    n += 1
+    avarege = lehmer_mean(values, 1.3, weights)
+end = time.time()
+print(avarege, n)
+print(end - start)

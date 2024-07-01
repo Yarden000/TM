@@ -12,6 +12,7 @@ from settings import (
 from collisions import (
     CollisionDetector
 )
+from behaviors import Geometries
 
 
 class EntityManager:
@@ -25,6 +26,11 @@ class EntityManager:
         self.movable_entity_list: list[Entity] = []
         self.collision_detector = CollisionDetector()
         self.add_player()
+
+        # for testing
+        test_ents = [BehaviorTestEnt1((-400, 400), self), BehaviorTestEnt2((500, -100), self), BehaviorTestEnt3((-200, 300), self)]
+        for ent in test_ents:
+            self.spawn_ent(ent, overide=True)
 
     def add_player(self) -> None:
         '''creates the player'''
@@ -308,10 +314,14 @@ class Player(Entity):
     def __init__(self, camera, input_manager, entitie_manager) -> None:
         super().__init__((0, 0), entitie_manager)
         # self.hitbox = Circle((0, 0), __class__.radius)
+        self.speed_vec = VEC_2(0, 0)
         self.image = pygame.transform.scale(self.image.convert_alpha(), (self.size, self.size))
         self.speed = 100
         self.camera = camera
         self.input_manager = input_manager
+
+        # testing
+        self.geometries = Geometries(32)
 
     def move(self, displacement) -> None:
         self.camera.player_displacement -= displacement
@@ -329,11 +339,34 @@ class Player(Entity):
             rect = Rectangle(point - self.camera.true_player_displacement, angle, length, width)
             self.entitie_manager.spawn_ent(Attack(rect, self.entitie_manager), overide=True)
 
+    def visualise_directions(self, display_surface) -> None:
+        '''for testing'''
+        directions = self.geometries.do_funcion(1)
+        counter = 0
+        vectors = []
+        for direction in directions:
+            color = 'green' if direction >= 0 else 'red'
+            pos = VEC_2(WIDTH / 2, HEIGHT / 2)
+            angle = (counter / len(directions)) * 2 * math.pi
+            vector = VEC_2(100, 0).rotate(angle * 180 / math.pi) * direction
+            vectors.append(vector)
+            vector_abs = VEC_2(100, 0).rotate(angle * 180 / math.pi) * abs(direction)
+            pygame.draw.line(display_surface, color, pos, pos + vector_abs, width=2)
+            counter += 1
+        weights_ = [vec.magnitude() for vec in vectors]
+        chosen_vector = random.choices(vectors, weights=weights_, k=1)
+        self.speed_vec += chosen_vector[0] * 0.1
+        if self.speed_vec.magnitude() > self.speed:
+            self.speed_vec = self.speed_vec.normalize() * self.speed
+
+        print(directions)
+
     def display(self, screen, camera) -> None:
         screen.blit(self.image, self.image.get_rect(center=(WIDTH/2, HEIGHT/2)))
 
     def run(self, dt) -> None:
         self.move(self.input_manager.player_movement() * dt * self.speed)
+        #self.move(self.speed_vec * dt)
         self.attack()
 
 
@@ -389,3 +422,30 @@ class Attack(Entity):
 
 class Structure(Entity):
     '''base structure class'''
+
+
+class BehaviorTestEnt1(Entity):
+    '''entity for testing behaviors'''
+    collidable = False
+    image = pygame.image.load('../graphics/test/bluesphere.png')
+
+    def __init__(self, pos, entitie_manager) -> None:
+        super().__init__(pos, entitie_manager)
+
+
+class BehaviorTestEnt2(Entity):
+    '''entity for testing behaviors'''
+    collidable = False
+    image = pygame.image.load('../graphics/test/redsphere.png')
+
+    def __init__(self, pos, entitie_manager) -> None:
+        super().__init__(pos, entitie_manager)
+
+
+class BehaviorTestEnt3(Entity):
+    '''entity for testing behaviors'''
+    collidable = False
+    image = pygame.image.load('../graphics/test/purplesphere.png')
+
+    def __init__(self, pos, entitie_manager) -> None:
+        super().__init__(pos, entitie_manager)
