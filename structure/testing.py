@@ -284,7 +284,32 @@ game = Game()
 game.run()
 
 '''
-def power_mean(values:list[float], power: float, weights:list[float] | None = None):
+def geo_mean(values:list[float], weights:list[float] | None = None):
+        if weights:
+            values_size = len(values)
+            weights_size = len(weights)
+            if values_size != weights_size:
+                raise ValueError('diffrent number of values and weights')
+        prod: float = 1
+        n:float = 0
+        if weights:
+            for i in range(values_size):
+                if values[i] < 0:
+                    raise ValueError('negatif value')
+                prod = prod * values[i] ** weights[i]
+                n += weights[i]
+        else:
+            for value in values:
+                if value < 0:
+                    raise ValueError('negatif value')
+                prod = prod * value
+                n += 1
+        return prod ** (1 / n)
+     
+
+def power_mean(values:list[float], power:float, weights:list[float] | None = None):
+        if power == 0:
+            return geo_mean(values, weights)
         '''all values must be positif'''
         if weights:
             values_size = len(values)
@@ -295,42 +320,49 @@ def power_mean(values:list[float], power: float, weights:list[float] | None = No
         sum: float = 0
         if weights:
             for i in range(values_size):
-                sum += values[i] ** power * weights[i]
-                n += weights[i]
+                if values[i] < 0:
+                    raise ValueError('negatif value')
+                sum += weights[i] * values[i] ** power
+                n += abs(weights[i])
         else:
             for value in values:
-                n += 1
+                if value < 0:
+                    raise ValueError('negatif value')
                 sum += value ** power
+                n += 1
         sum = sum / n
         return sum ** (1 / power)
 
 
 def lehmer_mean(values:list[float], power: float, weights:list[float] | None = None) -> float:
-        '''all values must be positif'''
+        '''the if statements are for allowing negative values'''
         if weights:
             values_size = len(values)
             weights_size = len(weights)
             if values_size != weights_size:
                 raise ValueError('diffrent number of values and weights')
-        sum_1: float = 0
-        sum_2: float = 0
+        sum_1 = 0
+        sum_2 = 0
         if weights:
             for i in range(values_size):
-                sum_1 += values[i] ** power * weights[i]
-                sum_2 += values[i] ** (power - 1) * weights[i]
+                sum_1 += weights[i] * values[i] ** power if values[i] >= 0 or power % 2 == 1 else -weights[i] * abs(values[i]) ** power
+                sum_2 += weights[i] * values[i] ** (power - 1) if values[i] >= 0 or power % 2 == 1 else weights[i] * abs(values[i]) ** power
         else:
             for value in values:
-                sum_1 += value ** power
-                sum_2 += value ** (power - 1)
-        return sum_1 / sum_2
+                sum_1 += value ** power if value >= 0 or power % 2 == 1 else -1 * abs(value) ** power
+                sum_2 += value ** (power - 1) if value >= 0 or power % 2 == 1 else abs(value) ** power
+        if sum_2 == 0:
+            raise ValueError('average not possible')
+        return sum_1 / sum_2 
 
-values = [1, 2, 4.5, 6857, 1, 1, 1]
+values = [1000, 2.0]
 weights = [ 3, 5, 2, 0.05, 33, 4, 2]
 start = time.time()
 n = 0
 for i in range(1000000):
     n += 1
-    avarege = lehmer_mean(values, 1.3, weights)
+    avarege = power_mean(values, -20)
 end = time.time()
 print(avarege, n)
+
 print(end - start)

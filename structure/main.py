@@ -25,7 +25,7 @@ class Game:
 
         # test
         WIDTH_, HEIGHT_ = pygame.display.get_window_size()
-        print(WIDTH_, HEIGHT_)
+        # print(WIDTH_, HEIGHT_)
 
         pygame.display.set_caption('Survivorio')
 
@@ -50,7 +50,7 @@ class Game:
             pygame.display.set_caption(f"Survivorio | FPS: {str(int(self.clock.get_fps()))} | dt: {str(dt)}")
             self.compiler.run(dt)
             self.clock.tick(fps)  # should be FPS
-            print(self.clock.get_fps())
+            # print(self.clock.get_fps())
             
 
 

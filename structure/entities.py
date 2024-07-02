@@ -12,7 +12,10 @@ from settings import (
 from collisions import (
     CollisionDetector
 )
-from behaviors import Geometries
+from behaviors import (
+    Geometries,
+    Behavior
+    )
 
 
 class EntityManager:
@@ -28,9 +31,14 @@ class EntityManager:
         self.add_player()
 
         # for testing
-        test_ents = [BehaviorTestEnt1((-400, 400), self), BehaviorTestEnt2((500, -100), self), BehaviorTestEnt3((-200, 300), self)]
-        for ent in test_ents:
+        self.test_ents = [BehaviorTestEnt1((-200, 100), self), BehaviorTestEnt1((300, -100), self), BehaviorTestEnt1((-200, 300), self)]
+        for ent in self.test_ents:
             self.spawn_ent(ent, overide=True)
+        self.Behavior = Behavior(self)
+
+    def set_player_geometrie(self):
+        return self.Behavior.calc_comp_geo()
+
 
     def add_player(self) -> None:
         '''creates the player'''
@@ -341,7 +349,7 @@ class Player(Entity):
 
     def visualise_directions(self, display_surface) -> None:
         '''for testing'''
-        directions = self.geometries.do_funcion(1)
+        directions = self.entitie_manager.set_player_geometrie()
         counter = 0
         vectors = []
         for direction in directions:
@@ -359,14 +367,12 @@ class Player(Entity):
         if self.speed_vec.magnitude() > self.speed:
             self.speed_vec = self.speed_vec.normalize() * self.speed
 
-        print(directions)
-
     def display(self, screen, camera) -> None:
         screen.blit(self.image, self.image.get_rect(center=(WIDTH/2, HEIGHT/2)))
 
     def run(self, dt) -> None:
         self.move(self.input_manager.player_movement() * dt * self.speed)
-        #self.move(self.speed_vec * dt)
+        self.move(self.speed_vec * dt)
         self.attack()
 
 
