@@ -64,10 +64,10 @@ class Displayer:
             i.display(self.screen, self.camera)
             i.hitbox.draw(self.screen, self.camera)
 
-        self.entity_manager.player.visualise_directions(self.screen)
+        # self.entity_manager.player.visualise_directions(self.screen)
         # print(len(self.displayable_entenies))
         # for debugging:
-        # self.entity_manager.draw_regions(self.camera.player_displacement)
+        self.entity_manager.draw_regions(self.camera.player_displacement)
         pygame.display.update()
 
 

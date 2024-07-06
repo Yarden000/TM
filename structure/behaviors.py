@@ -22,9 +22,9 @@ from settings import (
 
 class Behavior:
     '''where all the behavior calculations are done'''
-    def __init__(self, entity_manager) -> None:
+    def __init__(self, entity_manager, ent) -> None:
         self.entity_manager = entity_manager
-        self.Sight = Sight()
+        self.Sight = Sight(ent)
         self.Geometries = Geometries(16)
         self.ActivationFunctions = ActivationFunctions()
         self.Averages = Averages()
@@ -82,6 +82,115 @@ class Behavior:
 
 class Sight:
     '''what an entity can see, maybe ray-tracing'''
+
+    def __init__(self, entity, precision = 32, sight_dist = 200) -> None:
+        self.entity = entity
+        self.precision = precision
+        self.sight_dist = sight_dist
+
+
+    def intersecion_points(self) -> list[tuple[float, float]]:
+        pos = self.entity.hitbox.pos
+        dist = self.sight_dist
+        max_region_dist = (dist // self.entity.entity_manager.region_size) + 1
+        for i in range(-max_region_dist, max_region_dist + 1):
+            for j in range(-max_region_dist, max_region_dist + 1):
+                region = (self.entity.region[0] + i, self.entity.region[1] + j)
+                for ent in region:
+
+
+        return [(3.5, 54.2)]
+    
+    def find_ent_angular_range(self, pos, entity) -> tuple[float, float]:
+        pass
+
+    def combime_angular_ranges(self) -> list[tuple[float, float]]:
+        pass
+
+
+class AngularRangeHandeler:
+    '''used for the Sight
+    all angles must be in rads'''
+    pi = math.pi
+
+    def __init__(self)-> None:
+        self.ranges_list: list[tuple[float, float]] = []
+
+    def corect_boundries(self, angular_range:tuple[float, float]) -> tuple[float, float]:
+        '''checks if boundries are false,
+        for example: if the range doues more than
+        a full rotation or if the end crossed the zero point'''
+        start, end = angular_range
+
+        if start >= end:
+            print('possible eror: start of angular range bigger or equal than end', (start, end))
+            delta = (start - end) // (2 * self.pi) + 1
+            end += delta * 2 * self.pi
+
+        # if start not between 0 and 2*pi it corrects
+        redundance = start // (2 * self.pi)
+        start -= redundance * 2 * self.pi
+        end -= redundance * 2 * self.pi
+
+        # if range more than entire circle
+        if end - start >= 2 * self.pi:
+            start, end = 0, 2 * self.pi
+
+        return (start, end)
+        
+    def combined_ranges(self, angular_range_1:tuple[float, float], angular_range_2:tuple[float, float]) -> tuple[float, float] | None:
+        start_1, end_1 = self.corect_boundries(angular_range_1)
+        start_2, end_2 = self.corect_boundries(angular_range_2)
+        
+        if start_1 <= start_2:
+
+            if start_2 > end_1:
+                # there is a hole
+                return None
+            return self.corect_boundries(start_1, end_2)
+        
+        if start_1 > end_2:
+            # there is a hole
+            return None
+        return self.corect_boundries(start_2, end_1)
+
+    def add_to_list(self, new_angular_range:tuple[float, float]) -> None:
+        '''adds a range to the ranges_list without redundant overlap'''
+        new_ranges_list: list[tuple[float, float]] = []
+        for ang_range in self.ranges_list:
+            if combined_range := self.combined_ranges(ang_range, new_angular_range):
+                new_angular_range = combined_range
+            else:
+                new_ranges_list.append(ang_range)
+        new_ranges_list.append(new_angular_range)
+        self.ranges_list = new_ranges_list
+
+
+
+    def sub(self, new_angular_range:tuple[float, float]) -> None:
+        '''removes a range to the ranges_list without redundant overlap'''
+        pass
+
+    def invert(self) -> None:
+        '''
+        inverts the ranges_list:
+        what was in the ranges is now out and what was out is now in
+        '''
+        pass
+
+    def fits(self, angular_range:tuple[float, float]) -> bool:
+        '''checkes if a range could fit in the ranges_list without overlap'''
+        pass
+
+    def covered(self, angular_range:tuple[float, float]) -> bool:
+        '''checkes if a range would be compleatly covered by the ranges_list'''
+        pass
+
+
+
+
+
+        
 
 class Geometries:
     '''diffrent vector geometries'''

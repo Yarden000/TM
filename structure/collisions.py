@@ -10,7 +10,7 @@ class CollisionDetector:
     def __init__(self) -> None:
         pass
 
-    def collision(self, hitbox1, hitbox2) -> VEC_2 | None:
+    def ent_ent_collision(self, hitbox1, hitbox2) -> VEC_2 | None:
         '''sorts which collision detection to use'''
         if hitbox1.kind == 'rect':
 
@@ -29,6 +29,109 @@ class CollisionDetector:
                 return self.circle_circle(hitbox1, hitbox2)
                 
         raise ValueError('unknown hitbox type')
+    
+    def line_ent_collision(self, line:dict, hitbox) -> list[tuple]:
+        '''sorts which collision detection to use'''
+        if hitbox.kind == 'rect':
+            pass
+        elif hitbox.kind == 'circle':
+            pass
+        raise ValueError('unknown hitbox type')
+    
+    def line_circle_inter(self, line:dict, circle) -> list[tuple]:
+        '''https://chatgpt.com/c/974e0607-9653-4e22-a183-97e730457388'''
+
+        # Line parameters
+        x0, y0 = line['start_pos']
+        dx, dy = line['direction']
+        l = line['length']
+        
+        # Circle parameters
+        cx, cy = circle.pos
+        r = circle.r
+        
+        # Coefficients of the quadratic equation at^2 + bt + c = 0
+        a = dx**2 + dy**2
+        b = 2 * (dx * (x0 - cx) + dy * (y0 - cy))
+        c = (x0 - cx)**2 + (y0 - cy)**2 - r**2
+        
+        # Calculate discriminant
+        discriminant = b**2 - 4 * a * c
+        
+        # No real solutions if discriminant is negative
+        if discriminant < 0:
+            return []
+        
+        # Calculate the two solutions for t
+        sqrt_discriminant = math.sqrt(discriminant)
+        t1 = (-b + sqrt_discriminant) / (2 * a)
+        t2 = (-b - sqrt_discriminant) / (2 * a)
+        
+        # Check if the solutions are within the valid range [0, L]
+        intersections: list[tuple] = []
+        if 0 <= t1 <= l:
+            intersections.append((x0 + t1 * dx, y0 + t1 * dy))
+        if 0 <= t2 <= l:
+            intersections.append((x0 + t2 * dx, y0 + t2 * dy))
+        
+        return intersections
+
+    def rotate_point(self, px:float, py:float, angle:float) -> tuple[float, float]:
+        """
+        Rotate a point (px, py) around a referance by an angle (in radians).
+        https://chatgpt.com/c/974e0607-9653-4e22-a183-97e730457388
+        """
+
+        cos_theta = math.cos(angle)
+        sin_theta = math.sin(angle)
+        x_new = px * cos_theta - py * sin_theta
+        y_new = px * sin_theta + py * cos_theta
+        return x_new, y_new
+
+    def line_rect_inter(self, line:dict, rectangle) -> list[tuple[float, float]]:
+        '''
+        gives the intersection points between a line and a rectangle
+        https://chatgpt.com/c/974e0607-9653-4e22-a183-97e730457388
+        '''
+        
+        # Line parameters
+        x0, y0 = line['start']
+        dx, dy = line['direction']
+        l = line['length']
+        
+        # Rectangle parameters
+        cx, cy = rectangle.pos
+        w = rectangle.width
+        h = rectangle.height
+        theta = rectangle.angle
+        
+        # Translate line to rectangle's local coordinate system
+        x0_local, y0_local = x0 - cx, y0 - cy
+        
+        # Rotate line by -theta to align with axis-aligned rectangle
+        x0_rot, y0_rot = self.rotate_point(x0_local, y0_local, -theta)
+        dx_rot, dy_rot = self.rotate_point(dx, dy, -theta)
+        
+        # Parametric representation of the rotated line
+        intersections = []
+        for edge in [(-w/2, -h/2, w/2, -h/2), (-w/2, h/2, w/2, h/2), (-w/2, -h/2, -w/2, h/2), (w/2, -h/2, w/2, h/2)]:
+            x1, y1, x2, y2 = edge
+            denom = (x2 - x1) * dy_rot - (y2 - y1) * dx_rot
+            if denom == 0:
+                continue  # Lines are parallel
+            t = ((x0_rot - x1) * (y2 - y1) - (y0_rot - y1) * (x2 - x1)) / denom
+            if 0 <= t <= l:
+                u = ((x0_rot - x1) * dy_rot - (y0_rot - y1) * dx_rot) / denom
+                if 0 <= u <= 1:
+                    intersection_x = x0_rot + t * dx_rot
+                    intersection_y = y0_rot + t * dy_rot
+                    intersections.append((intersection_x, intersection_y))
+            
+        # Transform intersections back to the original coordinate system
+        intersections_world = [self.rotate_point(ix, iy, theta) for ix, iy in intersections]
+        intersections_world = [(ix + cx, iy + cy) for ix, iy in intersections_world]
+        
+        return intersections_world
 
     def circle_circle(self, circle1, circle2) -> VEC_2 | None:
         '''circle-circle collision'''

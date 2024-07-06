@@ -34,7 +34,7 @@ class EntityManager:
         self.test_ents = [BehaviorTestEnt1((-200, 100), self), BehaviorTestEnt1((300, -100), self), BehaviorTestEnt1((-200, 300), self)]
         for ent in self.test_ents:
             self.spawn_ent(ent, overide=True)
-        self.Behavior = Behavior(self)
+        self.Behavior = Behavior(self, self.player)
 
     def set_player_geometrie(self):
         return self.Behavior.calc_comp_geo()
@@ -103,7 +103,7 @@ class EntityManager:
                     for ent_ in self.regions[region]:
                         if ent_ != ent:
                             # print(ent, ent_)
-                            if pushout := self.collision_detector.collision(ent.hitbox, ent_.hitbox):
+                            if pushout := self.collision_detector.ent_ent_collision(ent.hitbox, ent_.hitbox):
                                 if not do_pushout:
                                     return True
                                 else:
@@ -124,7 +124,7 @@ class EntityManager:
                             ent_.ents_alrdy_coll_checked.append(ent)
                             # print(ent, ent_)
                             check_counter += 1
-                            if pushout := self.collision_detector.collision(ent.hitbox, ent_.hitbox):
+                            if pushout := self.collision_detector.ent_ent_collision(ent.hitbox, ent_.hitbox):
                                 ent.hitbox.color = 'red'
                                 ent_.hitbox.color = 'red'
                                 if do_pushout:
@@ -356,9 +356,9 @@ class Player(Entity):
             color = 'green' if direction >= 0 else 'red'
             pos = VEC_2(WIDTH / 2, HEIGHT / 2)
             angle = (counter / len(directions)) * 2 * math.pi
-            vector = VEC_2(100, 0).rotate(angle * 180 / math.pi) * direction
+            vector = VEC_2(100, 0).rotate(angle * 180 / math.pi) * 10 # * direction
             vectors.append(vector)
-            vector_abs = VEC_2(100, 0).rotate(angle * 180 / math.pi) * abs(direction)
+            vector_abs = VEC_2(100, 0).rotate(angle * 180 / math.pi) * 10 # * abs(direction)
             pygame.draw.line(display_surface, color, pos, pos + vector_abs, width=2)
             counter += 1
         weights_ = [vec.magnitude() for vec in vectors]
