@@ -113,8 +113,18 @@ class AngularRangeHandeler:
     all angles must be in rads'''
     pi = math.pi
 
-    def __init__(self)-> None:
-        self.ranges_list: list[tuple[float, float]] = []
+    def __init__(self, ranges_list: list[tuple[float, float]] = [])-> None:
+        self.ranges_list = ranges_list
+
+    def clear(self):
+        self.ranges_list = []
+
+    def remove_null_ranges(self) -> None:
+        new_ranges_list = []
+        for range in self.ranges_list:
+            if range[0] != range[1]:
+                new_ranges_list.append(range)
+
 
     def corect_boundries(self, angular_range:tuple[float, float]) -> tuple[float, float]:
         '''checks if boundries are false,
@@ -147,12 +157,12 @@ class AngularRangeHandeler:
             if start_2 > end_1:
                 # there is a hole
                 return None
-            return self.corect_boundries(start_1, end_2)
+            return self.corect_boundries((start_1, end_2))
         
         if start_1 > end_2:
             # there is a hole
             return None
-        return self.corect_boundries(start_2, end_1)
+        return self.corect_boundries((start_2, end_1))
 
     def add_to_list(self, new_angular_range:tuple[float, float]) -> None:
         '''adds a range to the ranges_list without redundant overlap'''
@@ -165,22 +175,32 @@ class AngularRangeHandeler:
         new_ranges_list.append(new_angular_range)
         self.ranges_list = new_ranges_list
 
-
-
     def sub(self, new_angular_range:tuple[float, float]) -> None:
         '''removes a range to the ranges_list without redundant overlap'''
-        pass
+        self.invert()
+        self.add_to_list(new_angular_range)
+        self.invert()
 
     def invert(self) -> None:
         '''
         inverts the ranges_list:
         what was in the ranges is now out and what was out is now in
         '''
-        pass
+        new_ranges_list: list[tuple[float, float]] = []
+        if len(self.ranges_list) != 0:
+            for i in range(len(self.ranges_list)):
+                if i < len(self.ranges_list):
+                    num = i
+                else:
+                    num = -1
+                new_ranges_list.append((self.ranges_list[num][1], self.ranges_list[num + 1][0]))
+        else:
+            new_ranges_list = [(0, 2 * self.pi)]
+        self.ranges_list = new_ranges_list
 
     def fits(self, angular_range:tuple[float, float]) -> bool:
         '''checkes if a range could fit in the ranges_list without overlap'''
-        pass
+        
 
     def covered(self, angular_range:tuple[float, float]) -> bool:
         '''checkes if a range would be compleatly covered by the ranges_list'''

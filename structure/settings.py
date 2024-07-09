@@ -24,5 +24,9 @@ def angle_between_vectors(v1: VEC_2, v2: VEC_2) -> float:
     '''inn radients'''
     if v1.magnitude() == 0 or v2.magnitude() == 0:
         raise ValueError('Null Vector')
-    sign = -1 if v1.cross(v2) > 0 else 1
-    return math.acos(v1.dot(v2) / (v1.magnitude() * v2.magnitude())) * sign
+    tmp_angle =  math.acos(v1.dot(v2) / (v1.magnitude() * v2.magnitude()))
+    if v1.cross(v2) > 0:
+        angle = 2 * math.pi - tmp_angle
+    else:
+        angle = tmp_angle
+    return angle
