@@ -7,7 +7,7 @@ from settings import (
     WIDTH,
     HEIGHT,
     VEC_2,
-    angle_between_vectors
+    angle_between_vectors_0_to_2pi
     )
 from collisions import (
     CollisionDetector
@@ -38,7 +38,6 @@ class EntityManager:
 
     def set_player_geometrie(self):
         return self.Behavior.calc_comp_geo()
-
 
     def add_player(self) -> None:
         '''creates the player'''
@@ -257,6 +256,7 @@ class Entity:
     spawning_rates = {'desert': 1, 'plains': 0.2, 'forest': 0}
     movable = False
     collidable = True
+    opaque = True
     size = 64
     radius = size / 2
     image = pygame.image.load('../graphics/test/none.png')
@@ -340,7 +340,7 @@ class Player(Entity):
         '''temporairy'''
         click = self.input_manager.attack_click()
         if click is not None:
-            angle = -angle_between_vectors(VEC_2(1, 0), VEC_2(click) - self.hitbox.pos - self.camera.player_displacement)
+            angle = -angle_between_vectors_0_to_2pi(VEC_2(1, 0), VEC_2(click) - self.hitbox.pos - self.camera.player_displacement)
             length = 100
             width = 50
             point = VEC_2(math.cos(angle), math.sin(angle)) * length

@@ -4,7 +4,10 @@ import pygame
 from settings import (
     WIDTH,
     HEIGHT,
-    FPS
+    FPS, 
+    angle_between_vectors_0_to_2pi,
+    angle_between_vectors_plus_minus_pi,
+    VEC_2
 )
 from compiler import (
     Compiler,
@@ -38,8 +41,6 @@ class Game:
         '''runs the game'''
         game_run = True
         while game_run:
-            # testing
-            # print(self.collision_detector.Rect_Circle({'pos': (2, 2), 'r': 1}, {'pos': (0, 0), 'vec1': VEC_2(1, 1), 'vec2': VEC_2(-1, 1)}))
             for event in pygame.event.get():  # event loop
                 if event.type == pygame.QUIT or self.input_manager.quit():  # checks if quit
                     pygame.quit()
@@ -51,6 +52,11 @@ class Game:
             self.compiler.run(dt)
             self.clock.tick(fps)  # should be FPS
             # print(self.clock.get_fps())
+
+            # testing
+            pos = pygame.mouse.get_pos()
+            angle = angle_between_vectors_plus_minus_pi(VEC_2(1, 0), VEC_2(pos) - VEC_2(WIDTH / 2, HEIGHT / 2))
+            print(angle)
             
 
 

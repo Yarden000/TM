@@ -7,7 +7,7 @@ import pygame, sys
 import random
 import math
 import time
-from settings import angle_between_vectors, VEC_2
+from settings import angle_between_vectors_0_to_2pi, VEC_2
 
 def draw_grid_with_line(grid_size, grid_width, grid_height, line_cells):
     grid = [['-' for _ in range(grid_width)] for _ in range(grid_height)]
@@ -285,6 +285,8 @@ class AngularRangeHandeler:
         self.invert()
         return state
 
+
+
 '''angular_range_handeler = AngularRangeHandeler()
 r = (2.4, 3.99999)
 angular_range_handeler.add(r)
@@ -337,7 +339,7 @@ class Game:
                     pygame.quit()
                     sys.exit()
                 
-            # print(angle_between_vectors(VEC_2(1, 0), VEC_2(pygame.mouse.get_pos()) - VEC_2(400, 400)))
+            # print(angle_between_vectors_0_to_2pi(VEC_2(1, 0), VEC_2(pygame.mouse.get_pos()) - VEC_2(400, 400)))
             other_key_pressed = False
             keys = pygame.key.get_pressed()
 
@@ -350,12 +352,12 @@ class Game:
                 other_key_pressed = True
                 if self.q_key == False:
                     self.q_key = True
-                    angle = angle_between_vectors(VEC_2(1, 0), VEC_2(pygame.mouse.get_pos()) - VEC_2(400, 400))
+                    angle = angle_between_vectors_0_to_2pi(VEC_2(1, 0), VEC_2(pygame.mouse.get_pos()) - VEC_2(400, 400))
                     self.range_start = angle
             elif not other_key_pressed:
                 if self.q_key == True:
                     self.q_key = False
-                    angle = angle_between_vectors(VEC_2(1, 0), VEC_2(pygame.mouse.get_pos()) - VEC_2(400, 400))
+                    angle = angle_between_vectors_0_to_2pi(VEC_2(1, 0), VEC_2(pygame.mouse.get_pos()) - VEC_2(400, 400))
                     self.range_end = angle
                     self.angular_range_handeler.add((self.range_start, self.range_end))
                     print(self.angular_range_handeler.ranges_list)
@@ -364,12 +366,12 @@ class Game:
                 other_key_pressed = True
                 if self.w_key == False:
                     self.w_key = True
-                    angle = angle_between_vectors(VEC_2(1, 0), VEC_2(pygame.mouse.get_pos()) - VEC_2(400, 400))
+                    angle = angle_between_vectors_0_to_2pi(VEC_2(1, 0), VEC_2(pygame.mouse.get_pos()) - VEC_2(400, 400))
                     self.range_start = angle
             elif not other_key_pressed:
                 if self.w_key == True:
                     self.w_key = False
-                    angle = angle_between_vectors(VEC_2(1, 0), VEC_2(pygame.mouse.get_pos()) - VEC_2(400, 400))
+                    angle = angle_between_vectors_0_to_2pi(VEC_2(1, 0), VEC_2(pygame.mouse.get_pos()) - VEC_2(400, 400))
                     self.range_end = angle
                     self.angular_range_handeler.sub((self.range_start, self.range_end))
                     print(self.angular_range_handeler.ranges_list)
@@ -378,12 +380,12 @@ class Game:
                 other_key_pressed = True
                 if self.e_key == False:
                     self.e_key = True
-                    angle = angle_between_vectors(VEC_2(1, 0), VEC_2(pygame.mouse.get_pos()) - VEC_2(400, 400))
+                    angle = angle_between_vectors_0_to_2pi(VEC_2(1, 0), VEC_2(pygame.mouse.get_pos()) - VEC_2(400, 400))
                     self.range_start = angle
             elif not other_key_pressed:
                 if self.e_key == True:
                     self.e_key = False
-                    angle = angle_between_vectors(VEC_2(1, 0), VEC_2(pygame.mouse.get_pos()) - VEC_2(400, 400))
+                    angle = angle_between_vectors_0_to_2pi(VEC_2(1, 0), VEC_2(pygame.mouse.get_pos()) - VEC_2(400, 400))
                     self.range_end = angle
                     stare = self.angular_range_handeler.covers((self.range_start, self.range_end))
                     print(stare)
@@ -394,21 +396,21 @@ class Game:
                 pygame.draw.line(self.screen, 'blue', VEC_2(400, 400), VEC_2(math.cos(-self.range_start), math.sin(-self.range_start)) * 200 + VEC_2(400, 400), 5)
                 pygame.draw.line(self.screen, 'blue', VEC_2(400, 400), VEC_2(pygame.mouse.get_pos()), 5)
                 rect = pygame.rect.Rect((250, 250), (300, 300))
-                angle = angle_between_vectors(VEC_2(1, 0), VEC_2(pygame.mouse.get_pos()) - VEC_2(400, 400))
+                angle = angle_between_vectors_0_to_2pi(VEC_2(1, 0), VEC_2(pygame.mouse.get_pos()) - VEC_2(400, 400))
                 pygame.draw.arc(self.screen, 'blue', rect, self.range_start, angle, width = 10)
 
             if self.w_key:
                 pygame.draw.line(self.screen, 'red', VEC_2(400, 400), VEC_2(math.cos(-self.range_start), math.sin(-self.range_start)) * 200 + VEC_2(400, 400), 5)
                 pygame.draw.line(self.screen, 'red', VEC_2(400, 400), VEC_2(pygame.mouse.get_pos()), 5)
                 rect = pygame.rect.Rect((250, 250), (300, 300))
-                angle = angle_between_vectors(VEC_2(1, 0), VEC_2(pygame.mouse.get_pos()) - VEC_2(400, 400))
+                angle = angle_between_vectors_0_to_2pi(VEC_2(1, 0), VEC_2(pygame.mouse.get_pos()) - VEC_2(400, 400))
                 pygame.draw.arc(self.screen, 'red', rect, self.range_start, angle, width = 10)
 
             if self.e_key:
                 pygame.draw.line(self.screen, 'purple', VEC_2(400, 400), VEC_2(math.cos(-self.range_start), math.sin(-self.range_start)) * 200 + VEC_2(400, 400), 5)
                 pygame.draw.line(self.screen, 'purple', VEC_2(400, 400), VEC_2(pygame.mouse.get_pos()), 5)
                 rect = pygame.rect.Rect((250, 250), (300, 300))
-                angle = angle_between_vectors(VEC_2(1, 0), VEC_2(pygame.mouse.get_pos()) - VEC_2(400, 400))
+                angle = angle_between_vectors_0_to_2pi(VEC_2(1, 0), VEC_2(pygame.mouse.get_pos()) - VEC_2(400, 400))
                 pygame.draw.arc(self.screen, 'purple', rect, self.range_start, angle, width = 10)
             
             self.draw_ranges()

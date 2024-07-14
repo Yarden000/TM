@@ -17,13 +17,15 @@ All weights will be passed on hereditairly with random mutations. (Evolution!!!)
 import math
 from settings import (
     VEC_2,
-    angle_between_vectors
+    angle_between_vectors_0_to_2pi,
+    angle_between_vectors_plus_minus_pi
 )
 
 class Behavior:
     '''where all the behavior calculations are done'''
     def __init__(self, entity_manager, ent) -> None:
         self.entity_manager = entity_manager
+        self.entity = ent
         self.Sight = Sight(ent)
         self.Geometries = Geometries(16)
         self.ActivationFunctions = ActivationFunctions()
@@ -68,7 +70,7 @@ class Behavior:
         total_directions: list[float] = []
         all_directions: list[tuple[list[float], float]] = []  # list of all direction geometires and their weights 
         for vect in self.interests['ent_type_1']['rel_vects']:
-            angle, dist = -angle_between_vectors(vect, VEC_2(1, 0)), vect.magnitude()
+            angle, dist = -angle_between_vectors_0_to_2pi(vect, VEC_2(1, 0)), vect.magnitude()
             directions = self.Geometries.do_funcion(angle, self.interests['ent_type_1']['geo_func'])
             all_directions.append((directions, self.interests['ent_type_1']['activ_func'](dist)))
 
@@ -82,30 +84,86 @@ class Behavior:
 
 class Sight:
     '''what an entity can see, maybe ray-tracing'''
+    pi = math.pi
 
     def __init__(self, entity, precision = 32, sight_dist = 200) -> None:
         self.entity = entity
+        self.point = self.entity.hitbox.pos
         self.precision = precision
         self.sight_dist = sight_dist
 
 
-    def intersecion_points(self) -> list[tuple[float, float]]:
-        pos = self.entity.hitbox.pos
-        dist = self.sight_dist
-        max_region_dist = (dist // self.entity.entity_manager.region_size) + 1
+    def entities_in_range(self) -> list[tuple]:
+        ents_in_range: list[tuple] = []
+        max_region_dist = (self.sight_dist // self.entity.entity_manager.region_size) + 1
         for i in range(-max_region_dist, max_region_dist + 1):
             for j in range(-max_region_dist, max_region_dist + 1):
                 region = (self.entity.region[0] + i, self.entity.region[1] + j)
                 for ent in region:
+                    dist = (ent.hitbox.pos - self.point).magnitude() - ent.size / 2
+                    if dist <= self.sight_dist:
+                        ents_in_range.append((ent, dist))
 
-
-        return [(3.5, 54.2)]
+        return ents_in_range
     
-    def find_ent_angular_range(self, pos, entity) -> tuple[float, float]:
-        pass
+    def ents_seen(self) -> list:
+        ents_in_range = self.entities_in_range()
+        ents_seen: list[tuple] = []
+        def f(x):
+            x[1]
+        ents_in_range.sort(key = f)
+        angular_range_handeler = AngularRangeHandeler()
+        for ent, dist in ents_in_range:
+            angular_range = self.get_range(self.point, ent)
+            if not angular_range_handeler.covers(angular_range):
+                if ent.opaque:
+                    angular_range_handeler.add(angular_range)
+                ents_seen.append((ent, dist))
+        del angular_range_handeler
+        
+        return ents_seen
+    
+    def get_range(self, point:VEC_2, ent) -> tuple[float, float]:
+        '''eats the angular range that an entity covers for a certain point'''
+        if ent.hitbox == 'rect':
+            if angular_range := self.get_rect_range(point, ent.hitbox):
+                return angular_range
+            return(0, 2 * self.pi)
 
-    def combime_angular_ranges(self) -> list[tuple[float, float]]:
-        pass
+        elif ent.hitbox == 'circle':
+            if angular_range := self.get_circle_range(point, ent.hitbox):
+                return angular_range
+            return(0, 2 * self.pi)
+        
+        raise ValueError('unknown hitbox type')
+    
+    def get_rect_range(self, point:VEC_2, rect) -> tuple[float, float] | None:
+        '''eats the angular range that a rectangle covers for a certain point'''
+        rect_corners = self.entity.entity_manager.collision_detector.rect_corners(rect)
+        rel_angles = []
+        rect_center: VEC_2 = rect.pos
+        for corner in rect_corners:
+            rel_angle = angle_between_vectors_plus_minus_pi(rect_center - point, VEC_2(corner) - point)
+            rel_angles.append((rel_angle, corner))
+        def f(x):
+            return x[1]
+        rel_start_angle, start_point = min(rel_angles, key = f)
+        rel_end_angle, end_point = max(rel_angles, key = f)
+        if rel_end_angle - rel_start_angle > self.pi:
+            # because all hitboxes are convex it means that the point is in the hitbox
+            return None
+        angles = (angle_between_vectors_0_to_2pi(VEC_2(1, 0), VEC_2(end_point) - point),
+                 angle_between_vectors_0_to_2pi(VEC_2(1, 0), VEC_2(start_point) - point))
+        return angles
+    
+    def get_circle_range(self, point:VEC_2, circle) -> tuple[float, float] | None:
+        '''eats the angular range that a circle covers for a certain point'''
+        dist = (point - circle.pos).magnitude()
+        if dist <= circle.r:
+            return None
+        beta = abs(math.asin(circle.r / dist))
+        mid_angle = angle_between_vectors_0_to_2pi(VEC_2(1, 0), circle.pos - point)
+        return (mid_angle - beta, mid_angle + beta)
 
 
 class AngularRangeHandeler:
@@ -113,72 +171,143 @@ class AngularRangeHandeler:
     all angles must be in rads'''
     pi = math.pi
 
-    def __init__(self, ranges_list: list[tuple[float, float]] = [])-> None:
+    def __init__(self, ranges_list: list[tuple[float, float]] = []) -> None:
         self.ranges_list = ranges_list
 
-    def clear(self):
+    def clear(self) -> None:
         self.ranges_list = []
 
-    def remove_null_ranges(self) -> None:
-        new_ranges_list = []
-        for range in self.ranges_list:
-            if range[0] != range[1]:
-                new_ranges_list.append(range)
+    def sort(self) -> None:
+        def key_function(x):
+            return x[0]
+        self.ranges_list.sort(key = key_function)
 
+    def are_equal(self, ranges_list_1, ranges_list_2) -> bool:
+        '''checkes if two range lists are equal'''
+        ranges_list_1 = self.remove_null_ranges(ranges_list_1)
+        ranges_list_2 = self.remove_null_ranges(ranges_list_2)
+        for angular_range in ranges_list_2:
+            if angular_range not in ranges_list_1:
+                return False
+        for angular_range in ranges_list_1:
+            if angular_range not in ranges_list_2:
+                return False
+        return True
+
+    def remove_null_ranges(self, ranges_list) -> list[tuple[float, float]]:
+        new_ranges_list = []
+        for range_ in ranges_list:
+            if range_[0] != range_[1]:
+                new_ranges_list.append(range_)
+        return  new_ranges_list
 
     def corect_boundries(self, angular_range:tuple[float, float]) -> tuple[float, float]:
         '''checks if boundries are false,
-        for example: if the range doues more than
+        for example: if the range does more than
         a full rotation or if the end crossed the zero point'''
         start, end = angular_range
-
-        if start >= end:
-            print('possible eror: start of angular range bigger or equal than end', (start, end))
-            delta = (start - end) // (2 * self.pi) + 1
-            end += delta * 2 * self.pi
-
-        # if start not between 0 and 2*pi it corrects
-        redundance = start // (2 * self.pi)
-        start -= redundance * 2 * self.pi
-        end -= redundance * 2 * self.pi
+        
+        if start == 2 * self.pi and end == 0:  # equivilent to null range
+            return (0, 0)
 
         # if range more than entire circle
         if end - start >= 2 * self.pi:
             start, end = 0, 2 * self.pi
+
+        # if start not between 0 and 2*pi it corrects
+        start_redundance = start // (2 * self.pi)
+        end_redundance = end // (2 * self.pi)
+        start -= start_redundance * 2 * self.pi
+        end -= end_redundance * 2 * self.pi
 
         return (start, end)
         
     def combined_ranges(self, angular_range_1:tuple[float, float], angular_range_2:tuple[float, float]) -> tuple[float, float] | None:
         start_1, end_1 = self.corect_boundries(angular_range_1)
         start_2, end_2 = self.corect_boundries(angular_range_2)
-        
-        if start_1 <= start_2:
 
-            if start_2 > end_1:
+        
+        # check to see if they wrap arrount zero
+        cross_1 = True if start_1 > end_1 else False
+        cross_2 = True if start_2 > end_2 else False
+
+        if cross_1 and cross_2:
+            # they both cross zero so no need to check for a hole
+
+            if start_1 <= start_2:
+
+                if end_2 <= end_1:
+                    return self.corect_boundries((start_1, end_1))
+                if end_2 < start_1:
+                    return self.corect_boundries((start_1, end_2))
+                return (0, 2 * self.pi)
+                
+            # start_1 > start_2
+            if end_1 <= end_2:
+                return self.corect_boundries((start_2, end_2))
+            if end_1 < start_2:
+                return self.corect_boundries((start_2, end_1))
+            return (0, 2 * self.pi)
+
+        elif cross_1:
+            if end_1 >= start_2:
+                if end_2 >= start_1:
+                    return (0, 2 * self.pi)
+                if end_1 >= end_2:
+                    return self.corect_boundries((start_1, end_1))
+                return self.corect_boundries((start_1, end_2))
+            if end_2 >= start_1:
+                if start_1 <= start_2:
+                    return self.corect_boundries((start_1, end_1))
+                return self.corect_boundries((start_2, end_1))
+            # hole
+            return None
+        
+        elif cross_2:
+            if end_2 >= start_1:
+                if end_1 >= start_2:
+                    return (0, 2 * self.pi)
+                if end_2 >= end_1:
+                    return self.corect_boundries((start_2, end_2))
+                return self.corect_boundries((start_2, end_1))
+            if end_1 >= start_2:
+                if start_2 <= start_1:
+                    return self.corect_boundries((start_2, end_2))
+                return self.corect_boundries((start_1, end_2))
+            # hole
+            return None
+        else:
+            if start_1 <= start_2:
+                if start_2 > end_1:
+                    # there is a hole
+                    return None
+                if end_2 >= end_1:
+                    return self.corect_boundries((start_1, end_2))
+                else:
+                    return self.corect_boundries((start_1, end_1))
+            if start_1 > end_2:
                 # there is a hole
                 return None
-            return self.corect_boundries((start_1, end_2))
-        
-        if start_1 > end_2:
-            # there is a hole
-            return None
-        return self.corect_boundries((start_2, end_1))
+            if end_1 >= end_2:
+                return self.corect_boundries((start_2, end_1))
+            else:
+                return self.corect_boundries((start_2, end_2))
 
-    def add_to_list(self, new_angular_range:tuple[float, float]) -> None:
+    def add(self, new_angular_range:tuple[float, float]) -> None:
         '''adds a range to the ranges_list without redundant overlap'''
         new_ranges_list: list[tuple[float, float]] = []
         for ang_range in self.ranges_list:
             if combined_range := self.combined_ranges(ang_range, new_angular_range):
-                new_angular_range = combined_range
+                new_angular_range = self.corect_boundries(combined_range)
             else:
-                new_ranges_list.append(ang_range)
-        new_ranges_list.append(new_angular_range)
+                new_ranges_list.append(self.corect_boundries(ang_range))
+        new_ranges_list.append(self.corect_boundries(new_angular_range))
         self.ranges_list = new_ranges_list
 
     def sub(self, new_angular_range:tuple[float, float]) -> None:
         '''removes a range to the ranges_list without redundant overlap'''
-        self.invert()
-        self.add_to_list(new_angular_range)
+        self.invert()        
+        self.add(new_angular_range)
         self.invert()
 
     def invert(self) -> None:
@@ -186,31 +315,39 @@ class AngularRangeHandeler:
         inverts the ranges_list:
         what was in the ranges is now out and what was out is now in
         '''
+        temp = self.remove_null_ranges(self.ranges_list)
+        self.ranges_list = temp
+        self.sort()
         new_ranges_list: list[tuple[float, float]] = []
-        if len(self.ranges_list) != 0:
-            for i in range(len(self.ranges_list)):
-                if i < len(self.ranges_list):
-                    num = i
-                else:
-                    num = -1
-                new_ranges_list.append((self.ranges_list[num][1], self.ranges_list[num + 1][0]))
+        nbr_of_ranges = len(self.ranges_list)
+        if nbr_of_ranges != 0:
+            for i in range(nbr_of_ranges):
+                this_one = i
+                nextone = i + 1 if i < nbr_of_ranges - 1 else 0
+                new_range = (self.ranges_list[this_one][1], self.ranges_list[nextone][0])
+                new_ranges_list.append(self.corect_boundries(new_range))
         else:
             new_ranges_list = [(0, 2 * self.pi)]
-        self.ranges_list = new_ranges_list
+        self.ranges_list = self.remove_null_ranges(new_ranges_list)
 
     def fits(self, angular_range:tuple[float, float]) -> bool:
         '''checkes if a range could fit in the ranges_list without overlap'''
+        original_list = self.ranges_list
+        self.sub(angular_range)
+        if self.are_equal(original_list, self.ranges_list):
+            return True
+        self.ranges_list = original_list
+        return False
         
+    def covers(self, angular_range:tuple[float, float]) -> bool:
+        '''checkes if a range would be compleatly covered by the ranges in the list'''
+        state = False
+        self.invert()
+        if self.fits(angular_range):
+            state = True
+        self.invert()
+        return state
 
-    def covered(self, angular_range:tuple[float, float]) -> bool:
-        '''checkes if a range would be compleatly covered by the ranges_list'''
-        pass
-
-
-
-
-
-        
 
 class Geometries:
     '''diffrent vector geometries'''

@@ -20,8 +20,8 @@ VEC_2 = pygame.Vector2
 VEC_3 = pygame.Vector3
 
 
-def angle_between_vectors(v1: VEC_2, v2: VEC_2) -> float:
-    '''inn radients'''
+def angle_between_vectors_0_to_2pi(v1: VEC_2, v2: VEC_2) -> float:
+    '''in radients, from 0 to 2pi'''
     if v1.magnitude() == 0 or v2.magnitude() == 0:
         raise ValueError('Null Vector')
     tmp_angle =  math.acos(v1.dot(v2) / (v1.magnitude() * v2.magnitude()))
@@ -30,3 +30,17 @@ def angle_between_vectors(v1: VEC_2, v2: VEC_2) -> float:
     else:
         angle = tmp_angle
     return angle
+
+def angle_between_vectors_plus_minus_pi(v1: VEC_2, v2: VEC_2) -> float:
+    '''in radients, from pi to -pi'''
+    if v1.magnitude() == 0 or v2.magnitude() == 0:
+        raise ValueError('Null Vector')
+
+    perp_v1 = VEC_2(v1.y, -v1.x)
+    angle =  math.acos(v1.dot(v2) / (v1.magnitude() * v2.magnitude()))
+    if v2.dot(perp_v1) < 0:
+        return -angle
+    return angle
+
+    
+
