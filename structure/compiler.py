@@ -35,7 +35,7 @@ class Compiler:
         self.entity_manager.run(dt)
 
         # test
-        # self.spawner.spawn_ent_v2(dt, Animal)
+        self.spawner.spawn_ent_v2(dt, Animal)
         # self.spawner.spawn_ent_v2(dt, Ressource)
 
         self.displayer.run()

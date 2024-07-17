@@ -14,7 +14,8 @@ from collisions import (
 )
 from behaviors import (
     Geometries,
-    Behavior
+    Behavior,
+    Steering
     )
 
 
@@ -30,14 +31,13 @@ class EntityManager:
         self.collision_detector = CollisionDetector()
         self.add_player()
 
+        '''
         # for testing
         self.test_ents = [BehaviorTestEnt1((-200, 100), self), BehaviorTestEnt1((300, -100), self), BehaviorTestEnt1((-200, 300), self)]
         for ent in self.test_ents:
             self.spawn_ent(ent, overide=True)
         self.Behavior = Behavior(self, self.player)
-
-    def set_player_geometrie(self):
-        return self.Behavior.calc_comp_geo()
+        '''
 
     def add_player(self) -> None:
         '''creates the player'''
@@ -179,11 +179,9 @@ class EntityManager:
                 # print(tuple(self.player.pos // self.region_size))
                 pass
         self.update_regions()
-        # start = time.time()
-        self.colisions()
-        # end = time.time()
-        # print((end - start) * 1000)
-
+        '''testing'''
+        # self.colisions()
+        
     def draw_regions(self, player_displacement: VEC_2) -> None:
         '''draws the region borders'''
         r = 20
@@ -253,14 +251,23 @@ class Circle(Hitbox):
 
 class Entity:
     '''class for all the enteties: ressouces, animals...'''
+
     spawning_rates = {'desert': 1, 'plains': 0.2, 'forest': 0}
+
     movable = False
     collidable = True
     opaque = True
-    size = 64
-    radius = size / 2
+    
     image = pygame.image.load('../graphics/test/none.png')
 
+    size = 64
+    radius = size / 2
+    food = {'veg': 0, 'meat': 0}
+    danger = 10
+    max_speed = 100
+
+    state = None
+    
     def __init__(self, pos, entitie_manager) -> None:
         self.entitie_manager = entitie_manager
         self.ents_alrdy_coll_checked = [self]
@@ -303,15 +310,20 @@ class Animal(Entity):
         self.hitbox = Circle(pos, self.radius)
         self.image = pygame.transform.scale(self.image.convert_alpha(), (self.size, self.size))
         # for testing
-        angle = random.randint(0, 360)
-        self.direction = VEC_2(math.sin(angle / math.pi), math.cos(angle / math.pi))
+        self.vel = VEC_2()
 
-    def wander(self, dt) -> None:
+        '''testing'''
+        self.steering = Steering()
+        self.player = self.entitie_manager.player
+
+    def move_to_player(self, dt) -> None:
         '''temporairy'''
-        self.hitbox.pos += self.direction * dt * 100
+        dv = self.steering.react(self, self.player.hitbox.pos, flee = True, stop_at = True)
+        self.vel += dv * dt
+        self.hitbox.pos += self.vel * dt
 
     def run(self, dt) -> None:
-        self.wander(dt)
+        self.move_to_player(dt)
 
 
 class Player(Entity):

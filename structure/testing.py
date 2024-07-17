@@ -424,11 +424,14 @@ class Game:
             # print(self.clock.get_fps())
             
 
-
+'''
 if __name__ == '__main__':  # checks if it is the main file
     game = Game()
     game.run()
-
+'''
+a = [2]
+if a:
+    print('hello')
 '''
 l = [2.4, 3.99999]
 angular_range_handeler.add_to_list(l)
