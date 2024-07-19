@@ -81,17 +81,54 @@ class Steering:
         is possible to add a geometry
         example https://www.red3d.com/cwr/steer/gdc99/ figure 2
         '''
-        return 50 if norm > 50 else norm
-    
-    def react(self, entity, point:VEC_2, velocity:VEC_2|None=VEC_2(), flee:bool=False, stop_at:bool=False) -> VEC_2:
-        dist = (point - entity.hitbox.pos).magnitude()
-        if velocity:
-            # aproximate time to catch_up
-            aprox_time = dist / entity.max_speed
-            inbetween_displacement = velocity * aprox_time
-            point += inbetween_displacement
+        return 100 if norm > 100 else norm
+        
+    def leading_the_target(self, p1:VEC_2, v1:VEC_2, p2:VEC_2, s2:float, max_trailing:float=1.0) -> VEC_2:
+        dist_vect = p2 - p1
+        d = dist_vect.magnitude()
+        s1 = v1.magnitude()
+        alpha = angle_between_vectors_0_to_2pi(dist_vect, v1)
 
-        wanted_velocity = (point - entity.hitbox.pos).normalize() * entity.max_speed
+        tmp = math.sin(alpha) * s1 / s2
+
+        # there is no trajectory where p2 interceps p1
+        if tmp > 1:
+            tmp = 1
+        elif tmp < -1:
+            tmp = -1
+
+        beta = math.asin(tmp)
+
+        delta = math.pi - alpha - beta
+
+        t = math.sin(alpha) * d / (s2 * math.sin(delta)) if abs(delta) > 0.00001 else 10000
+        t = abs(t)
+
+        print(t, delta)    
+        
+        if t > d * max_trailing:
+            t = d * max_trailing
+        
+        p3 = p1 + t * v1
+
+        return p3
+  
+    def react(self, entity, point:VEC_2, velocity:VEC_2|None=None, flee:bool=False, stop_at:bool=False, offset:VEC_2|None=None) -> VEC_2:
+        p = point.copy()
+
+        if offset:
+            point += offset
+
+        dist = (p - entity.hitbox.pos).magnitude()
+        '''
+        print('dist')
+        print(point)
+        '''
+        if velocity:
+            p = self.leading_the_target(point, velocity, entity.hitbox.pos, entity.max_speed, max_trailing=2)
+
+        wanted_velocity = (p - entity.hitbox.pos).normalize() * entity.max_speed
+
         if flee:
             wanted_velocity *= -1
         elif stop_at:
@@ -101,7 +138,6 @@ class Steering:
         delta_v: VEC_2 = wanted_velocity - entity.vel
         if delta_v.magnitude() != 0:
             delta_v = self.max_delta_v(delta_v.magnitude()) * delta_v.normalize()
-
 
         return delta_v
 
