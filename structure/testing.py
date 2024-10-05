@@ -203,15 +203,108 @@ class Game:
             # print(self.clock.get_fps())
             
 
-
+'''
 if __name__ == '__main__':  # checks if it is the main file
     game = Game()
     game.run()
+'''
 
-'''
-l = [2.4, 3.99999]
-angular_range_handeler.add_to_list(l)
-angular_range_handeler.invert()
-angular_range_handeler.sub(l)
-angular_range_handeler.remove_null_ranges()
-'''
+class Averages:
+    '''diffrent type of avreges'''
+    def __init__(self) -> None:
+        pass
+
+    def average_vector(self, power:float, vec_list:list[VEC_2], wheight_list:list[float] | None = None) -> VEC_2:
+        l_x = [vec.x for vec in vec_list]
+        l_y = [vec.y for vec in vec_list]
+    
+        
+        return (self.lehmer_mean(l_x, power, wheight_list),
+                    self.lehmer_mean(l_y, power, wheight_list))
+
+    def lehmer_mean(self, values:list[float], power: float, weights:list[float] | None = None) -> float:
+        '''the if statements are for allowing negative values'''
+
+        if weights:
+            values_size = len(values)
+            weights_size = len(weights)
+            if values_size != weights_size:
+                raise ValueError('diffrent number of values and weights')
+            
+        sum_1 = 0
+        sum_2 = 0
+        if weights:
+            for i in range(values_size):
+                value = values[i]
+                if value == 0 and power < 1:
+                    value += 0.000001
+                sum_1 += weights[i] * value ** power if value >= 0 else -weights[i] * abs(values[i]) ** power
+                sum_2 += abs(weights[i]) * abs(value) ** (power - 1)
+        else:
+            for value_ in values:
+                value = value_
+                if value == 0 and power <= 0:
+                    value += 0.000001
+                sum_1 += value ** power if value >= 0 else -1 * abs(value) ** power
+                sum_2 += abs(value) ** (power - 1)
+        if sum_2 == 0:
+            if sum_1 == 0:
+                return 0
+            raise ValueError('average not possible')
+        return sum_1 / sum_2 
+    
+    def geo_mean(sefl, values:list[float], weights:list[float] | None = None):
+
+        if weights:
+            values_size = len(values)
+            weights_size = len(weights)
+            if values_size != weights_size:
+                raise ValueError('diffrent number of values and weights')
+            
+        prod: float = 1
+        n:float = 0
+        if weights:
+            for i in range(values_size):
+                if values[i] < 0:
+                    raise ValueError('negatif value')
+                prod = prod * values[i] ** weights[i]
+                n += weights[i]
+        else:
+            for value in values:
+                if value < 0:
+                    raise ValueError('negatif value')
+                prod = prod * value
+                n += 1
+        return prod ** (1 / n)
+
+    def power_mean(self, values:list[float], power: float, weights:list[float] | None = None) -> float:
+        '''all values must be positif'''
+
+        if power == 0:
+            return self.geo_mean(values, weights)
+        
+        if weights:
+            values_size = len(values)
+            weights_size = len(weights)
+            if values_size != weights_size:
+                raise ValueError('diffrent number of values and weights')
+            
+        n: float = 0
+        sum: float = 0
+        if weights:
+            for i in range(values_size):
+                if values[i] < 0:
+                    raise ValueError('negatif value')
+                sum += weights[i] * values[i] ** power
+                n += abs(weights[i])
+        else:
+            for value in values:
+                if value < 0:
+                    raise ValueError('negatif value')
+                sum += value ** power
+                n += 1
+        sum = sum / n
+        return sum ** (1 / power)
+
+avreges = Averages()
+

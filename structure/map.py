@@ -18,9 +18,9 @@ class Map:
     '''responsible for giving the displayer the right tiles and positions for displaying'''
     def __init__(self) -> None:
         self.screen = pygame.display.get_surface()
-        self.cell_size = 100
+        self.cell_size = 200
         self.chunk_number = 3  # number of chunks
-        self.chunk_size = 10  # number of tiles in a chunk
+        self.chunk_size = 5  # number of tiles in a chunk
         self.chunk_size_in_pixel = self.chunk_size * self.cell_size
         self.map_size = self.chunk_number * self.chunk_size
         self.biome_types = [
@@ -33,14 +33,16 @@ class Map:
         self.grid = map_gen.make_map()
 
     def _range_on_screen(self, camera) -> tuple[range, range]:
-        # Calculate horizontal range (x-axis) visible on screen
-        start_x = round((self.map_size / 2) - ((WIDTH + camera.player_displacement[0]) // self.cell_size))
-        end_x = round((self.map_size / 2) + ((WIDTH - camera.player_displacement[0]) // self.cell_size)) + 1
+        '''Calculate horizontal range (x-axis) visible on screen'''
+        # the + 0.1 is for when the map_size if odd it rounds it to the number above
+        start_x = round(((self.map_size + 0.1) / 2) - ((WIDTH + camera.player_displacement[0]) // self.cell_size))
+        end_x = round(((self.map_size + 0.1) / 2) + ((WIDTH - camera.player_displacement[0]) // self.cell_size)) + 1
         range_x = range(start_x, end_x)
 
-        # Calculate vertical range (y-axis) visible on screen
-        start_y = round((self.map_size / 2) - ((HEIGHT + camera.player_displacement[1]) // self.cell_size))
-        end_y = round((self.map_size / 2) + ((HEIGHT - camera.player_displacement[1]) // self.cell_size)) + 1
+        '''Calculate vertical range (y-axis) visible on screen'''
+        # the + 0.1 is for when the map_size if odd it rounds it to the number above
+        start_y = round(((self.map_size + 0.1) / 2) - ((HEIGHT + camera.player_displacement[1]) // self.cell_size))
+        end_y = round(((self.map_size + 0.1) / 2) + ((HEIGHT - camera.player_displacement[1]) // self.cell_size)) + 1
         range_y = range(start_y, end_y)
 
         return (range_x, range_y)

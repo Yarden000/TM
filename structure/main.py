@@ -5,7 +5,6 @@ from settings import (
     WIDTH,
     HEIGHT,
     FPS, 
-    angle_between_vectors_0_to_2pi,
     angle_between_vectors_plus_minus_pi,
     VEC_2
 )

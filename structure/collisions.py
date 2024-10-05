@@ -30,6 +30,20 @@ class CollisionDetector:
                 
         raise ValueError('unknown hitbox type')
     
+    def max_perp_width(self, hitbox, vect):
+        perp_vect = VEC_2(vect.y, -vect.x)
+        if hitbox.kind == 'rect':
+            corners = self.rect_corners(hitbox)
+            relative_pos = [corner - hitbox.pos for corner in corners]
+            p1, p2 = self.external_vectors(relative_pos, perp_vect)
+            return (p1 - p2).magnitude()
+            
+        elif hitbox.kind == 'circle':
+            return hitbox.r * 2
+
+        raise ValueError('unknown hitbox type')
+
+    
     def line_ent_collision(self, line:dict, hitbox) -> list[tuple]:
         '''sorts which collision detection to use'''
         if hitbox.kind == 'rect':

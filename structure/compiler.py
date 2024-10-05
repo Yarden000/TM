@@ -8,12 +8,18 @@ from entities import (
     Entity,
     EntityManager,
     Ressource,
-    Animal
+    Animal,
+    Crock,
+    Bunny
     )
 from spawner import (
     Spawner
 )
 from camera import Camera
+from settings import(
+    debug_info,
+    debug
+)
 
 
 class Compiler:
@@ -35,8 +41,10 @@ class Compiler:
         self.entity_manager.run(dt)
 
         # test
-        self.spawner.spawn_ent_v2(dt, Animal)
+        # self.spawner.spawn_ent_v2(dt, Animal)
         # self.spawner.spawn_ent_v2(dt, Ressource)
+        # self.spawner.spawn_ent_v2(dt, Crock)
+        # self.spawner.spawn_ent_v2(dt, Bunny)
 
         self.displayer.run()
 
@@ -63,11 +71,19 @@ class Displayer:
             # trier selon la position
             i.display(self.screen, self.camera)
             i.hitbox.draw(self.screen, self.camera)
+            i.hitbox.color = 'blue'
+            for key in i.other_hitboxes:
+                if hitbox := i.other_hitboxes[key]:
+                    hitbox.draw(self.screen, self.camera)
 
         # self.entity_manager.player.visualise_directions(self.screen)
         # print(len(self.displayable_entenies))
         # for debugging:
         self.entity_manager.draw_regions(self.camera.player_displacement)
+        for info, y, x in debug_info:
+            debug(info, y, x)
+        debug_info.clear()
+
         pygame.display.update()
 
 

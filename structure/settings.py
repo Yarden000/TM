@@ -12,9 +12,12 @@ def debug(info, y=10, x=10) -> None:
     pygame.draw.rect(display_surf, 'Black', debug_rect)
     display_surf.blit(debug_surf, debug_rect)
 
+debug_info:list[tuple[str, float, float]] = []
 
-WIDTH, HEIGHT = 800, 800
+
+WIDTH, HEIGHT = 1000, 800
 FPS = 60
+PI = math.pi
 
 VEC_2 = pygame.Vector2
 VEC_3 = pygame.Vector3
