@@ -431,8 +431,15 @@ class Steering:
 
         dist = (p - entity.hitbox.pos).magnitude()
 
+        return 50 if norm > 50 else norm
+    
+    def react(self, entity, point:VEC_2, velocity:VEC_2|None=VEC_2(), flee:bool=False, stop_at:bool=False) -> VEC_2:
+        dist = (point - entity.hitbox.pos).magnitude()
         if velocity:
-            p = self.leading_the_target(point, velocity, entity.hitbox.pos, entity.max_speed, max_trailing=2)
+            # aproximate time to catch_up
+            aprox_time = dist / entity.max_speed
+            inbetween_displacement = velocity * aprox_time
+            point += inbetween_displacement
 
         wanted_velocity = (p - entity.hitbox.pos).normalize()
 

@@ -55,7 +55,7 @@ class Game:
             # testing
             pos = pygame.mouse.get_pos()
             angle = angle_between_vectors_plus_minus_pi(VEC_2(1, 0), VEC_2(pos) - VEC_2(WIDTH / 2, HEIGHT / 2))
-            # print(angle)
+            print(angle)
             
 
 
