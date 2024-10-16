@@ -180,7 +180,7 @@ class EntityManager:
                 pass
         self.update_regions()
         '''testing'''
-        # self.colisions()
+        self.colisions()
         
     def draw_regions(self, player_displacement: VEC_2) -> None:
         '''draws the region borders'''
