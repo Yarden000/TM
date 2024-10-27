@@ -14,6 +14,7 @@ from spawner import (
     Spawner
 )
 from camera import Camera
+import behavior_test
 
 
 class Compiler:
@@ -35,7 +36,7 @@ class Compiler:
         self.entity_manager.run(dt)
 
         # test
-        self.spawner.spawn_ent_v2(dt, Animal)
+        # self.spawner.spawn_ent_v2(dt, Animal)
         # self.spawner.spawn_ent_v2(dt, Ressource)
 
         self.displayer.run()
@@ -59,10 +60,19 @@ class Displayer:
         self.screen.fill('blue')
         self.terrain.display(self.camera)
 
+        displacement = self.camera.player_displacement
         for i in self.entity_manager.entity_list:
             # trier selon la position
-            i.display(self.screen, self.camera)
-            i.hitbox.draw(self.screen, self.camera)
+            i.display(self.screen, displacement)
+
+            # for testing
+            i.hitbox.draw(self.screen, displacement)
+            for elmt in i.visuals:
+                elmt.draw(self.screen, displacement)
+            i.visuals = []
+            for elmt in behavior_test.visuals:
+                elmt.draw(self.screen, displacement)
+            behavior_test.visuals = []
 
         # self.entity_manager.player.visualise_directions(self.screen)
         # print(len(self.displayable_entenies))
