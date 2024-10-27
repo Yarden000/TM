@@ -40,11 +40,10 @@ class Compiler:
         '''all the interactions / events / calculations of the game'''
         self.entity_manager.run(dt)
 
-        # test
-        # self.spawner.spawn_ent_v2(dt, Animal)
-        # self.spawner.spawn_ent_v2(dt, Ressource)
-        # self.spawner.spawn_ent_v2(dt, Crock)
-        # self.spawner.spawn_ent_v2(dt, Bunny)
+        self.spawner.spawn_ent_v2(dt, Animal)
+        self.spawner.spawn_ent_v2(dt, Ressource)
+        self.spawner.spawn_ent_v2(dt, Crock)
+        self.spawner.spawn_ent_v2(dt, Bunny)
 
         self.displayer.run()
 
@@ -70,6 +69,7 @@ class Displayer:
         for i in self.entity_manager.entity_list:
             # trier selon la position
             i.display(self.screen, self.camera)
+            # testing
             i.hitbox.draw(self.screen, self.camera)
             i.hitbox.color = 'blue'
             for key in i.other_hitboxes:

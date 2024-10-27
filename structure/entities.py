@@ -12,12 +12,6 @@ from settings import (
 from collisions import (
     CollisionDetector
 )
-from behaviors import (
-    Geometries,
-    Behavior,
-    Steering,
-    Sight
-    )
 from hitboxes import(
     Rectangle,
     Circle,
@@ -39,22 +33,6 @@ class EntityManager:
         self.animal_list: list[Animal] = []
         self.collision_detector = CollisionDetector()
         self.add_player()
-
-        
-        self.spawn_ent(Animal(VEC_2(400, 0), self))
-        self.spawn_ent(Ressource(VEC_2(200, -400), self))
-        self.spawn_ent(Ressource(VEC_2(200, -200), self))
-        '''
-        self.spawn_ent(Ressource(VEC_2(200, -400), self))
-        self.spawn_ent(Ressource(VEC_2(200, -300), self))
-        self.spawn_ent(Ressource(VEC_2(200, -200), self))
-        self.spawn_ent(Ressource(VEC_2(200, -100), self))
-        self.spawn_ent(Ressource(VEC_2(200, 0), self))
-        self.spawn_ent(Ressource(VEC_2(200, 100), self))
-        self.spawn_ent(Ressource(VEC_2(200, 200), self))
-        self.spawn_ent(Ressource(VEC_2(200, 300), self))
-        self.spawn_ent(Ressource(VEC_2(200, 400), self))
-        '''
 
     def add_player(self) -> None:
         '''creates the player'''
@@ -191,8 +169,6 @@ class EntityManager:
     def run(self, dt) -> None:
         '''runs all entity behaviours/interactions'''
         self.player.run(dt)
-        for ent in self.animal_list:
-            ent.get_sight()
         for ent in self.entity_list:
             if not ent == self.player:
                 ent.run(dt)
@@ -215,7 +191,7 @@ class EntityManager:
 class Entity:
     '''class for all the enteties: ressouces, animals...'''
 
-    spawning_rates = {'desert': 1, 'plains': 0.2, 'forest': 0}
+    spawning_rates = {'desert': 1, 'plains': 0.2, 'forest': 100}
 
     movable = False
     collidable = True
@@ -278,7 +254,7 @@ class Plant(Ressource):
         self.image = pygame.transform.scale(self.image.convert_alpha(), (self.size, self.size))
 
 
-class Animal(Entity, Behavior):
+class Animal(Entity):
     '''animal class'''
     spawning_rates = {'desert': 0, 'plains': 0, 'forest': 0.1}
     movable = True
@@ -296,17 +272,17 @@ class Animal(Entity, Behavior):
     def __init__(self, pos, entitie_manager) -> None:
         Entity.__init__(self, pos, entitie_manager)
         self.hitbox = Circle(pos, self.radius)
-        Behavior.__init__(self, entitie_manager, self)
         self.image = pygame.transform.scale(self.image.convert_alpha(), (self.size, self.size))
 
         '''testing'''
         self.player = self.entitie_manager.player
-        self.sight = Sight(self)
         self.ents_seen:list = []
 
         self.curent_acktion = None
         self.satiation = self.max_satiation
         self.hp = self.max_hp
+
+        self.vel = VEC_2(100, 0).rotate(random.randrange(0, 360))
 
         # how much the animal considers another animal food or danger
         self.food_considerations:dict[object, float] = {
@@ -324,24 +300,11 @@ class Animal(Entity, Behavior):
             Crock: 10.0
         }
 
-    def get_sight(self) -> None:
-        self.ents_seen = self.sight.ents_seen()
-
     def get_want(self) -> None:
-        pass
-
-    def move_to_player(self, dt) -> None:
-        '''temporairy'''
-        # print(self.player.hitbox.pos)
-        dv = self.steering.react(self, self.player.hitbox.pos, velocity = self.player.velocity, flee = False, stop_at = False)
-        self.vel += dv * dt
-        if self.vel.magnitude() <= self.max_speed:
-            self.hitbox.pos += self.vel * dt
-        else:
-            self.hitbox.pos += self.vel.normalize() * self.max_speed * dt
+        pass    
 
     def run(self, dt) -> None:
-        self.move_to_player(dt)
+        self.hitbox.pos += self.vel * dt
 
 class Bunny(Animal):
     spawning_rates = {'desert': 0, 'plains': 0.1, 'forest': 0.1}
@@ -402,9 +365,6 @@ class Player(Entity):
         self.speed = 100
         self.camera = camera
         self.input_manager = input_manager
-
-        # testing
-        self.geometries = Geometries(32)
 
     def move(self, displacement) -> None:
         self.camera.player_displacement -= displacement
