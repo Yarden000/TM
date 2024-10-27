@@ -12,7 +12,7 @@ from settings import (
 from collisions import (
     CollisionDetector
 )
-from behavior_test import (
+from behaviors import (
     Behavior,
     Steering
     )
