@@ -1,6 +1,6 @@
 '''https://www.youtube.com/watch?v=T9vYgZJCmeI'''
 import math
-import pygame
+import pygame, pymunk
 
 
 def debug(info, y=10, x=10) -> None:
@@ -16,18 +16,20 @@ debug_info:list[tuple[str, float, float]] = []
 
 
 WIDTH, HEIGHT = 1000, 800
-FPS = 60
+FPS = 1200
 PI = math.pi
 
 VEC_2 = pygame.Vector2
 VEC_3 = pygame.Vector3
+def convert_to_pymunk(vec):
+    return pymunk.Vec2d(vec.x, vec.y)
 
 
 def angle_between_vectors_0_to_2pi(v1: VEC_2, v2: VEC_2) -> float:
     '''in radients, from 0 to 2pi'''
-    if v1.magnitude() == 0 or v2.magnitude() == 0:
+    if v1.length == 0 or v2.length == 0:
         raise ValueError('Null Vector')
-    tmp_angle =  math.acos(v1.dot(v2) / (v1.magnitude() * v2.magnitude()))
+    tmp_angle =  math.acos(v1.dot(v2) / (v1.length * v2.length))
     if v1.cross(v2) > 0:
         angle = 2 * math.pi - tmp_angle
     else:
@@ -36,11 +38,11 @@ def angle_between_vectors_0_to_2pi(v1: VEC_2, v2: VEC_2) -> float:
 
 def angle_between_vectors_plus_minus_pi(v1: VEC_2, v2: VEC_2) -> float:
     '''in radients, from pi to -pi'''
-    if v1.magnitude() == 0 or v2.magnitude() == 0:
+    if v1.length == 0 or v2.length == 0:
         raise ValueError('Null Vector')
 
     perp_v1 = VEC_2(v1.y, -v1.x)
-    angle =  math.acos(v1.dot(v2) / (v1.magnitude() * v2.magnitude()))
+    angle =  math.acos(v1.dot(v2) / (v1.length * v2.length))
     if v2.dot(perp_v1) < 0:
         return -angle
     return angle
