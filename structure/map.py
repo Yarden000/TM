@@ -7,6 +7,7 @@ from random import (
 import math
 import pygame
 import numpy
+from copy import copy
 from settings import (
     WIDTH,
     HEIGHT,
@@ -19,31 +20,24 @@ class Map:
     def __init__(self) -> None:
         self.screen = pygame.display.get_surface()
         self.cell_size = 200
-        self.chunk_number = 3  # number of chunks
-        self.chunk_size = 5  # number of tiles in a chunk
-        self.chunk_size_in_pixel = self.chunk_size * self.cell_size
-        self.map_size = self.chunk_number * self.chunk_size
         self.biome_types = [
             {'type': 'desert', 'image': pygame.transform.scale(pygame.image.load('../graphics/test/desert.png').convert(), (self.cell_size, self.cell_size))},
             {'type': 'plains', 'image': pygame.transform.scale(pygame.image.load('../graphics/test/plains.png').convert(), (self.cell_size, self.cell_size))},
             {'type': 'forest', 'image': pygame.transform.scale(pygame.image.load('../graphics/test/forest.png').convert(), (self.cell_size, self.cell_size))}
         ]
 
-        map_gen = MapGenerator(self.map_size, self.cell_size, self.biome_types)  # (self.map_size, self.biome_types[, base_gris_size, octaves, persistence, frequency, random])
-        self.grid = map_gen.make_map()
+        self.map_gen = MapGenerator(self)  # (self.map_size, self.biome_types[, base_gris_size, octaves, persistence, frequency, random])
+        self.grid = {}
+
+    def update(self, pos):
+        self.map_gen.update_map_grid(pos)
 
     def _range_on_screen(self, camera) -> tuple[range, range]:
-        '''Calculate horizontal range (x-axis) visible on screen'''
-        # the + 0.1 is for when the map_size if odd it rounds it to the number above
-        start_x = round(((self.map_size + 0.1) / 2) - ((WIDTH + camera.player_displacement[0]) // self.cell_size))
-        end_x = round(((self.map_size + 0.1) / 2) + ((WIDTH - camera.player_displacement[0]) // self.cell_size)) + 1
-        range_x = range(start_x, end_x)
-
-        '''Calculate vertical range (y-axis) visible on screen'''
-        # the + 0.1 is for when the map_size if odd it rounds it to the number above
-        start_y = round(((self.map_size + 0.1) / 2) - ((HEIGHT + camera.player_displacement[1]) // self.cell_size))
-        end_y = round(((self.map_size + 0.1) / 2) + ((HEIGHT - camera.player_displacement[1]) // self.cell_size)) + 1
-        range_y = range(start_y, end_y)
+        range_x = range(int((-camera.true_player_displacement[0] - WIDTH / 2) // self.cell_size),
+                        int((-camera.true_player_displacement[0] + WIDTH / 2) // self.cell_size) + 1)
+        
+        range_y = range(int((-camera.true_player_displacement[1] - HEIGHT / 2) // self.cell_size),
+                        int((-camera.true_player_displacement[1] + HEIGHT / 2) // self.cell_size) + 1)
 
         return (range_x, range_y)
 
@@ -51,12 +45,11 @@ class Map:
         '''displays only the tiles that are on the screen'''
         range_on_screen = self._range_on_screen(camera)
         for x in range_on_screen[0]:
-            if 0 <= x < self.map_size:
                 for y in range_on_screen[1]:
-                    if 0 <= y < self.map_size:
-                        image = self.grid[x][y][0]['image']
-                        image_rect = image.get_rect(center=VEC_2(self.grid[x][y][1] + camera.player_displacement))
-                        self.screen.blit(image, image_rect)
+                        if (x, y) in self.grid:
+                            image = self.grid[(x, y)][0]['image']
+                            image_rect = image.get_rect(center=VEC_2(self.grid[(x, y)][1] + camera.player_displacement))
+                            self.screen.blit(image, image_rect)
 
 
 class MapGeneratorTesting:
@@ -202,16 +195,88 @@ class MapGeneratorTesting:
 
 class MapGenerator:
     '''generates the map grid'''
-    def __init__(self, map_size, cell_size, biome_types, base_grid_size=3, octaves=6, persistence=0.5, frequency=2, random_prob=0.00015) -> None:
-        self.cell_size = cell_size
-        self.biome_types = biome_types
+    def __init__(self, map, base_grid_size=3, octaves=4, persistence=0.6, frequency=2, random_noise_strength=0.05) -> None:
+        self.map = map
+        self.cell_size = copy(map.cell_size)
+        self.biome_types = copy(map.biome_types)
         self.biome_number = len(self.biome_types)
-        self.cell_number = map_size
+
         self.base_grid_size = base_grid_size
-        self.octaves = octaves
-        self.persistence = persistence
-        self.frequency = frequency
-        self.random_prob = random_prob
+
+        self.octaves = octaves  # nbr of octaves 
+        self.persistence = persistence  # next octaves strength 
+        self.frequency = frequency  # frequency of next octave
+        self.random_noise_strength = random_noise_strength
+
+        # all gradients for all biomes = [ all gradient octaves for a biome = [ grid of gradient vectors= [] ] ]
+        self.gradients = [[{} for i in range(self.octaves)] for j in range(self.biome_number)]  
+
+        self.load_dist = 5000
+        self.initial_gradient_vec_dist = self.cell_size * 50  # distance between each gradient vector in the first octave, kind of arbitrairy
+
+    def update_map_grid(self, player_pos):
+        tiles_range_x = range(int((player_pos[0] - self.load_dist) // self.cell_size), int((player_pos[0] + self.load_dist) // self.cell_size))
+        tiles_range_y = range(int((player_pos[1] - self.load_dist) // self.cell_size), int((player_pos[1] + self.load_dist) // self.cell_size))
+        for i in tiles_range_x:
+            for j in tiles_range_y:
+                if (i, j) not in self.map.grid:
+                    pos = ((i + 0.5) * self.cell_size, (j + 0.5) * self.cell_size) # position of the cell
+                    biome = self.biome_at_point(pos)
+                    self.map.grid[(i, j)] = (biome, pos)
+    
+    def biome_at_point(self, pos):
+        strongest = -float('inf')
+        winning_biome = None
+        for biome in range(self.biome_number):
+            strentgh = self.complex_perlin_noise_at_point(pos, biome)
+            if strentgh > strongest:
+                strongest = strentgh
+                winning_biome = biome
+        return self.biome_types[winning_biome]
+
+    def complex_perlin_noise_at_point(self, pos, biome):
+        total = 0
+        for octave in range(self.octaves):
+            gradient_vects_coord, relative_pos = self.surrounding_grad_vects_coord(pos, octave)
+
+            self.update_gradients(gradient_vects_coord, octave, biome)
+            
+            gradients = [self.gradients[biome][octave][coordinate] for coordinate in gradient_vects_coord]
+            strength = self._perlin_noise_at_point(relative_pos, octave, gradients)
+            total += strength
+
+        return total
+
+    def update_gradients(self, gradient_vects_coord, octave, biome):
+        '''if gradient vector not yet created, it is created'''
+        for coordinate in gradient_vects_coord:
+            if coordinate not in self.gradients[biome][octave]:
+                # random gradient_vect
+                self.gradients[biome][octave][coordinate] = VEC_2(0, 1).rotate(random() * 360)
+
+    def surrounding_grad_vects_coord(self, pos, octave):
+        '''findes the relative coordinates of the gradient vectors around a point
+        and the relative position of said point in the box of vectors'''
+
+        dist = self.initial_gradient_vec_dist / self.frequency ** octave  # distance between two gradient vectors (the size of the box)
+
+        # coordinates of the gradient vectors surrounding the point (the unites are the distance between the gradients)
+        x_small = pos[0] // dist
+        x_big = x_small + 1
+        y_small = pos[1] // dist
+        y_big = y_small + 1
+
+        gradient_vects_coor = [(x_small, y_big), (x_big, y_big),
+                          (x_small, y_small), (x_big, y_small)]
+        
+        # are equivalent
+        '''
+        relative_pos = ((pos[0] - x_small * dist) / dist,
+                        (pos[1] - y_small * dist) / dist)
+                        '''
+        relative_pos = (pos[0] / dist - x_small,
+                        pos[1] / dist - y_small)
+        return gradient_vects_coor, relative_pos
 
     def _smooth_step_1(self, x: float) -> float:
         if x < 0:
@@ -237,53 +302,29 @@ class MapGenerator:
         else:
             return x
 
-    def _create_random_uni_vec(self) -> tuple[float, float]:
-        angle = random()*360
-        return math.cos(angle), math.sin(angle)
-
-    def _create_vector_grid(self, grid_size) -> numpy.ndarray[tuple[float, float]]:
-        '''
-        creates a grid of random vectors
-        '''
-        return numpy.array(
-            [
-                [
-                    self._create_random_uni_vec()
-                    for _ in range(grid_size + 1)
-                ]
-                for _ in range(grid_size + 1)
-            ]
-        )
-
     def _perlin_dot(self, v1: tuple[float, float], v2: tuple[float, float]) -> float:
         return v1[0] * v2[0] + v1[1] * v2[1]
 
-    def _perlin_noise_at_point(self, i, j, grid_size, vector_grid, octave) -> float:
+    def _perlin_noise_at_point(self, relative_pos, octave, gradients) -> float:
         '''
         calculates the perlin noise value at a single point
         '''
-        # finding the position in the perlin_grid
-        x = ((i + 0.5) * grid_size) / self.cell_number
-        y = ((j + 0.5) * grid_size) / self.cell_number
-        # finding in whitch cell of the perlin grid the point is
-        i, j = int(x), int(y)
-        # finding the relative position in the cell
-        cell_x, cell_y = x % 1, y % 1
+        cell_x, cell_y = relative_pos
         # dot products
         dot_topleft = self._perlin_dot(
-            vector_grid[i][j + 1],
+            gradients[0],
             (cell_x, cell_y - 1)
         )
         dot_topright = self._perlin_dot(
-            vector_grid[i + 1][j + 1],
+            gradients[1],
             (cell_x - 1, cell_y - 1)
         )
         dot_bottomleft = self._perlin_dot(
-            vector_grid[i][j],
+            gradients[2],
             (cell_x, cell_y)
         )
         dot_bottomright = self._perlin_dot(
-            vector_grid[i + 1][j],
+            gradients[3],
             (cell_x - 1, cell_y)
         )
         # interpolation
@@ -293,78 +334,54 @@ class MapGenerator:
         bottom_inter = dot_bottomleft + smooth_x * (dot_bottomright - dot_bottomleft)
         return (
             (bottom_inter + smooth_y * (top_inter - bottom_inter)) * (self.persistence**octave)
-            + (random() - 0.5) * self.random_prob
+            + (random() - 0.5) * self.random_noise_strength
         )
 
-    def _simple_perlin_noise(self, grid_size: int, octave: int) -> list[list[float]]:
-        '''
-        creates a grid of simple(only one octave) perlin-noise values
-        '''
-        vector_grid = self._create_vector_grid(grid_size)
-        return [
-            [
-                self._perlin_noise_at_point(i, j, grid_size, vector_grid, octave)
-                for i in range(self.cell_number)
-            ] for j in range(self.cell_number)
-        ]
 
-    def _complex_perlin_noise(self) -> list[list[float]]:
-        total_value_grid = []
-        grid_size = self.base_grid_size
-        for p in range(self.octaves):
-            value_grid = self._simple_perlin_noise(grid_size, p)
-            if p == 0:
-                total_value_grid = [
-                    [y for y in x]
-                    for x in value_grid
-                ]
+class F:
+    def __init__(self):
+        self.load_dist = 5000
+        self.tile_size = 500
+        self.nbr_of_biomes = 4
+        self.initial_gradient_vec_dist = self.tile_size * 50  # kind of arbitrairy
+        self.octaves = 4  # nbr of octaves 
+        self.persistence = 0.5  # next octaves strength 
+        self.frequency = 2  # frequency of next octave
+        self.tile_grid = {}
+        self.gradient_vec_grids = [{} for i in self.octaves]
 
-            else:
-                for i in range(self.cell_number):
-                    for j in range(self.cell_number):
-                        total_value_grid[i][j] += value_grid[i][j]
+    def f(self, player_pos):
+        tiles_range_x = ((player_pos[0] - self.load_dist) // self.tile_size, (player_pos[0] + self.load_dist) // self.tile_size)
+        tiles_range_y = ((player_pos[1] - self.load_dist) // self.tile_size, (player_pos[1] + self.load_dist) // self.tile_size)
+        for i in range(tiles_range_x):
+            for j in range(tiles_range_y):
+                if (i, j) not in self.grid:
+                    pos = ((i + 0.5) * self.tile_size, (j + 0.5) * self.tile_size)
+                    biome = self.biome_at_point(pos)
+                    self.tile_grid[(i, j)] = (biome, pos)
 
-            grid_size *= self.frequency
+    def biome_at_point(self, pos):
+        for octave in range(self.octaves):
+            gradient_vects_pos = self.surrounding_grad_vects(pos, octave)
+            for coordinate in gradient_vects_pos:
 
-        return total_value_grid
+                if coordinate not in self.gradient_vec_grids[octave]:
+                    # random gradient_vect
+                    self.gradient_vec_grids[octave] = VEC_2(0, 1).rotate(randrange(0, 360))
 
-    def _get_max_biome_val(self, x, y, grid) -> tuple[dict[str, str | pygame.surface.Surface], tuple[float, float]]:
-        value = 0
-        idx = 0
-        for i, biome in enumerate(grid):
-            tmp = biome[x][y]
-            if tmp > value:
-                idx = i
-                value = tmp
-        pos = (VEC_2(x, y) - VEC_2(self.cell_number - 1,  self.cell_number - 1) / 2) * self.cell_size
-        return (self.biome_types[idx], pos)
+                
 
-    def _simple_superposition(self) -> list[list[tuple[dict[str, str | pygame.surface.Surface], tuple[float, float]]]]:
-        # chooses whitch biome is in witch cell based on their value strength
-        '''
-        self.final_biome_grid = []
-        self.all_biome_grid = [self.complex_perlin_noise() for i in range(self.biome_number)]
-        for x in range(self.cell_number):
-            self.final_biome_grid.append([])
-            for y in range(self.cell_number):
-                self.values = []
-                for j in range(self.biome_number):
-                    self.values.append(self.all_biome_grid[j][x][y])
-                self.final_biome_grid[x].append(biome_types[self.values.index(max(self.values))])
-        '''
-        all_biome_grid = [
-            self._complex_perlin_noise()
-            for i in range(self.biome_number)
-        ]
-        final_biome_grid = [
-            [
-                self._get_max_biome_val(i, j, all_biome_grid)
-                for j in range(self.cell_number)
-            ] for i in range(self.cell_number)
-        ]
-        # '''
-        return final_biome_grid
+    def surrounding_grad_vects(self, pos, octave):
+        dist = self.initial_gradient_vec_dist / self.frequency ** octave
+        # coordinates of the gradient vectors surrounding the point (the unites are the distance between the gradients)
+        x_small = pos[0] // dist
+        x_big = x_small + 1
+        y_small = pos[1] // dist
+        y_big = y_small + 1
+        gradient_vects_pos = [(x_small, y_big), (x_big, y_big),
+                          (x_small, y_small), (x_big, y_small)]
+        return gradient_vects_pos
 
-    def make_map(self):
-        '''makes map'''
-        return self._simple_superposition()
+
+  
+    

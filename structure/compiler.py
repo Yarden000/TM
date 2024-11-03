@@ -39,12 +39,13 @@ class Compiler:
     def run(self, dt) -> None:
         '''all the interactions / events / calculations of the game'''
         self.entity_manager.run(dt)
+        self.map.update(self.entity_manager.player.hitbox.pos)
 
         # test
-        # self.spawner.spawn_ent_v2(dt, Animal)
-        # self.spawner.spawn_ent_v2(dt, Ressource)
-        # self.spawner.spawn_ent_v2(dt, Crock)
-        # self.spawner.spawn_ent_v2(dt, Bunny)
+        self.spawner.spawn_ent_v2(dt, Animal)
+        self.spawner.spawn_ent_v2(dt, Ressource)
+        self.spawner.spawn_ent_v2(dt, Crock)
+        self.spawner.spawn_ent_v2(dt, Bunny)
 
         self.displayer.run()
 

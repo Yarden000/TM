@@ -52,12 +52,6 @@ class Game:
             self.clock.tick(fps)  # should be FPS
             # print(self.clock.get_fps())
 
-            # testing
-            pos = pygame.mouse.get_pos()
-            angle = angle_between_vectors_plus_minus_pi(VEC_2(1, 0), VEC_2(pos) - VEC_2(WIDTH / 2, HEIGHT / 2))
-            print(angle)
-            
-
 
 if __name__ == '__main__':  # checks if it is the main file
     game = Game()

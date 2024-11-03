@@ -424,9 +424,6 @@ class Game:
             # print(self.clock.get_fps())
             
 
-
-if __name__ == '__main__':  # checks if it is the main file
-    game = Game()
-    game.run()
-
-'''
+a = float('inf')
+print(-a)
+print(3 > a)
