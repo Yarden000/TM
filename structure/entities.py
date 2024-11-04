@@ -13,16 +13,10 @@ from collisions import (
     CollisionDetector
 )
 from behaviors import (
-    Geometries,
     Behavior,
-    Steering,
-    Sight
+    Steering
     )
-from hitboxes import(
-    Rectangle,
-    Circle,
-    Hitbox,
-    DrawPoints,
+from visualizing import(
     Line
 )
 
@@ -35,26 +29,22 @@ class EntityManager:
         self.regions: dict[tuple, list[Entity]] = {}
         self.region_size = 200  # needs to be bigger than all entity sizes
         self.entity_list: list[Entity] = []
+        self.animal_list: list[Animal] = []
         self.movable_entity_list: list[Entity] = []
         self.animal_list: list[Animal] = []
         self.collision_detector = CollisionDetector()
         self.add_player()
 
         
-        self.spawn_ent(Animal(VEC_2(400, 0), self))
-        self.spawn_ent(Ressource(VEC_2(200, -400), self))
-        self.spawn_ent(Ressource(VEC_2(200, -200), self))
-        '''
-        self.spawn_ent(Ressource(VEC_2(200, -400), self))
-        self.spawn_ent(Ressource(VEC_2(200, -300), self))
-        self.spawn_ent(Ressource(VEC_2(200, -200), self))
-        self.spawn_ent(Ressource(VEC_2(200, -100), self))
-        self.spawn_ent(Ressource(VEC_2(200, 0), self))
-        self.spawn_ent(Ressource(VEC_2(200, 100), self))
-        self.spawn_ent(Ressource(VEC_2(200, 200), self))
-        self.spawn_ent(Ressource(VEC_2(200, 300), self))
-        self.spawn_ent(Ressource(VEC_2(200, 400), self))
-        '''
+        # for testing
+        self.test_ents = [TestEntFood((-200, 100), self),
+                          TestEntFood((0, 100), self),
+                          TestEntFood((0, 300), self),
+                          Animal((200, 200), self)
+                          ]
+        for ent in self.test_ents:
+            self.spawn_ent(ent, overide=True)
+        
 
     def add_player(self) -> None:
         '''creates the player'''
@@ -69,7 +59,7 @@ class EntityManager:
         self.entity_list.append(ent)
         if ent.movable:
             self.movable_entity_list.append(ent)
-        if isinstance(ent, Animal):
+        if ent.__class__ == Animal:
             self.animal_list.append(ent)
         ent.region = (None, None)
         self.update_ent_region(ent)
@@ -187,18 +177,20 @@ class EntityManager:
         if ent in self.animal_list:
             self.animal_list.remove(ent)
         del ent
+    
+    def run_animals(self, dt) -> None:
+        for ent in self.animal_list:
+            ent.get_wants()
+        for ent in self.animal_list:
+            ent.change_vel()
+        for ent in self.animal_list:
+            ent.aply_vel(dt)
+            ent.run(dt)
 
     def run(self, dt) -> None:
         '''runs all entity behaviours/interactions'''
         self.player.run(dt)
-        for ent in self.animal_list:
-            ent.get_sight()
-        for ent in self.entity_list:
-            if not ent == self.player:
-                ent.run(dt)
-            else:  # debugging
-                # print(tuple(self.player.pos // self.region_size))
-                pass
+        self.run_animals(dt)
         self.update_regions()
         '''testing'''
         self.colisions()
@@ -210,6 +202,64 @@ class EntityManager:
             k = i * self.region_size
             pygame.draw.line(pygame.display.get_surface(), 'red', VEC_2(-r * self.region_size, k) + player_displacement, VEC_2(r * self.region_size, k) + player_displacement)
             pygame.draw.line(pygame.display.get_surface(), 'red', VEC_2(k, -r * self.region_size) + player_displacement, VEC_2(k, r * self.region_size) + player_displacement)
+
+
+class Hitbox:
+    '''base hotbox class'''
+    kind = 'None'
+
+    def __init__(self, pos: tuple[float | int, float | int] | VEC_2) -> None:
+        self.pos = VEC_2(pos)
+        self.color = 'blue'
+
+    def scale(self, scalar) -> None:
+        '''scales the hitbox by a scalar'''
+
+    def rotate(self, angle) -> None:
+        '''rotates the hitbox by an angle'''
+
+
+class Rectangle(Hitbox):
+    '''rectangular hitbox class'''
+    kind = 'rect'
+
+    def __init__(self, pos, angle, length, breadth) -> None:
+        super().__init__(pos)
+        self.angle = angle
+        self.vec1 = VEC_2(math.cos(angle), math.sin(angle)) * length
+        self.vec2 = VEC_2(math.sin(angle), -math.cos(angle)) * breadth
+
+    def scale(self, scalar) -> None:
+        self.vec1 = self.vec1 * scalar
+        self.vec2 = self.vec2 * scalar
+
+    def rotate(self, angle) -> None:
+        self.angle += angle
+        self.vec1 = self.vec1.rotate(angle)
+        self.vec2 = self.vec2.rotate(angle)
+
+    def draw(self, display_surface, displacement) -> None:
+        '''draws the boundries of the hitbox'''
+        pygame.draw.line(display_surface, self.color, displacement + self.pos + self.vec1 + self.vec2, displacement + self.pos + self.vec1 - self.vec2, width=1)
+        pygame.draw.line(display_surface, self.color, displacement + self.pos - self.vec1 + self.vec2, displacement + self.pos - self.vec1 - self.vec2, width=1)
+        pygame.draw.line(display_surface, self.color, displacement + self.pos + self.vec2 + self.vec1, displacement + self.pos + self.vec2 - self.vec1, width=1)
+        pygame.draw.line(display_surface, self.color, displacement + self.pos - self.vec2 + self.vec1, displacement + self.pos - self.vec2 - self.vec1, width=1)
+
+
+class Circle(Hitbox):
+    '''circular hitbox class'''
+    kind = 'circle'
+
+    def __init__(self, center, radius) -> None:
+        super().__init__(center)
+        self.r = radius
+
+    def scale(self, scalar) -> None:
+        self.r = self.r * scalar
+
+    def draw(self, display_surface, displacement) -> None:
+        '''draws the boundries of the hitbox'''
+        pygame.draw.circle(display_surface, self.color, displacement + self.pos, self.r, 1)
 
 
 class Entity:
@@ -225,38 +275,35 @@ class Entity:
 
     size = 64
     radius = size / 2
+    interests = {
+        'food': 0,
+        'danger': 0
+        }
     danger = 10
     max_speed = 50
 
     food = 1
     danger = 1
     
-    def __init__(self, pos, entitie_manager) -> None:
-        self.entitie_manager = entitie_manager
+    def __init__(self, pos, entity_manager) -> None:
+        self.visuals = []  # temporairy
+        self.pos = VEC_2(pos)
+        self.entity_manager = entity_manager
         self.ents_alrdy_coll_checked = [self]
-        self.hitbox: Hitbox = Circle(pos, __class__.radius)
-        #self.hitbox: Hitbox = Rectangle(pos, random.randint(0, 100) / 10000, self.radius, self.radius)  # the small angle helps with collision blocks
-        
-        '''to be able to visualize multiple hitboxes per entity'''
-        self.other_hitboxes = {'obs_avoid': None, 'seeing_angle': None, 'important_points': DrawPoints(), 'lines': Line()}
-        
-        self.region = tuple(self.hitbox.pos // self.entitie_manager.region_size)
+        self.hitbox: Hitbox = Rectangle(pos, random.randint(0, 100) / 100000, self.radius, self.radius)  # the small angle helps with collision blocks
+        self.region = tuple(self.hitbox.pos // self.entity_manager.region_size)
         self.image = pygame.transform.scale(self.image.convert_alpha(), (self.size, self.size))
 
-        self.vel = VEC_2(10, 0)
-
-    def display(self, screen, camera) -> None:
+    def display(self, screen, displacement) -> None:
         '''displays the entity if it is on screen'''
-        if -self.radius < self.hitbox.pos.x + camera.player_displacement.x < WIDTH + self.radius:
-            if -self.radius < self.hitbox.pos.y + camera.player_displacement.y < HEIGHT + self.radius:
-                screen.blit(self.image, self.image.get_rect(center=VEC_2(self.hitbox.pos + camera.player_displacement)))
+        if -self.radius < self.hitbox.pos.x + displacement.x < WIDTH + self.radius:
+            if -self.radius < self.hitbox.pos.y + displacement.y < HEIGHT + self.radius:
+                screen.blit(self.image, self.image.get_rect(center=VEC_2(self.hitbox.pos + displacement)))
 
     def move(self, displacement) -> None:
         '''moves the entity'''
         self.hitbox.pos += displacement
-
-    def run(self, dt) -> None:
-        '''runs the behaviors'''
+        self.pos += displacement
 
 
 class Ressource(Entity):
@@ -264,8 +311,8 @@ class Ressource(Entity):
     spawning_rates = {'desert': 0, 'plains': 1, 'forest': 0}
     image = pygame.image.load('../graphics/test/ressource.png')
 
-    def __init__(self, pos, entitie_manager) -> None:
-        super().__init__(pos, entitie_manager)
+    def __init__(self, pos, entity_manager) -> None:
+        super().__init__(pos, entity_manager)
         self.image = pygame.transform.scale(self.image.convert_alpha(), (self.size, self.size))
 
 
@@ -273,121 +320,58 @@ class Plant(Ressource):
     spawning_rates = {'desert': 0, 'plains': 1, 'forest': 1}
     image = pygame.image.load('../graphics/test/plant.png')
 
-    def __init__(self, pos, entitie_manager) -> None:
-        super().__init__(pos, entitie_manager)
+    def __init__(self, pos, entity_manager) -> None:
+        super().__init__(pos, entity_manager)
         self.image = pygame.transform.scale(self.image.convert_alpha(), (self.size, self.size))
 
 
-class Animal(Entity, Behavior):
+class Animal(Entity):
     '''animal class'''
     spawning_rates = {'desert': 0, 'plains': 0, 'forest': 0.1}
     movable = True
     image = pygame.image.load('../graphics/test/animal.png')
+    max_speed = 50 
+    max_delta_v = 5
 
-    max_herd_size = 5
-    herds:list[list] = []
-
-    wander_angle = 0
-    max_speed = 150
-    max_satiation = 100
-    max_hp = 100
-    collision_avoidance_dist = 200
-
-    def __init__(self, pos, entitie_manager) -> None:
-        Entity.__init__(self, pos, entitie_manager)
+    def __init__(self, pos, entity_manager) -> None:
+        super().__init__(pos, entity_manager)
         self.hitbox = Circle(pos, self.radius)
         Behavior.__init__(self, entitie_manager, self)
         self.image = pygame.transform.scale(self.image.convert_alpha(), (self.size, self.size))
 
+        # for testing
+        self.vel = VEC_2()
+        self.wanted_direction = None
+        self.action = None
+
+        self.behavior = Behavior(entity_manager, self)
+
         '''testing'''
-        self.player = self.entitie_manager.player
-        self.sight = Sight(self)
-        self.ents_seen:list = []
+        self.steering = Steering()
+        self.player = self.entity_manager.player
 
-        self.curent_acktion = None
-        self.satiation = self.max_satiation
-        self.hp = self.max_hp
+    def get_wants(self) -> None:
+        self.wanted_direction, self.action = self.behavior.wants()
+        self.visuals.append(Line(self.pos, self.wanted_direction * 100, (0, 0, 200)))
 
-        # how much the animal considers another animal food or danger
-        self.food_considerations:dict[object, float] = {
-            Ressource: 10.1,
-            Plant: 0.0,
-            Animal: 0.01,
-            Bunny: 5.0,
-            Crock: 1.0
-        }
-        self.danger_considerations:dict[object, float] = {
-            Ressource: 0.0,
-            Plant: 0.0,
-            Animal: 0.01,
-            Bunny: 0.1,
-            Crock: 10.0
-        }
-
-    def get_sight(self) -> None:
-        self.ents_seen = self.sight.ents_seen()
-
-    def get_want(self) -> None:
-        pass
-
-    def move_to_player(self, dt) -> None:
-        '''temporairy'''
-        # print(self.player.hitbox.pos)
-        dv = self.steering.react(self, self.player.hitbox.pos, velocity = self.player.velocity, flee = False, stop_at = False)
-        self.vel += dv * dt
-        if self.vel.magnitude() <= self.max_speed:
-            self.hitbox.pos += self.vel * dt
+    def change_vel(self) -> None:
+        if self.wanted_direction:
+            wanted_vel = self.wanted_direction * self.max_speed
         else:
-            self.hitbox.pos += self.vel.normalize() * self.max_speed * dt
+            raise ValueError('no wanted direction')
+        
+        delta_v: VEC_2 = wanted_vel - self.vel
+        if delta_v.magnitude() > self.max_delta_v:
+            delta_v = delta_v.normalize() * self.max_delta_v
+        
+        self.vel += delta_v
+
+    def aply_vel(self, dt) -> None:
+        self.move(self.vel * dt)
 
     def run(self, dt) -> None:
-        self.move_to_player(dt)
+        pass
 
-class Bunny(Animal):
-    spawning_rates = {'desert': 0, 'plains': 0.1, 'forest': 0.1}
-    image = pygame.image.load('../graphics/test/bunny.png')
-
-    def __init__(self, pos, entitie_manager) -> None:
-        super().__init__(pos, entitie_manager)
-
-        # how much the animal considers another animal food or danger
-        self.food_considerations:dict[object, float] = {
-            Ressource: 0,
-            Plant: 5,
-            Animal: 0,
-            Bunny: 0,
-            Crock: 0
-        }
-        self.danger_considerations:dict[object, float] = {
-            Ressource: 0,
-            Plant: 0,
-            Animal: 3,
-            Bunny: 0.1,
-            Crock: 10
-        }
-
-class Crock(Animal):
-    spawning_rates = {'desert': 0, 'plains': 0.1, 'forest': 0.1}
-    image = pygame.image.load('../graphics/test/crock.png')
-
-    def __init__(self, pos, entitie_manager) -> None:
-        super().__init__(pos, entitie_manager)
-
-        # how much the animal considers another animal food or danger
-        self.food_considerations:dict[object, float] = {
-            Ressource: 0,
-            Plant: 0,
-            Animal: 1,
-            Bunny: 5,
-            Crock: 0.1
-        }
-        self.danger_considerations:dict[object, float] = {
-            Ressource: 0,
-            Plant: 0,
-            Animal: 0.5,
-            Bunny: 0.01,
-            Crock: 10
-        }
 
 class Player(Entity):
     '''player class'''
@@ -396,15 +380,12 @@ class Player(Entity):
 
     def __init__(self, camera, input_manager, entitie_manager) -> None:
         super().__init__((0, 0), entitie_manager)
-        # self.hitbox = Circle((0, 0), __class__.radius)
+        self.hitbox = Circle((0, 0), __class__.radius)
         self.velocity = VEC_2(0, 0)
         self.image = pygame.transform.scale(self.image.convert_alpha(), (self.size, self.size))
         self.speed = 100
         self.camera = camera
         self.input_manager = input_manager
-
-        # testing
-        self.geometries = Geometries(32)
 
     def move(self, displacement) -> None:
         self.camera.player_displacement -= displacement
@@ -499,3 +480,45 @@ class Attack(Entity):
     def run(self, dt) -> None:
         self.do_damage()
         self.kill()
+
+
+class Structure(Entity):
+    '''base structure class'''
+
+
+class TestEntFood(Entity):
+    '''entity for testing behaviors'''
+    collidable = False
+    image = pygame.image.load('../graphics/test/bluesphere.png')
+    interests = {
+        'food': 50,
+        'danger': 0
+        }
+
+    def __init__(self, pos, entitie_manager) -> None:
+        super().__init__(pos, entitie_manager)
+        self.hitbox = Circle(pos, 32)
+
+
+class TestEntDanger(Entity):
+    '''entity for testing behaviors'''
+    collidable = False
+    image = pygame.image.load('../graphics/test/redsphere.png')
+    interests = {
+        'food': 0,
+        'danger': 50
+        }
+
+    def __init__(self, pos, entitie_manager) -> None:
+        super().__init__(pos, entitie_manager)
+        self.hitbox = Circle(pos, 32)
+
+
+class TestEntMating(Entity):
+    '''entity for testing behaviors'''
+    collidable = False
+    image = pygame.image.load('../graphics/test/purplesphere.png')
+
+    def __init__(self, pos, entitie_manager) -> None:
+        super().__init__(pos, entitie_manager)
+        self.hitbox = Circle(pos, 32)

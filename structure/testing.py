@@ -423,10 +423,18 @@ class Game:
             self.clock.tick(60)  # should be FPS
             # print(self.clock.get_fps())
             
-
+'''
 
 if __name__ == '__main__':  # checks if it is the main file
     game = Game()
-    game.run()
+    game.run()'''
 
 '''
+l = [2.4, 3.99999]
+angular_range_handeler.add_to_list(l)
+angular_range_handeler.invert()
+angular_range_handeler.sub(l)
+angular_range_handeler.remove_null_ranges()
+'''
+if s:
+    print('ok')

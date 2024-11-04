@@ -1,227 +1,52 @@
 
 import random
 import math
+import numpy
+from typing import Any
+from math import pi
 from settings import (
     VEC_2,
     angle_between_vectors_0_to_2pi,
-    angle_between_vectors_plus_minus_pi, 
-    PI,
-    debug_info
+    angle_between_vectors_plus_minus_pi
 )
-from hitboxes import (
-    Rectangle, 
-    DrawAngle,
+from visualizing import(
     Line
 )
+
+
+visuals = []
+
 
 class Behavior:
     '''where all the behavior calculations are done'''
     def __init__(self, entity_manager, ent) -> None:
         self.entity_manager = entity_manager
         self.entity = ent
-        self.sight = Sight(ent)
-        self.Geometries = Geometries(16)
-        self.ActivationFunctions = ActivationFunctions()
-        self.Averages = Averages()
-        self.steering = Steering()
+        self.StateCalc = StateCalc(ent)
         self.collision_avoidance_handler = CollisionAvoidanceHandler()
+        self.Sight = Sight(ent)
+        self.InterestCalc = InterestCalc(ent)
 
-    def vec(self, ent) -> VEC_2:
-        return ent.hitbox.pos - self.entity.hitbox.pos
+
+
+    def wants(self) -> tuple:
+        '''gives the things an entity wants to do, (a direction to move in, and an action to do)'''
+        ents_seen: list = self.Sight.ents_seen()
+        amount, objectif_ent = self.InterestCalc.interest(ents_seen, 'food')
+        direction = self.direction_after_col(objectif_ent, ents_seen)
+        # not jet implemented
+        action = None
+        return (direction, action)
+        # raise ValueError('not implemented')
+
+    def direction_after_col(self, objectif_ent, ents_seen):
+        '''whitch direction is suposed to go to avoid collision and go towards objective'''
+        reaction_dist: float = 200  # distance of collision avoidance (if further inored)
+        direction: VEC_2 = self.collision_avoidance_handler.avoid_collision(self.entity, objectif_ent, ents_seen, reaction_dist)
+        return direction
+
+
     
-    def ent_food(self, ent) -> float:
-        '''how much potential food an entity poses to self.ent'''
-        # needs to take into account the ent's danger
-        return self.entity.food_considerations[ent.__class__] * ent.food
-    
-    def ent_danger(self, ent) -> float:
-        '''how much danger an entity poses to self.ent'''
-        return self.entity.danger_considerations[ent.__class__]
-    
-    def ent_importance(self, ent, average_direction) -> float:
-        '''how good/important an ent is(in relation to food or danger), (allignment with other food, ...)'''
-        vec = self.vec(ent)
-        angle = (vec).angle_to(average_direction) * PI / 180
-        directional_compability = math.cos(angle) * 0.5 + 1
-        print('directional_compability ', directional_compability)
-        print('angle ', angle)
-        return directional_compability / vec.magnitude() ** (1 / 4)
-
-    def best_food(self, entity_list) -> tuple[object, float, VEC_2|None]|None:
-        '''needs optimisation: vec(ent) and weight(ent) are calculated twice'''
-        ent_list = [ent[0] for ent in entity_list if ent[0].__class__ in self.entity.food_considerations]
-
-        if not ent_list:
-            return None
-        
-        average_food_direction = self.Averages.average_vector(0.5,
-                                                              [self.vec(ent) for ent in ent_list],
-                                                              [self.ent_food(ent) for ent in ent_list])
-        best_food = max(ent_list, key=lambda ent:self.ent_importance(ent, average_food_direction) * self.ent_food(ent), default = None)
-        '''testing'''
-        counter = 0
-        ent_list.sort(key = lambda ent:ent.hitbox.pos.y)
-        for ent in ent_list:
-            counter += 1
-            debug_info.append((' ent number ' + str(counter) +' : ' + str(self.ent_importance(ent, average_food_direction) * self.ent_food(ent)),
-                               30 * counter, 10))
-        return (best_food,
-                self.ent_importance(best_food, average_food_direction) * self.ent_food(best_food),
-                average_food_direction)
-        
-    
-    def danger_direction(self, entity_list) -> tuple[VEC_2, float]|None:
-        '''the direction where there is the most danger'''
-        ent_list = [ent[0] for ent in entity_list if ent[0].__class__ in self.entity.danger_considerations]
-
-        if not ent_list:
-            return None
-        
-        average_danger_direction = self.Averages.average_vector(0.5,
-                                                                [self.vec(ent) for ent in ent_list],
-                                                                [self.ent_danger(ent) for ent in ent_list])
-        vecs = []
-        weights = []
-        total_danger:float = 0
-        for ent in ent_list:
-            vecs.append(self.vec(ent).normalize())
-            weight = self.ent_importance(ent, average_danger_direction) * self.ent_danger(ent)
-            weights.append(weight)
-            total_danger += weight
-        
-        if fleeing_direction := self.Averages.average_vector(1, vecs, weights):
-            return (-fleeing_direction, total_danger)
-        return None
-
-    def combining_wants(self):
-        ents_seen, angles = self.sight.ents_seen(want_angles=True)  # angles is for visualization^
-        self.entity.other_hitboxes['seeing_angle'] = DrawAngle(self.entity.hitbox.pos, angles)
-
-        player = self.entity_manager.player
-
-        wants:list[dict] = []  # all the active behaviors, like chasing, fleeing, ...
-
-        fleeing_direction, danger_amount, best_food, food_amount, food_direction = None, None, None, None, None
-        if tmp := self.best_food(ents_seen):
-            best_food, food_amount, average_food_direction = tmp
-            food_direction = self.steering.react(self.entity, best_food.hitbox.pos, best_food.vel)
-        if tmp := self.danger_direction(ents_seen):
-            fleeing_direction, danger_amount = tmp
-
-        food_strength = 1 / (self.entity.satiation / self.entity.max_satiation) * food_amount
-        danger_strength = ((self.entity.hp / self.entity.max_hp - 1) ** 4 * 9 + 1) * danger_amount
-        wander_strength = self.entity.satiation / self.entity.max_satiation / 2 + 0.5
-        # heard_strength ...
-        # mate_strengtg ...
-
-        state = self.entity.curent_state
-        if state == 'chasing_food':
-            pass
-        elif state == 'fleeing_danger':
-            pass
-        elif state == 'wandering':
-            pass
-        elif state == 'resting':
-            pass
-
-        # print('food :', best_food, food_amount)
-        # print('danger :', fleeing_direction, danger_amount)
-
-        self.entity.other_hitboxes['lines'].clear()
-        if fleeing_direction:
-            self.entity.other_hitboxes['lines'].add(self.entity.hitbox.pos, self.entity.hitbox.pos + fleeing_direction * 100, 'red', 5)
-        if food_direction:
-            self.entity.other_hitboxes['lines'].add(self.entity.hitbox.pos, self.entity.hitbox.pos + food_direction * 100, 'green', 5) 
-        if average_food_direction:
-            self.entity.other_hitboxes['lines'].add(self.entity.hitbox.pos, self.entity.hitbox.pos + average_food_direction * 100, 'purple', 5)
-        return (VEC_2())
-        '''
-        food_list:list[tuple[VEC_2, float]] = []
-        danger_list:list[tuple[VEC_2, float]] = []
-
-        reaction = False
-        for ent, dist in ents_seen:
-            if ent.__class__ in self.entity.considerations:
-                reaction = True
-
-                food = self.entity.considerations[ent.__class__][0] * ent.food
-                danger = self.entity.considerations[ent.__class__][1] * ent.danger
-
-                dist_vec = self.entity.hitbox.pos - ent.hitbox.pos
-
-                food_list.append((dist_vec, food))
-                danger_list.append((dist_vec, danger))
-
-        if reaction:
-            food_vec_list = [food_[0] for food_ in food_list]
-            food_weight_list = [food_[1] for food_ in food_list]
-            danger_vec_list = [danger_[0] for danger_ in danger_list]
-            danger_weight_list = [danger_[1] for danger_ in danger_list]
-
-            average_food_direction:VEC_2 = self.Averages.average_vector(0.5, food_vec_list, food_weight_list)  # average of food_vec_list, number should be in genes
-            average_danger_direction:VEC_2 = -self.Averages.average_vector(0.5, danger_vec_list, danger_weight_list)
-            
-
-            def f(food, direction) -> float:
-                vec = food[0]
-                amount = food[1]
-                angle = (vec).angle_to(direction) * PI / 180
-                directional_compability = math.cos(angle / 3)
-                return directional_compability / vec.magnitude() ** (1 / 4) * amount
-            
-            mostimportant_food = max(food_list, key = lambda food_: f(food_, average_food_direction))[0]
-
-            go_to_food = self.steering.react(self.entity, mostimportant_food, velocity = VEC_2(), flee = False, stop_at = True)
-            
-
-            self.entity.other_hitboxes['lines'].clear()
-            for vec in danger_vec_list:
-                self.entity.other_hitboxes['lines'].add(self.entity.hitbox.pos, self.entity.hitbox.pos + vec.normalize() * 100, 'purple', 10)
-            self.entity.other_hitboxes['lines'].add(self.entity.hitbox.pos, self.entity.hitbox.pos + go_to_food * 100, 'green', 5)
-            self.entity.other_hitboxes['lines'].add(self.entity.hitbox.pos, self.entity.hitbox.pos + average_food_direction.normalize() * 100, 'red', 5)
-            #self.entity.other_hitboxes['line_2'] = Line(self.entity.hitbox.pos, self.entity.hitbox.pos + average_danger_direction * 100, 'red')
-        '''
-
-        '''go to player'''
-        def in_tuple_list(list, x):
-            for tuple_ in list:
-                if x in tuple_:
-                    return True
-            return False
-        if in_tuple_list(ents_seen, player):
-            react_to_player = self.steering.react(self.entity, player.hitbox.pos, velocity = player.vel, flee = False, stop_at = True)
-            dist = (self.entity.hitbox.pos - player.hitbox.pos).magnitude()
-            wants.append({'direction': react_to_player, 'dist': dist, 'weight': 1})
-            # testing
-            self.entity.hitbox.color = 'purple'
-
-
-        wandering = self.steering.wander_1(self.entity)
-        wants.append({'direction': wandering, 'weight': 1})
-
-        if grav_center := self.steering.grav_center(self.entity, ents_seen, self.ActivationFunctions.f3):
-            wants.append({'direction': grav_center, 'weight': 0.1})
-
-        def f(x):
-            return x['weight']
-        most_important_want = max(wants, key=f, default=None)
-
-        if most_important_want:
-            if 'dist' in most_important_want:
-                dist = most_important_want['dist']
-            else:
-                dist = None
-            want = self.collision_avoidance_handler.avoid_collision(self.entity, most_important_want['direction'], ents_seen, dist)
-
-            '''visualisation'''
-            # self.entity.other_hitboxes['line_1'] = Line(self.entity.hitbox.pos, self.entity.hitbox.pos + most_important_want['direction'] * 100, 'red')
-            # self.entity.other_hitboxes['line_2'] = Line(self.entity.hitbox.pos, self.entity.hitbox.pos + want * 100, 'green')
-
-            # self.entity.other_hitboxes['line_2'] = Line(self.entity.hitbox.pos, self.entity.hitbox.pos + want * 100, 'green')
-
-        return want
-
-        
 class CollisionAvoidanceHandler:
 
     def __init__(self) -> None:
@@ -233,10 +58,10 @@ class CollisionAvoidanceHandler:
 
         dist = (circle_1.pos - circle_2.pos).magnitude()
         temp = (circle_1.r + circle_2.r) / dist
-        angle = -(circle_2.pos - circle_1.pos).angle_to(VEC_2(1, 0)) * PI / 180
+        angle = -(circle_2.pos - circle_1.pos).angle_to(VEC_2(1, 0)) * pi / 180
 
         if temp > 1:
-            beta = PI * 2 / 3
+            beta = pi * 2 / 3
             return (angle - beta, angle + beta)
 
         alpha = math.asin(temp)
@@ -248,7 +73,7 @@ class CollisionAvoidanceHandler:
 
         dist = (circle.pos - rect.pos).magnitude()
 
-        return [0, 9.49]
+        raise ValueError('not implemented')
 
     def rect_rect(self, rect_1, rect_2) -> tuple[float, float]|None:
         '''returns the minimum and maximum angles to
@@ -256,340 +81,77 @@ class CollisionAvoidanceHandler:
 
         dist = (rect_1.pos - rect_2.pos).magnitude()
 
-        return [0, 9.49]
+        raise ValueError('not implemented')
     
-    def avoid_collision(self, ent, ent_want:VEC_2, ent_list:list, distance:float|None=None) -> VEC_2:
+    def avoid_collision(self, ent, ent_want, ent_list:list, distance:float|None=1000) -> VEC_2:  # distance should be in proportion to the speed
         '''returns the minimum and maximum angles to
-        avoid a collision between two rects'''
+        avoid a collision'''
         self.angular_range_handeler.clear()
-        ent_hitbox = ent.hitbox
+        ent_self_hitbox = ent.hitbox
+        direction_to_ent_want = ent_want.pos - ent.pos
+        distance_to_ent_want = direction_to_ent_want.magnitude()
 
-        '''testing'''
 
+        # for removing the objectif
         def in_tuple_list(list, x):
             for tuple_ in list:
                 if x in tuple_:
                     return tuple_
             return False
-        if temp := in_tuple_list(ent_list, ent.entity_manager.player):
+        if temp := in_tuple_list(ent_list, ent_want):
             ent_list.remove(temp)
 
-
         for entity, dist in ent_list:
-            if distance and dist <= distance:
-                if ent_hitbox.kind == 'circle':
+            if dist.magnitude() <= distance and dist.magnitude() <= distance_to_ent_want:
+                ent_other_hitbox = entity.hitbox
+                if ent_self_hitbox.kind == 'circle':
 
-                    if entity.hitbox.kind == 'circle':
+                    if ent_other_hitbox.kind == 'circle':
 
-                        if ang_range := self.circle_circle(ent_hitbox, entity.hitbox):
+                        if ang_range := self.circle_circle(ent_self_hitbox, ent_other_hitbox):
                             self.angular_range_handeler.add(ang_range)
                         else:
                             return VEC_2()
                         
                     else:
 
-                        if ang_range := self.circle_rect(ent_hitbox, entity.hitbox):
+                        if ang_range := self.circle_rect(ent_self_hitbox, ent_other_hitbox):
                             self.angular_range_handeler.add(ang_range)
                         else:
                             return VEC_2()
                         
                 else:
 
-                    if entity.hitbox.kind == 'circle':
+                    if ent_other_hitbox.kind == 'circle':
 
-                        if ang_range := self.circle_rect(entity.hitbox, ent_hitbox, invert = True):
+                        if ang_range := self.circle_rect(ent_other_hitbox, ent_self_hitbox, invert = True):
                             self.angular_range_handeler.add(ang_range)
                         else:
                             return VEC_2()
                         
                     else:
 
-                        if ang_range := self.rect_rect(ent_hitbox, entity.hitbox):
+                        if ang_range := self.rect_rect(ent_self_hitbox, ent_other_hitbox):
                             self.angular_range_handeler.add(ang_range)
                         else:
                             return VEC_2()
                     
         #ent.other_hitboxes['seeing_angle'] = DrawAngle(ent.hitbox.pos, self.angular_range_handeler.ranges_list)
-
-        angle = VEC_2().angle_to(ent_want) * PI / 180
+        
+        angle = VEC_2().angle_to(direction_to_ent_want) * pi / 180
         if angles := self.angular_range_handeler.borders(angle):
             #print(angles)
             v1 = VEC_2(1, 0).rotate_rad(angles[0])
             v2 = VEC_2(1, 0).rotate_rad(angles[1])
             def f(x:VEC_2):
-                return x.dot(ent_want)
+                return x.dot(direction_to_ent_want.normalize())
             best_direction = max([v1, v2], key = f)
             
             # print('react')
-            return best_direction * ent_want.magnitude()
+            return best_direction
         # print('ignore')
-        return ent_want
-
-
-class HerdHandler:
-
-    def __init__(self) -> None:
-        self.Averages = Averages()
-
-        self.all_herds:dict = {}
-        self.lone_ents:dict = {}
-
-    def rearange(self) -> None:
-        self.clean_herds()
-        self.aglomerate()
-
-    def add_lone_ent(self, ent) -> None:
-        ent_class = ent.__class__
-        if ent_class in self.lone_ents:
-            self.lone_ents[ent_class].append(ent)
-        else:
-            self.lone_ents[ent_class] = [ent]
-
-    def clean_herds(self) -> None:
-        for _class in self.all_herds:
-            for herd in _class:
-                self.expel_ents(herd)
-
-    def expel_ents(self, herd) -> None:
-        center = self.Averages.average_vector(0, [ent.hitbox.pos for ent in herd])
-
-        def dist(x):
-            return (center - x.hitbox.pos).magnitude_squared()
-
-        farthest_ent = max(herd, key = dist)
-
-        if dist(farthest_ent) > 500:  # need to be changed
-            herd.remove(farthest_ent)
-            self.add_lone_ent(farthest_ent)
-
-            self.expel_ents(herd)
-
-    def aglomerate(self) -> None:
-        for _class in self.lone_ents:
-            for ent in _class:
-                pass
-
-
-                    
-                
-
-
-class Herd:
-
-    def __init__(self, entities:list):
-        self.entities = entities
-
-
-class Steering:
-
-    def __init__(self) -> None:
-        self.slowing_distance = 200
-        self.collision_avoidance_handeler = CollisionAvoidanceHandler()
-
-    def max_delta_v(self, norm, angle=0):  # angle is in refrence to f^direction
-        '''
-        is possible to add a geometry
-        example https://www.red3d.com/cwr/steer/gdc99/ figure 2
-        '''
-        return 100 if norm > 100 else norm
-
-    def leading_the_target(self, p1:VEC_2, v1:VEC_2, p2:VEC_2, s2:float, max_trailing:float=1.0) -> VEC_2:
-        if v1.magnitude() == 0:
-            return p1
-        dist_vect = p2 - p1
-        d = dist_vect.magnitude()
-        s1 = v1.magnitude()
-        alpha = angle_between_vectors_0_to_2pi(dist_vect, v1)
-
-        tmp = math.sin(alpha) * s1 / s2
-
-        # there is no trajectory where p2 interceps p1
-        if tmp > 1:
-            tmp = 1
-        elif tmp < -1:
-            tmp = -1
-
-        beta = math.asin(tmp)
-
-        delta = math.pi - alpha - beta
-
-        t = math.sin(alpha) * d / (s2 * math.sin(delta)) if abs(delta) > 0.00001 else 10000
-        t = abs(t)
         
-        if t > d * max_trailing:
-            t = d * max_trailing
-        
-        p3 = p1 + t * v1
-
-        return p3
-  
-    def react(self, entity, point:VEC_2, velocity:VEC_2|None=None, flee:bool=False, stop_at:bool=False, offset:VEC_2|None=None) -> VEC_2:
-        p = point.copy()
-
-        if offset:
-            point += offset
-
-        dist = (p - entity.hitbox.pos).magnitude()
-
-        return 50 if norm > 50 else norm
-    
-    def react(self, entity, point:VEC_2, velocity:VEC_2|None=VEC_2(), flee:bool=False, stop_at:bool=False) -> VEC_2:
-        dist = (point - entity.hitbox.pos).magnitude()
-        if velocity:
-            # aproximate time to catch_up
-            aprox_time = dist / entity.max_speed
-            inbetween_displacement = velocity * aprox_time
-            point += inbetween_displacement
-
-        wanted_velocity = (p - entity.hitbox.pos).normalize()
-
-        if flee:
-            wanted_velocity *= -1
-        elif stop_at:
-            if dist < self.slowing_distance:
-                wanted_velocity *= dist / self.slowing_distance
-
-        return wanted_velocity
-    
-    def wander_1(self, ent) -> VEC_2:
-        if ent.vel.magnitude() == 0:
-            ent.vel = VEC_2(0.1, 0)
-        angle_max_jump = 0.1
-
-        ent.wander_angle += random.uniform(-angle_max_jump, angle_max_jump)
-
-        unit_vel = ent.vel.normalize()
-
-        r = unit_vel.rotate_rad(ent.wander_angle) * ent.max_speed / 2
-        a = (ent.vel.magnitude() - ent.max_speed / 2) * unit_vel
-
-        f = r - a
-
-        return f.normalize()
-    
-    def grav_center(self, ent, ent_list:list, activation_function) -> VEC_2|None:
-        want = VEC_2()
-        pos = ent.hitbox.pos
-        max_want = 10
-
-        for entity, dist in ent_list:
-            vect = entity.hitbox.pos - pos
-            want += vect * activation_function(dist)
-
-        if want.magnitude() != 0:
-            if want.magnitude() < max_want:
-                return want
-            else:
-                return want.normalize() * max_want
-        else:
-            return None
-        
-    def align(self, ent, ent_list:list, activation_function) -> VEC_2|None:
-        return None
-        
-
-
-
-class Sight:
-    '''what an entity can see, maybe ray-tracing'''
-    pi = math.pi
-
-    def __init__(self, entity, precision = 32, sight_dist = 5000) -> None:
-        self.entity = entity
-        self.entity_manager = entity.entitie_manager
-        self.point = self.entity.hitbox.pos
-        self.precision = precision
-        self.sight_dist = sight_dist
-
-
-    def entities_in_range(self) -> list[tuple]:
-        ents_in_range: list[tuple] = []
-        max_region_dist = (self.sight_dist // self.entity.entity_manager.region_size) + 1
-        for i in range(-max_region_dist, max_region_dist + 1):
-            for j in range(-max_region_dist, max_region_dist + 1):
-                region = (self.entity.region[0] + i, self.entity.region[1] + j)
-                if region in self.entity_manager.regions:
-                    for ent in self.entity_manager.regions[region]:
-                        if ent != self.entity:
-                            dist = (ent.hitbox.pos - self.point).magnitude() - ent.size / 2
-                            if dist <= self.sight_dist:
-                                ents_in_range.append((ent, dist))
-
-        return ents_in_range
-    
-    def ents_seen(self, want_angles:bool=False) -> list|tuple[list, list]:
-        ents_in_range = self.entities_in_range()
-        ents_seen: list[tuple] = []
-        def f(x):
-            return x[1]
-        ents_in_range.sort(key = f)
-        angular_range_handeler = AngularRangeHandeler()
-        for ent, dist in ents_in_range:
-            angular_range = self.get_range(self.point, ent)
-            if not angular_range_handeler.covers(angular_range):
-                if ent.opaque:
-                    angular_range_handeler.add(angular_range)
-                # ents_seen.append((ent, dist))
-            '''for testing'''
-            ents_seen.append((ent, dist))
-
-        ranges = angular_range_handeler.ranges_list
-        del angular_range_handeler
-        if want_angles:
-            return ents_seen, ranges
-        return ents_seen
-    
-    def get_range(self, point:VEC_2, ent) -> tuple[float, float]:
-        '''eats the angular range that an entity covers for a certain point'''
-        if ent.hitbox.kind == 'rect':
-            if angular_range := self.get_rect_range(point, ent.hitbox):
-                return angular_range
-            return(0, 2 * self.pi)
-
-        elif ent.hitbox.kind == 'circle':
-            if angular_range := self.get_circle_range(point, ent.hitbox):
-                return angular_range
-            return(0, 2 * self.pi)
-        
-        raise ValueError('unknown hitbox type')
-    
-    def get_rect_range(self, point:VEC_2, rect) -> tuple[float, float] | None:
-        '''eats the angular range that a rectangle covers for a certain point'''
-        rect_corners = self.entity.entity_manager.collision_detector.rect_corners(rect)
-        rel_angles = []
-        rect_center: VEC_2 = rect.pos
-
-        for corner in rect_corners:
-            rel_angle = -(rect_center - point).angle_to(VEC_2(corner) - point) * PI / 180
-            if abs(rel_angle) > PI:
-                if rel_angle > 0:
-                    rel_angle -= 2 * PI
-                else:
-                    rel_angle += 2 * PI
-            rel_angles.append((rel_angle, corner))
-
-        def f(x):
-            return x[0]
-        rel_start_angle, start_point = min(rel_angles, key = f)
-        rel_end_angle, end_point = max(rel_angles, key = f)
-
-        if False:  # Check if the center of the ent is inside the other
-            # because all hitboxes are convex it means that the point is in the hitbox
-            return None
-        
-        angles = (-VEC_2(1, 0).angle_to(VEC_2(start_point) - point) * PI / 180,
-                 -VEC_2(1, 0).angle_to(VEC_2(end_point) - point) * PI / 180)
-    
-        return angles
-    
-    def get_circle_range(self, point:VEC_2, circle) -> tuple[float, float] | None:
-        '''eats the angular range that a circle covers for a certain point'''
-        dist = (point - circle.pos).magnitude()
-        if dist <= circle.r:
-            return None
-        beta = abs(math.asin(circle.r / dist))
-        mid_angle = -VEC_2(1, 0).angle_to(circle.pos - point) * PI / 180
-        return (mid_angle - beta, mid_angle + beta)
+        return direction_to_ent_want.normalize()
 
 
 class AngularRangeHandeler:
@@ -795,50 +357,272 @@ class AngularRangeHandeler:
                 return angular_range
             break
         return None
-                
+   
 
-class Geometries:
-    '''diffrent vector geometries'''
+class StateCalc:
+    '''calculates whitch interest is most important and changes the state of the animal'''
+    def __init__(self, ent):
+        self.ent = ent
+        self.current_state = None
+        self.state_importance_threashold = 10  # needs to be in genome
+        self.states = {
+            'food': (None, None),
+            'danger': (None, None),
+            # 'mating': (None, None)
+        }
 
-    def __init__(self, direction_count) -> None:
-        self.direction_count = direction_count
+    def next_state(self):
+        raise ValueError('not implemented')
 
-    def do_funcion(self, angle_offset, function) -> list[float]:
-        '''angle_offset needs to be in rads'''
-        directions: list[float] = []
-        for i in range(self.direction_count):
-            angle = (i / self.direction_count) * 2 * math.pi + angle_offset
-            directions.append(function(angle))
-        return directions
-
-    def f1(self, angle) -> float:
-        '''angle needs to be in rads'''
-        return abs(math.cos(angle))
+    def update_states(self):
+        raise ValueError('not implemented')
     
-    def f2(self, angle) -> float:
-        '''angle needs to be in rads'''
-        return math.cos(angle)
+
+class Sight:
+    '''what an entity can see, maybe ray-tracing'''
+
+    def __init__(self, entity, sight_dist = 5000) -> None:
+        self.entity = entity
+        self.entity_manager = entity.entity_manager
+        self.point = self.entity.hitbox.pos
+        self.sight_dist = sight_dist
+
+
+    def entities_in_range(self) -> list[tuple]:
+        ents_in_range: list[tuple] = []
+        max_region_dist = (self.sight_dist // self.entity.entity_manager.region_size) + 1
+        for i in range(-max_region_dist, max_region_dist + 1):
+            for j in range(-max_region_dist, max_region_dist + 1):
+                region = (self.entity.region[0] + i, self.entity.region[1] + j)
+                if region in self.entity_manager.regions:
+                    for ent in self.entity_manager.regions[region]:
+                        if ent != self.entity:
+                            dist_vec = ent.hitbox.pos - self.point
+                            dist = dist_vec.magnitude() - ent.size / 2
+                            if dist <= self.sight_dist:
+                                ents_in_range.append((ent, dist_vec))
+
+        return ents_in_range
     
-    def f3(self, angle) -> float:
-        return math.cos(angle / 2 + math.pi / 4) ** 4
+    def ents_seen(self, want_angles:bool=False) -> list|tuple[list, list]:
+        '''all the ents self.ent can see'''
+        ents_in_range = self.entities_in_range()
+        ents_seen: list[tuple] = []
+        def f(x):
+            return x[1].magnitude()
+        ents_in_range.sort(key = f)
+        angular_range_handeler = AngularRangeHandeler()
+        for ent, dist in ents_in_range:
+            angular_range = self.get_range(self.point, ent)
+            if not angular_range_handeler.covers(angular_range):
+                if ent.opaque:
+                    angular_range_handeler.add(angular_range)
+                # ents_seen.append((ent, dist))
+            '''for testing'''
+            ents_seen.append((ent, dist))
+
+        ranges = angular_range_handeler.ranges_list
+        del angular_range_handeler
+        if want_angles:
+            return ents_seen, ranges
+        return ents_seen
+    
+    def get_range(self, point:VEC_2, ent) -> tuple[float, float]:
+        '''gets the angular range that an entity covers for a certain point'''
+        if ent.hitbox.kind == 'rect':
+            if angular_range := self.get_rect_range(point, ent.hitbox):
+                return angular_range
+            return(0, 2 * pi)
+
+        elif ent.hitbox.kind == 'circle':
+            if angular_range := self.get_circle_range(point, ent.hitbox):
+                return angular_range
+            return(0, 2 * pi)
+        
+        raise ValueError('unknown hitbox type')
+    
+    def get_rect_range(self, point:VEC_2, rect) -> tuple[float, float] | None:
+        '''eats the angular range that a rectangle covers for a certain point'''
+        rect_corners = self.entity.entity_manager.collision_detector.rect_corners(rect)
+        rel_angles = []
+        rect_center: VEC_2 = rect.pos
+
+        for corner in rect_corners:
+            rel_angle = -(rect_center - point).angle_to(VEC_2(corner) - point) * pi / 180
+            if abs(rel_angle) > pi:
+                if rel_angle > 0:
+                    rel_angle -= 2 * pi
+                else:
+                    rel_angle += 2 * pi
+            rel_angles.append((rel_angle, corner))
+
+        def f(x):
+            return x[0]
+        rel_start_angle, start_point = min(rel_angles, key = f)
+        rel_end_angle, end_point = max(rel_angles, key = f)
+
+        if False:  # Check if the center of the ent is inside the other
+            # because all hitboxes are convex it means that the point is in the hitbox
+            return None
+        
+        angles = (-VEC_2(1, 0).angle_to(VEC_2(start_point) - point) * pi / 180,
+                 -VEC_2(1, 0).angle_to(VEC_2(end_point) - point) * pi / 180)
+    
+        return angles
+    
+    def get_circle_range(self, point:VEC_2, circle) -> tuple[float, float] | None:
+        '''eats the angular range that a circle covers for a certain point'''
+        dist = (point - circle.pos).magnitude()
+        if dist <= circle.r:
+            return None
+        beta = abs(math.asin(circle.r / dist))
+        mid_angle = -VEC_2(1, 0).angle_to(circle.pos - point) * pi / 180
+        return (mid_angle - beta, mid_angle + beta)
 
 
-class ActivationFunctions:
-    '''
-    to be used on the vector geometries
-    for example: when close important but when far less important
-    '''
-    def __init__(self) -> None:
+class InterestCalc:
+    '''in charge of claculating the amount of a certain interest,
+    and the most important entity of said interest, like food, danger ...'''
+
+    def __init__(self, ent):
+        self.ent = ent  # useless
+        self.WeightFuncion = WeightFunctions()
+        self.Averages = Averages()
+
+    def interest_amount(self, ent, interest_type) -> float:
+        return ent.interests[interest_type]
+
+    def weights_and_directions(self, ents_seen, weight_function, interest_type):
+        weights = []
+        directions = []
+        for ent, direction in ents_seen:  # dist is vect
+            distance = direction.magnitude()
+
+            '''not implemented'''
+            interest_amount: float = self.interest_amount(ent, interest_type)
+
+            weights.append(weight_function(distance) * interest_amount)
+            directions.append(direction.normalize())
+
+        return weights, directions
+
+    def vip(self, ents_seen, weights, gradient):
+        '''returns the ent who is most inline with the gradient and clostest'''
+        radial_weight_function = lambda x: -1/360 * x + 1  # should be in genome
+        l = []
+        for i, ent_dist in enumerate(ents_seen):
+            ent, dist = ent_dist
+            theta = abs(gradient.angle_to(dist))
+            l.append((radial_weight_function(theta) * weights[i], ent))
+        return max(l, key = lambda x: x[0])[1]
+
+
+
+    def interest(self, ents_seen, interest_type:str) -> tuple[float, Any]:
+        weight_function = lambda x: self.WeightFuncion.poly(x)  # p and a should be in genome
+
+        # can be optimized
+        weights, directions = self.weights_and_directions(ents_seen, weight_function, interest_type)
+
+        amount = sum(weights)
+
+        gradient = self.Averages.arithmetic_average_vect(directions, weights)
+
+        # visuals
+        visuals.append(Line(self.ent.pos, gradient * 100, (200, 0, 0)))
+
+        best_ent = self.vip(ents_seen, weights, gradient)
+        
+        return amount, best_ent
+
+    
+class WeightFunctions:
+
+    def __init__(self):
         pass
 
-    def f1(self, x) -> float:
-        return 1/(x**4)
+    def poly(self, x:float, p:float=1/2, a:float=0.1) -> float:
+        if x <= 0:
+            raise ValueError('x <= 0')
+
+        return 1 / (1 + a * x ** p)
     
-    def f2(self, x) -> float:
-        return 0.345
-    
-    def f3(self, x) -> float:
-        return 1
+    def exp(self, x:float, a:float=0.01, b:float=0.001) -> float:
+        if x <= 0:
+            raise ValueError('x <= 0')
+        
+        return numpy.exp(-a * x ** b)
+     
+
+
+class Steering:
+
+    def __init__(self) -> None:
+        self.slowing_distance = 200
+
+    def max_delta_v(self, norm, angle=0):  # angle is in refrence to f^direction
+        '''
+        is possible to add a geometry
+        example https://www.red3d.com/cwr/steer/gdc99/ figure 2
+        '''
+        return 100 if norm > 100 else norm
+        
+    def leading_the_target(self, p1:VEC_2, v1:VEC_2, p2:VEC_2, s2:float, max_trailing:float=1.0) -> VEC_2:
+        dist_vect = p2 - p1
+        d = dist_vect.magnitude()
+        s1 = v1.magnitude()
+        alpha = angle_between_vectors_0_to_2pi(dist_vect, v1)
+
+        tmp = math.sin(alpha) * s1 / s2
+
+        # there is no trajectory where p2 interceps p1
+        if tmp > 1:
+            tmp = 1
+        elif tmp < -1:
+            tmp = -1
+
+        beta = math.asin(tmp)
+
+        delta = math.pi - alpha - beta
+
+        t = math.sin(alpha) * d / (s2 * math.sin(delta)) if abs(delta) > 0.00001 else 10000
+        t = abs(t)
+        
+        if t > d * max_trailing:
+            t = d * max_trailing
+        
+        p3 = p1 + t * v1
+
+        return p3
+  
+    def react(self, entity, point:VEC_2, velocity:VEC_2|None=None, flee:bool=False, stop_at:bool=False, offset:VEC_2|None=None) -> VEC_2:
+        p = point.copy()
+
+        if offset:
+            point += offset
+
+        dist = (p - entity.hitbox.pos).magnitude()
+        '''
+        print('dist')
+        print(point)
+        '''
+        if velocity:
+            p = self.leading_the_target(point, velocity, entity.hitbox.pos, entity.max_speed, max_trailing=2)
+
+        wanted_velocity = (p - entity.hitbox.pos).normalize() * entity.max_speed
+
+        if flee:
+            wanted_velocity *= -1
+        elif stop_at:
+            if dist < self.slowing_distance:
+                wanted_velocity *= dist / self.slowing_distance
+
+        delta_v: VEC_2 = wanted_velocity - entity.vel
+        if delta_v.magnitude() != 0:
+            delta_v = self.max_delta_v(delta_v.magnitude()) * delta_v.normalize()
+
+        return delta_v
+
 
 
 class Averages:
@@ -846,7 +630,7 @@ class Averages:
     def __init__(self) -> None:
         pass
 
-    def average_vector(self, power:float, vec_list:list[VEC_2], wheight_list:list[float] | None = None) -> VEC_2|None:
+    def lehmer_average_vector(self, power:float, vec_list:list[VEC_2], wheight_list:list[float] | None = None) -> VEC_2|None:
         l_x = [vec.x for vec in vec_list]
         l_y = [vec.y for vec in vec_list]
     
@@ -855,6 +639,15 @@ class Averages:
         if average_x != None and average_y != None:
             return VEC_2(average_x, average_y)
         return None
+    
+    def arithmetic_average_vect(self, vec_list:list[VEC_2], wheight_list:list[float] | None = None) -> VEC_2|None:
+        if not vec_list:
+            return None
+        list_ = [vec * wheight_list[i] for i, vec in enumerate(vec_list)]
+        total = VEC_2()
+        for v in list_:
+            total += v
+        return total / sum(wheight_list)
 
     def lehmer_mean(self, values:list[float], power: float, weights:list[float] | None = None) -> float|None:
         '''the if statements are for allowing negative values'''
@@ -943,3 +736,4 @@ class Averages:
                 n += 1
         sum = sum / n
         return sum ** (1 / power)
+    

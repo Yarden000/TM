@@ -16,10 +16,7 @@ from spawner import (
     Spawner
 )
 from camera import Camera
-from settings import(
-    debug_info,
-    debug
-)
+import behavior_test
 
 
 class Compiler:
@@ -67,22 +64,24 @@ class Displayer:
         self.screen.fill('blue')
         self.terrain.display(self.camera)
 
+        displacement = self.camera.player_displacement
         for i in self.entity_manager.entity_list:
             # trier selon la position
-            i.display(self.screen, self.camera)
-            i.hitbox.draw(self.screen, self.camera)
-            i.hitbox.color = 'blue'
-            for key in i.other_hitboxes:
-                if hitbox := i.other_hitboxes[key]:
-                    hitbox.draw(self.screen, self.camera)
+            i.display(self.screen, displacement)
+
+            # for testing
+            i.hitbox.draw(self.screen, displacement)
+            for elmt in i.visuals:
+                elmt.draw(self.screen, displacement)
+            i.visuals = []
+            for elmt in behavior_test.visuals:
+                elmt.draw(self.screen, displacement)
+            behavior_test.visuals = []
 
         # self.entity_manager.player.visualise_directions(self.screen)
         # print(len(self.displayable_entenies))
         # for debugging:
         self.entity_manager.draw_regions(self.camera.player_displacement)
-        for info, y, x in debug_info:
-            debug(info, y, x)
-        debug_info.clear()
 
         pygame.display.update()
 

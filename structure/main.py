@@ -50,7 +50,7 @@ class Game:
             pygame.display.set_caption(f"Survivorio | FPS: {str(int(self.clock.get_fps()))} | dt: {str(dt)}")
             self.compiler.run(dt)
             self.clock.tick(fps)  # should be FPS
-            # print(self.clock.get_fps())
+            # (self.clock.get_fps())
 
             # testing
             pos = pygame.mouse.get_pos()
