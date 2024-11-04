@@ -1,5 +1,6 @@
 '''comèiler and displayer'''
 import pygame
+import pymunk
 from map import (
     Map,
     MapGeneratorTesting
@@ -63,16 +64,8 @@ class Displayer:
         displacement = self.camera.player_displacement
         for i in self.entity_manager.entity_list:
             # trier selon la position
-            i.display(self.screen, displacement)
-
-            # for testing
-            i.hitbox.draw(self.screen, displacement)
-            for elmt in i.visuals:
-                elmt.draw(self.screen, displacement)
-            i.visuals = []
-            for elmt in behaviors.visuals:
-                elmt.draw(self.screen, displacement)
-            behaviors.visuals = []
+            i.display(self.screen, self.camera)
+            
 
         # self.entity_manager.player.visualise_directions(self.screen)
         # print(len(self.displayable_entenies))

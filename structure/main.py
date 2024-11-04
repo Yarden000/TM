@@ -1,6 +1,7 @@
 '''main file'''
 import sys
 import pygame
+import pymunk
 from settings import (
     WIDTH,
     HEIGHT,
@@ -27,7 +28,7 @@ class Game:
 
         # test
         WIDTH_, HEIGHT_ = pygame.display.get_window_size()
-        # print(WIDTH_, HEIGHT_)
+        # (WIDTH_, HEIGHT_)
 
         pygame.display.set_caption('Survivorio')
 
@@ -40,7 +41,7 @@ class Game:
         '''runs the game'''
         game_run = True
         while game_run:
-            for event in pygame.event.get():  # event loop
+            for event in pygame.event.get():  # event loowp
                 if event.type == pygame.QUIT or self.input_manager.quit():  # checks if quit
                     pygame.quit()
                     sys.exit()
@@ -50,13 +51,7 @@ class Game:
             pygame.display.set_caption(f"Survivorio | FPS: {str(int(self.clock.get_fps()))} | dt: {str(dt)}")
             self.compiler.run(dt)
             self.clock.tick(fps)  # should be FPS
-            # (self.clock.get_fps())
 
-            # testing
-            pos = pygame.mouse.get_pos()
-            angle = angle_between_vectors_plus_minus_pi(VEC_2(1, 0), VEC_2(pos) - VEC_2(WIDTH / 2, HEIGHT / 2))
-            print(angle)
-            
 
 
 if __name__ == '__main__':  # checks if it is the main file

@@ -65,7 +65,7 @@ class Spawner:
             # spawns the entities
             tiles = rnd.choices(i['tiles'], k=number)
             for tile in tiles:
-                possible_room_for_noise = self.terrain.cell_size / 2 - ent_class.radius
+                possible_room_for_noise = self.terrain.cell_size / 2
                 pos = tile[1] + VEC_2(rnd.randint(-possible_room_for_noise, possible_room_for_noise),
                                       rnd.randint(-possible_room_for_noise, possible_room_for_noise))
                 self.entity_manager.spawn_ent(ent_class(pos, self.entity_manager))  # time problem in here
