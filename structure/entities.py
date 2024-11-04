@@ -152,7 +152,7 @@ class EntityManager:
     def run(self, dt) -> None:
         '''runs all entity behaviours/interactions'''
         self.player.run(dt)
-        self.run_animals(dt)
+        # self.run_animals(dt)
         self.update_regions()
         '''testing'''
         self.space.step(dt)
@@ -214,6 +214,7 @@ class Entity:
             raise ValueError('unknown hitbox shape')
         self.shape.collision_type = self.collision_type
         self.shape.owner = self
+        self.shape.elasticity = 0
 
     def display(self, screen, displacement) -> None:
         '''displays the entity if it is on screen'''
@@ -339,7 +340,6 @@ class Player(Entity):
         self.speed = 100
         self.camera = camera
         self.input_manager = input_manager
-        self.previous_pos = (0, 0)
 
     def move(self, displacement) -> None:
         self.camera.player_displacement -= displacement

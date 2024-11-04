@@ -37,7 +37,7 @@ class Compiler:
     def run(self, dt) -> None:
         '''all the interactions / events / calculations of the game'''
         self.entity_manager.run(dt)
-        self.map.update(self.entity_manager.player.hitbox.pos)
+        self.map.update(self.entity_manager.player.body.position)
 
         # test
         self.spawner.spawn_ent_v2(dt, Animal)
@@ -79,7 +79,7 @@ class Displayer:
         # self.entity_manager.player.visualise_directions(self.screen)
         # print(len(self.displayable_entenies))
         # for debugging:
-        self.entity_manager.draw_regions(self.camera.player_displacement)
+        # self.entity_manager.draw_regions(self.camera.player_displacement)
 
         pygame.display.update()
 
