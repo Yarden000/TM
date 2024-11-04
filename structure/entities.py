@@ -376,7 +376,7 @@ class Player(Entity):
             self.entity_manager.spawn_ent(Attack(body, shape, (length, width), angle, self.entity_manager), overide=True)
 
     def display(self, screen, camera) -> None:
-        screen.blit(self.image, self.image.get_rect(center=(WIDTH/2, HEIGHT/2)))
+        screen.blit(self.image, self.image.get_rect(center=((WIDTH/2, HEIGHT/2))))
 
     def run(self, dt) -> None:
         self.body.velocity = self.input_manager.player_movement() * self.speed

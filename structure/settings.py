@@ -14,9 +14,8 @@ def debug(info, y=10, x=10) -> None:
 
 debug_info:list[tuple[str, float, float]] = []
 
-
-WIDTH, HEIGHT = 1000, 800
-FPS = 1200
+WIDTH, HEIGHT = 1300, 800
+FPS = 600
 PI = math.pi
 
 VEC_2 = pygame.Vector2

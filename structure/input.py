@@ -35,7 +35,7 @@ class InputManager:
         if direction.length != 0:
             direction = direction.normalized()
         if keys[pygame.K_c]:
-            movement = direction * 10
+            movement = direction * 50
         else:
             movement = direction
 

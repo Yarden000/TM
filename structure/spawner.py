@@ -8,10 +8,10 @@ from settings import (
 
 class Spawner:
     '''respomnsible for spawning the entities'''
-    def __init__(self, camera, terrain, entity_manager) -> None:
-        self.spawn_range = 3  # number of chunks loaded
+    def __init__(self, camera, map, entity_manager) -> None:
+        self.spawn_range = 3000  # needs to be smaller than map.map_gen.load_dist
         self.camera = camera
-        self.terrain = terrain
+        self.map = map
         self.entity_manager = entity_manager
         # testing
         self.remainder = 0
@@ -19,33 +19,23 @@ class Spawner:
     def _tiles_loaded(self):
 
         tiles_ordered = [
-            {'type': i['type'], 'tiles': []} for i in self.terrain.biome_types
+            {'type': i['type'], 'tiles': []} for i in self.map.biome_types
         ]
 
-        # décalage si chunk_number est impaire
-        d = (self.terrain.chunk_number / 2) % 2 * self.terrain.chunk_size_in_pixel
-        # print(d)
+        tiles_range_x = range(int((self.camera.true_player_displacement[0] - self.spawn_range) // self.map.cell_size),
+                              int((self.camera.true_player_displacement[0] + self.spawn_range) // self.map.cell_size))
+        
+        tiles_range_y = range(int((self.camera.true_player_displacement[1] - self.spawn_range) // self.map.cell_size),
+                              int((self.camera.true_player_displacement[1] + self.spawn_range) // self.map.cell_size))
 
-        chunk_in_x = self.terrain.chunk_number / 2 + (d - self.camera.true_player_displacement[0]) // self.terrain.chunk_size_in_pixel
-        chunk_in_y = self.terrain.chunk_number / 2 + (d - self.camera.true_player_displacement[1]) // self.terrain.chunk_size_in_pixel
-
-        chunk_range_x = (int(chunk_in_x - self.spawn_range), int(chunk_in_x + self.spawn_range))
-        chunk_range_y = (int(chunk_in_y - self.spawn_range), int(chunk_in_y + self.spawn_range))
-
-        tile_range_x = (chunk_range_x[0] * self.terrain.chunk_size, chunk_range_x[1] * self.terrain.chunk_size)
-        tile_range_y = (chunk_range_y[0] * self.terrain.chunk_size, chunk_range_y[1] * self.terrain.chunk_size)
-
-        tile_x_start = min(self.terrain.map_size, max(0, tile_range_x[0]))
-        tile_x_end = min(self.terrain.map_size, max(0, tile_range_x[1]))
-        tile_y_start = min(self.terrain.map_size, max(0, tile_range_y[0]))
-        tile_y_end = min(self.terrain.map_size, max(0, tile_range_y[1]))
-        # print((tile_x_start, tile_x_end), (tile_y_start, tile_y_end))
-        for row in self.terrain.grid[tile_x_start:tile_x_end + 1]:
-            for tile in row[tile_y_start:tile_y_end + 1]:
-                for n, biome in enumerate(self.terrain.biome_types):
-                    if tile[0]['type'] == biome['type']:
-                        tiles_ordered[n]['tiles'].append(tile)
-                        break
+        for i in tiles_range_x:
+            for j in tiles_range_y:
+                if (i, j) in self.map.grid:
+                    tile = self.map.grid[(i, j)]
+                    for n, biome in enumerate(self.map.biome_types):
+                        if tile[0]['type'] == biome['type']:
+                            tiles_ordered[n]['tiles'].append(tile)
+                            break
         return tiles_ordered
 
     def spawn_ent_v2(self, dt, ent_class) -> None:
@@ -65,7 +55,7 @@ class Spawner:
             # spawns the entities
             tiles = rnd.choices(i['tiles'], k=number)
             for tile in tiles:
-                possible_room_for_noise = self.terrain.cell_size / 2
-                pos = tile[1] + VEC_2(rnd.randint(-possible_room_for_noise, possible_room_for_noise),
-                                      rnd.randint(-possible_room_for_noise, possible_room_for_noise))
+                possible_room_for_noise = self.map.cell_size / 2
+                pos = tile[1] + VEC_2(rnd.randint(-int(possible_room_for_noise), int(possible_room_for_noise)),
+                                      rnd.randint(-int(possible_room_for_noise), int(possible_room_for_noise)))
                 self.entity_manager.spawn_ent(ent_class(pos, self.entity_manager))  # time problem in here
