@@ -14,7 +14,7 @@ def debug(info, y=10, x=10) -> None:
 
 debug_info:list[tuple[str, float, float]] = []
 
-WIDTH, HEIGHT = 1300, 800
+WIDTH, HEIGHT = 700, 700
 FPS = 600
 PI = math.pi
 
