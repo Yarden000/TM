@@ -5,7 +5,7 @@ import numpy
 from typing import Any
 from math import pi
 from settings import (
-    VEC_2,
+    PY_VEC_2,
     angle_between_vectors_0_to_2pi,
     angle_between_vectors_plus_minus_pi
 )
@@ -33,16 +33,18 @@ class Behavior:
         '''gives the things an entity wants to do, (a direction to move in, and an action to do)'''
         ents_seen: list = self.Sight.ents_seen()
         amount, objectif_ent = self.InterestCalc.interest(ents_seen, 'food')
-        direction = self.direction_after_col(objectif_ent, ents_seen)
-        # not jet implemented
-        action = None
-        return (direction, action)
+        if objectif_ent:
+            direction = self.direction_after_col(objectif_ent, ents_seen)
+            # not jet implemented
+            action = None
+            return (direction, action)
+        return (PY_VEC_2(0, 0), None)
         # raise ValueError('not implemented')
 
     def direction_after_col(self, objectif_ent, ents_seen):
         '''whitch direction is suposed to go to avoid collision and go towards objective'''
         reaction_dist: float = 200  # distance of collision avoidance (if further inored)
-        direction: VEC_2 = self.collision_avoidance_handler.avoid_collision(self.entity, objectif_ent, ents_seen, reaction_dist)
+        direction: PY_VEC_2 = self.collision_avoidance_handler.avoid_collision(self.entity, objectif_ent, ents_seen, reaction_dist)
         return direction
 
 
@@ -56,9 +58,9 @@ class CollisionAvoidanceHandler:
         '''returns the minimum and maximum angles to
         avoid a collision between two circles'''
 
-        dist = (circle_1.pos - circle_2.pos).magnitude()
-        temp = (circle_1.r + circle_2.r) / dist
-        angle = -(circle_2.pos - circle_1.pos).angle_to(VEC_2(1, 0)) * pi / 180
+        dist = (circle_1.body.position - circle_2.body.position).length
+        temp = (circle_1.radius + circle_2.radius) / dist
+        angle = -(circle_2.body.position - circle_1.body.position).get_angle_between(PY_VEC_2(1, 0))
 
         if temp > 1:
             beta = pi * 2 / 3
@@ -71,7 +73,7 @@ class CollisionAvoidanceHandler:
         '''returns the minimum and maximum angles to
         avoid a collision between a circle and a rect'''
 
-        dist = (circle.pos - rect.pos).magnitude()
+        dist = (circle.body.position - rect.body.position).length
 
         raise ValueError('not implemented')
 
@@ -79,17 +81,17 @@ class CollisionAvoidanceHandler:
         '''returns the minimum and maximum angles to
         avoid a collision between two rects'''
 
-        dist = (rect_1.pos - rect_2.pos).magnitude()
+        dist = (rect_1.body.position - rect_2.body.position).length
 
         raise ValueError('not implemented')
     
-    def avoid_collision(self, ent, ent_want, ent_list:list, distance:float|None=1000) -> VEC_2:  # distance should be in proportion to the speed
+    def avoid_collision(self, ent, ent_want, ent_list:list, distance:float|None=1000) -> PY_VEC_2:  # distance should be in proportion to the speed
         '''returns the minimum and maximum angles to
         avoid a collision'''
         self.angular_range_handeler.clear()
-        ent_self_hitbox = ent.hitbox
-        direction_to_ent_want = ent_want.pos - ent.pos
-        distance_to_ent_want = direction_to_ent_want.magnitude()
+        ent_self_hitbox = ent.shape
+        direction_to_ent_want = ent_want.body.position - ent.body.position
+        distance_to_ent_want = direction_to_ent_want.length
 
 
         # for removing the objectif
@@ -102,23 +104,23 @@ class CollisionAvoidanceHandler:
             ent_list.remove(temp)
 
         for entity, dist in ent_list:
-            if dist.magnitude() <= distance and dist.magnitude() <= distance_to_ent_want:
-                ent_other_hitbox = entity.hitbox
-                if ent_self_hitbox.kind == 'circle':
+            if dist.length <= distance and dist.length <= distance_to_ent_want:
+                ent_other_hitbox = entity.shape
+                if ent.hitbox_shape == 'circle':
 
-                    if ent_other_hitbox.kind == 'circle':
+                    if ent.hitbox_shape == 'circle':
 
                         if ang_range := self.circle_circle(ent_self_hitbox, ent_other_hitbox):
                             self.angular_range_handeler.add(ang_range)
                         else:
-                            return VEC_2()
+                            return PY_VEC_2(0, 0)
                         
                     else:
 
                         if ang_range := self.circle_rect(ent_self_hitbox, ent_other_hitbox):
                             self.angular_range_handeler.add(ang_range)
                         else:
-                            return VEC_2()
+                            return PY_VEC_2(0, 0)
                         
                 else:
 
@@ -127,31 +129,31 @@ class CollisionAvoidanceHandler:
                         if ang_range := self.circle_rect(ent_other_hitbox, ent_self_hitbox, invert = True):
                             self.angular_range_handeler.add(ang_range)
                         else:
-                            return VEC_2()
+                            return PY_VEC_2(0, 0)
                         
                     else:
 
                         if ang_range := self.rect_rect(ent_self_hitbox, ent_other_hitbox):
                             self.angular_range_handeler.add(ang_range)
                         else:
-                            return VEC_2()
+                            return PY_VEC_2(0, 0)
                     
         #ent.other_hitboxes['seeing_angle'] = DrawAngle(ent.hitbox.pos, self.angular_range_handeler.ranges_list)
         
-        angle = VEC_2().angle_to(direction_to_ent_want) * pi / 180
+        angle = direction_to_ent_want.angle
         if angles := self.angular_range_handeler.borders(angle):
             #print(angles)
-            v1 = VEC_2(1, 0).rotate_rad(angles[0])
-            v2 = VEC_2(1, 0).rotate_rad(angles[1])
-            def f(x:VEC_2):
-                return x.dot(direction_to_ent_want.normalize())
+            v1 = PY_VEC_2(1, 0).rotated(angles[0])
+            v2 = PY_VEC_2(1, 0).rotated(angles[1])
+            def f(x:PY_VEC_2):
+                return x.dot(direction_to_ent_want.normalized())
             best_direction = max([v1, v2], key = f)
             
             # print('react')
             return best_direction
         # print('ignore')
         
-        return direction_to_ent_want.normalize()
+        return direction_to_ent_want.normalized()
 
 
 class AngularRangeHandeler:
@@ -384,7 +386,7 @@ class Sight:
     def __init__(self, entity, sight_dist = 5000) -> None:
         self.entity = entity
         self.entity_manager = entity.entity_manager
-        self.point = self.entity.hitbox.pos
+        self.point = self.entity.body.position
         self.sight_dist = sight_dist
 
 
@@ -397,8 +399,8 @@ class Sight:
                 if region in self.entity_manager.regions:
                     for ent in self.entity_manager.regions[region]:
                         if ent != self.entity:
-                            dist_vec = ent.hitbox.pos - self.point
-                            dist = dist_vec.magnitude() - ent.size / 2
+                            dist_vec = ent.body.position - self.point
+                            dist = dist_vec.length - ent.size / 2
                             if dist <= self.sight_dist:
                                 ents_in_range.append((ent, dist_vec))
 
@@ -409,7 +411,7 @@ class Sight:
         ents_in_range = self.entities_in_range()
         ents_seen: list[tuple] = []
         def f(x):
-            return x[1].magnitude()
+            return x[1].length
         ents_in_range.sort(key = f)
         angular_range_handeler = AngularRangeHandeler()
         for ent, dist in ents_in_range:
@@ -427,28 +429,33 @@ class Sight:
             return ents_seen, ranges
         return ents_seen
     
-    def get_range(self, point:VEC_2, ent) -> tuple[float, float]:
+    def get_range(self, point:PY_VEC_2, ent) -> tuple[float, float]:
         '''gets the angular range that an entity covers for a certain point'''
-        if ent.hitbox.kind == 'rect':
-            if angular_range := self.get_rect_range(point, ent.hitbox):
+        if ent.hitbox_shape == 'rect':
+            if angular_range := self.get_rect_range(point, ent.shape):
                 return angular_range
             return(0, 2 * pi)
 
-        elif ent.hitbox.kind == 'circle':
-            if angular_range := self.get_circle_range(point, ent.hitbox):
+        elif ent.hitbox_shape == 'circle':
+            if angular_range := self.get_circle_range(point, ent.shape):
                 return angular_range
             return(0, 2 * pi)
         
         raise ValueError('unknown hitbox type')
     
-    def get_rect_range(self, point:VEC_2, rect) -> tuple[float, float] | None:
+    def rect_corners(self, rect):
+        relative_rect_corners = rect.get_vertices()
+        absolute_rect_corners = [corner + rect.body.position for corner in relative_rect_corners]
+        return absolute_rect_corners
+    
+    def get_rect_range(self, point, rect) -> tuple[float, float] | None:
         '''eats the angular range that a rectangle covers for a certain point'''
-        rect_corners = self.entity.entity_manager.collision_detector.rect_corners(rect)
+        rect_corners = self.rect_corners(rect)
         rel_angles = []
-        rect_center: VEC_2 = rect.pos
+        rect_center = rect.body.position
 
         for corner in rect_corners:
-            rel_angle = -(rect_center - point).angle_to(VEC_2(corner) - point) * pi / 180
+            rel_angle = -(rect_center - point).get_angle_between(corner - point)
             if abs(rel_angle) > pi:
                 if rel_angle > 0:
                     rel_angle -= 2 * pi
@@ -465,18 +472,18 @@ class Sight:
             # because all hitboxes are convex it means that the point is in the hitbox
             return None
         
-        angles = (-VEC_2(1, 0).angle_to(VEC_2(start_point) - point) * pi / 180,
-                 -VEC_2(1, 0).angle_to(VEC_2(end_point) - point) * pi / 180)
+        angles = (-PY_VEC_2(1, 0).get_angle_between(start_point - point),
+                 -PY_VEC_2(1, 0).get_angle_between(end_point - point))
     
         return angles
     
-    def get_circle_range(self, point:VEC_2, circle) -> tuple[float, float] | None:
+    def get_circle_range(self, point:PY_VEC_2, circle) -> tuple[float, float] | None:
         '''eats the angular range that a circle covers for a certain point'''
-        dist = (point - circle.pos).magnitude()
-        if dist <= circle.r:
+        dist = (point - circle.body.position).length
+        if dist <= circle.radius:
             return None
-        beta = abs(math.asin(circle.r / dist))
-        mid_angle = -VEC_2(1, 0).angle_to(circle.pos - point) * pi / 180
+        beta = abs(math.asin(circle.radius / dist))
+        mid_angle = -PY_VEC_2(1, 0).get_angle_between(circle.body.position - point)
         return (mid_angle - beta, mid_angle + beta)
 
 
@@ -496,26 +503,33 @@ class InterestCalc:
         weights = []
         directions = []
         for ent, direction in ents_seen:  # dist is vect
-            distance = direction.magnitude()
+            distance = direction.length
 
             '''not implemented'''
             interest_amount: float = self.interest_amount(ent, interest_type)
 
             weights.append(weight_function(distance) * interest_amount)
-            directions.append(direction.normalize())
+            directions.append(direction.normalized())
 
         return weights, directions
 
     def vip(self, ents_seen, weights, gradient):
         '''returns the ent who is most inline with the gradient and clostest'''
-        radial_weight_function = lambda x: -1/360 * x + 1  # should be in genome
-        l = []
-        for i, ent_dist in enumerate(ents_seen):
-            ent, dist = ent_dist
-            theta = abs(gradient.angle_to(dist))
-            l.append((radial_weight_function(theta) * weights[i], ent))
-        return max(l, key = lambda x: x[0])[1]
-
+        if gradient:
+            radial_weight_function = lambda x: -1/360 * x + 1  # should be in genome
+            l = []
+            for i, ent_dist in enumerate(ents_seen):
+                ent, dist = ent_dist
+                theta = abs(gradient.get_angle_degrees_between(dist))
+                l.append((radial_weight_function(theta) * weights[i], ent))
+        else:
+            l = []
+            for i, ent_dist in enumerate(ents_seen):
+                ent, dist = ent_dist
+                l.append((weights[i], ent))
+        if l:
+            return max(l, key = lambda x: x[0])[1]
+        return None
 
 
     def interest(self, ents_seen, interest_type:str) -> tuple[float, Any]:
@@ -529,7 +543,8 @@ class InterestCalc:
         gradient = self.Averages.arithmetic_average_vect(directions, weights)
 
         # visuals
-        visuals.append(Line(self.ent.pos, gradient * 100, (200, 0, 0)))
+        if gradient:
+            visuals.append(Line(self.ent.body.position, gradient * 100, (200, 0, 0)))
 
         best_ent = self.vip(ents_seen, weights, gradient)
         
@@ -567,10 +582,10 @@ class Steering:
         '''
         return 100 if norm > 100 else norm
         
-    def leading_the_target(self, p1:VEC_2, v1:VEC_2, p2:VEC_2, s2:float, max_trailing:float=1.0) -> VEC_2:
+    def leading_the_target(self, p1:PY_VEC_2, v1:PY_VEC_2, p2:PY_VEC_2, s2:float, max_trailing:float=1.0) -> PY_VEC_2:
         dist_vect = p2 - p1
-        d = dist_vect.magnitude()
-        s1 = v1.magnitude()
+        d = dist_vect.length
+        s1 = v1.length
         alpha = angle_between_vectors_0_to_2pi(dist_vect, v1)
 
         tmp = math.sin(alpha) * s1 / s2
@@ -595,13 +610,13 @@ class Steering:
 
         return p3
   
-    def react(self, entity, point:VEC_2, velocity:VEC_2|None=None, flee:bool=False, stop_at:bool=False, offset:VEC_2|None=None) -> VEC_2:
+    def react(self, entity, point:PY_VEC_2, velocity:PY_VEC_2|None=None, flee:bool=False, stop_at:bool=False, offset:PY_VEC_2|None=None) -> PY_VEC_2:
         p = point.copy()
 
         if offset:
             point += offset
 
-        dist = (p - entity.hitbox.pos).magnitude()
+        dist = (p - entity.hitbox.pos).length
         '''
         print('dist')
         print(point)
@@ -609,7 +624,7 @@ class Steering:
         if velocity:
             p = self.leading_the_target(point, velocity, entity.hitbox.pos, entity.max_speed, max_trailing=2)
 
-        wanted_velocity = (p - entity.hitbox.pos).normalize() * entity.max_speed
+        wanted_velocity = (p - entity.hitbox.pos).normalized() * entity.max_speed
 
         if flee:
             wanted_velocity *= -1
@@ -617,9 +632,9 @@ class Steering:
             if dist < self.slowing_distance:
                 wanted_velocity *= dist / self.slowing_distance
 
-        delta_v: VEC_2 = wanted_velocity - entity.vel
-        if delta_v.magnitude() != 0:
-            delta_v = self.max_delta_v(delta_v.magnitude()) * delta_v.normalize()
+        delta_v: PY_VEC_2 = wanted_velocity - entity.vel
+        if delta_v.length != 0:
+            delta_v = self.max_delta_v(delta_v.length) * delta_v.normalized()
 
         return delta_v
 
@@ -630,23 +645,25 @@ class Averages:
     def __init__(self) -> None:
         pass
 
-    def lehmer_average_vector(self, power:float, vec_list:list[VEC_2], wheight_list:list[float] | None = None) -> VEC_2|None:
+    def lehmer_average_vector(self, power:float, vec_list:list[PY_VEC_2], wheight_list:list[float] | None = None) -> PY_VEC_2|None:
         l_x = [vec.x for vec in vec_list]
         l_y = [vec.y for vec in vec_list]
     
         average_x = self.lehmer_mean(l_x, power, wheight_list)
         average_y = self.lehmer_mean(l_y, power, wheight_list)
         if average_x != None and average_y != None:
-            return VEC_2(average_x, average_y)
+            return PY_VEC_2(average_x, average_y)
         return None
     
-    def arithmetic_average_vect(self, vec_list:list[VEC_2], wheight_list:list[float] | None = None) -> VEC_2|None:
+    def arithmetic_average_vect(self, vec_list:list[PY_VEC_2], wheight_list:list[float] | None = None) -> PY_VEC_2|None:
         if not vec_list:
             return None
         list_ = [vec * wheight_list[i] for i, vec in enumerate(vec_list)]
-        total = VEC_2()
+        total = PY_VEC_2(0, 0)
         for v in list_:
             total += v
+        if sum(wheight_list) == 0:
+            return None
         return total / sum(wheight_list)
 
     def lehmer_mean(self, values:list[float], power: float, weights:list[float] | None = None) -> float|None:

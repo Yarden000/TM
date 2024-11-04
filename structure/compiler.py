@@ -64,7 +64,11 @@ class Displayer:
         displacement = self.camera.player_displacement
         for i in self.entity_manager.entity_list:
             # trier selon la position
-            i.display(self.screen, self.camera)
+            i.display(self.screen, self.camera.player_displacement)
+
+        for thing in behaviors.visuals:
+            thing.draw(self.screen, self.camera.player_displacement)
+        behaviors.visuals = []
             
 
         # self.entity_manager.player.visualise_directions(self.screen)

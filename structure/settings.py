@@ -21,6 +21,7 @@ PI = math.pi
 
 VEC_2 = pygame.Vector2
 VEC_3 = pygame.Vector3
+PY_VEC_2 = pymunk.Vec2d
 def convert_to_pymunk(vec):
     return pymunk.Vec2d(vec.x, vec.y)
 

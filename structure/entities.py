@@ -8,6 +8,7 @@ from settings import (
     WIDTH,
     HEIGHT,
     VEC_2,
+    PY_VEC_2,
     PI
     )
 
@@ -58,11 +59,6 @@ class EntityManager:
         
         handler.pre_solve = f
 
-
-        
-        
-        
-
     def add_player(self) -> None:
         '''creates the player'''
         self.player = Player(self.camera, self.input_manager, self)
@@ -72,13 +68,14 @@ class EntityManager:
         self.update_ent_region(self.player)
         self.space.add(self.player.body, self.player.shape)
         
-        
-
     def spawn_ent(self, ent, overide=False) -> None:
         '''creates an entity'''
-        if (not overide) or self.col_detect(ent):
+        
+        if not (overide or (not self.col_detect(ent))):
             self.remove_entity(ent)
+            print('hbF')
         else: 
+            
             self.entity_list.append(ent)
             if ent.movable:
                 self.movable_entity_list.append(ent)
@@ -124,7 +121,7 @@ class EntityManager:
                 region_ = (region[0] + i, region[1] + j)
                 if region_ in self.regions:
                     n += len(self.regions[region_])
-        density = n / (((dist + 1) * self.region_size) * ((dist + 1) * self.region_size)) * 1000   # the *100000 is because the density is very small
+        density = n / (((dist + 1) * self.region_size) * ((dist + 1) * self.region_size)) * 1000000   # the *100000 is because the density is very small
         return density
     
     def remove_entity(self, ent) -> None:
@@ -148,9 +145,8 @@ class EntityManager:
         for ent in self.animal_list:
             ent.get_wants()
         for ent in self.animal_list:
-            ent.change_vel()
+            ent.change_vel(dt)
         for ent in self.animal_list:
-            ent.aply_vel(dt)
             ent.run(dt)
 
     def run(self, dt) -> None:
@@ -171,64 +167,6 @@ class EntityManager:
             pygame.draw.line(pygame.display.get_surface(), 'red', VEC_2(k, -r * self.region_size) + player_displacement, VEC_2(k, r * self.region_size) + player_displacement)
 
 
-class Hitbox:
-    '''base hotbox class'''
-    kind = 'None'
-
-    def __init__(self, pos: tuple[float | int, float | int] | VEC_2) -> None:
-        self.pos = VEC_2(pos)
-        self.color = 'blue'
-
-    def scale(self, scalar) -> None:
-        '''scales the hitbox by a scalar'''
-
-    def rotate(self, angle) -> None:
-        '''rotates the hitbox by an angle'''
-
-
-class Rectangle(Hitbox):
-    '''rectangular hitbox class'''
-    kind = 'rect'
-
-    def __init__(self, pos, angle, length, breadth) -> None:
-        super().__init__(pos)
-        self.angle = angle
-        self.vec1 = VEC_2(math.cos(angle), math.sin(angle)) * length
-        self.vec2 = VEC_2(math.sin(angle), -math.cos(angle)) * breadth
-
-    def scale(self, scalar) -> None:
-        self.vec1 = self.vec1 * scalar
-        self.vec2 = self.vec2 * scalar
-
-    def rotate(self, angle) -> None:
-        self.angle += angle
-        self.vec1 = self.vec1.rotate(angle)
-        self.vec2 = self.vec2.rotate(angle)
-
-    def draw(self, display_surface, displacement) -> None:
-        '''draws the boundries of the hitbox'''
-        pygame.draw.line(display_surface, self.color, displacement + self.pos + self.vec1 + self.vec2, displacement + self.pos + self.vec1 - self.vec2, width=1)
-        pygame.draw.line(display_surface, self.color, displacement + self.pos - self.vec1 + self.vec2, displacement + self.pos - self.vec1 - self.vec2, width=1)
-        pygame.draw.line(display_surface, self.color, displacement + self.pos + self.vec2 + self.vec1, displacement + self.pos + self.vec2 - self.vec1, width=1)
-        pygame.draw.line(display_surface, self.color, displacement + self.pos - self.vec2 + self.vec1, displacement + self.pos - self.vec2 - self.vec1, width=1)
-
-
-class Circle(Hitbox):
-    '''circular hitbox class'''
-    kind = 'circle'
-
-    def __init__(self, center, radius) -> None:
-        super().__init__(center)
-        self.r = radius
-
-    def scale(self, scalar) -> None:
-        self.r = self.r * scalar
-
-    def draw(self, display_surface, displacement) -> None:
-        '''draws the boundries of the hitbox'''
-        pygame.draw.circle(display_surface, self.color, displacement + self.pos, self.r, 1)
-
-
 class Entity:
     '''class for all the enteties: ressouces, animals...'''
 
@@ -246,7 +184,6 @@ class Entity:
         'food': 0,
         'danger': 0
         }
-    danger = 10
     max_speed = 50
 
     food = 1
@@ -257,11 +194,11 @@ class Entity:
     collision_type = 1  # normal colision type
 
     def __init__(self, pos, entitie_manager) -> None:
-        self.entitie_manager = entitie_manager
+        self.entity_manager = entitie_manager
         
         self.set_hitbox(pos)
 
-        self.region = tuple(self.body.position // self.entitie_manager.region_size)
+        self.region = tuple(self.body.position // self.entity_manager.region_size)
         self.image = pygame.transform.scale(self.image.convert_alpha(), (self.size, self.size))
 
         self.body.velocity = pymunk.Vec2d(10, 0)
@@ -292,7 +229,7 @@ class Entity:
         '''runs the behaviors'''
 
     def kill(self):
-        self.entitie_manager.remove_entity(self)
+        self.entity_manager.remove_entity(self)
 
 
 
@@ -323,12 +260,9 @@ class Animal(Entity):
     image = pygame.image.load('../graphics/test/animal.png')
     hitbox_shape = 'circle'
 
-    max_herd_size = 5
-    herds:list[list] = []
-
     wander_angle = 0
-    max_speed = 150
-    max_delta_v = 5
+    max_speed = 100
+    max_delta_v = 200
     max_satiation = 100
     max_hp = 100
     collision_avoidance_dist = 200
@@ -336,7 +270,6 @@ class Animal(Entity):
 
     def __init__(self, pos, entity_manager) -> None:
         super().__init__(pos, entity_manager)
-        self.hitbox = Circle(pos, self.radius)
         self.image = pygame.transform.scale(self.image.convert_alpha(), (self.size, self.size))
 
         # for testing
@@ -345,31 +278,7 @@ class Animal(Entity):
         self.action = None
 
         self.behavior = Behavior(entity_manager, self)
-
-        '''testing'''
-        self.steering = Steering()
-        self.player = self.entity_manager.player
-
-    def get_wants(self) -> None:
-        self.wanted_direction, self.action = self.behavior.wants()
-        self.visuals.append(Line(self.pos, self.wanted_direction * 100, (0, 0, 200)))
-
-    def change_vel(self) -> None:
-        if self.wanted_direction:
-            wanted_vel = self.wanted_direction * self.max_speed
-        else:
-            raise ValueError('no wanted direction')
         
-        delta_v: VEC_2 = wanted_vel - self.vel
-        if delta_v.magnitude() > self.max_delta_v:
-            delta_v = delta_v.normalize() * self.max_delta_v
-        
-        self.vel += delta_v
-
-    def aply_vel(self, dt) -> None:
-        self.move(self.vel * dt)
-
-        self.player = self.entitie_manager.player
         self.ents_seen:list = []
 
         self.curent_acktion = None
@@ -378,27 +287,27 @@ class Animal(Entity):
 
         self.body.velocity = pymunk.Vec2d(100, 0).rotated_degrees(random.randrange(0, 360))
 
-        # how much the animal considers another animal food or danger
-        self.food_considerations:dict[object, float] = {
-            Ressource: 10.1,
-            Plant: 0.0,
-            Animal: 0.01,
-            Bunny: 5.0,
-            Crock: 1.0
-        }
-        self.danger_considerations:dict[object, float] = {
-            Ressource: 0.0,
-            Plant: 0.0,
-            Animal: 0.01,
-            Bunny: 0.1,
-            Crock: 10.0
-        }
 
-    def get_want(self) -> None:
-        pass    
+    def get_wants(self) -> None:
+        self.wanted_direction, self.action = self.behavior.wants()
+
+    def change_vel(self, dt) -> None:
+        if self.wanted_direction:
+            wanted_vel = self.wanted_direction * self.max_speed
+        else:
+            raise ValueError('no wanted direction')
+        
+        delta_v: PY_VEC_2 = wanted_vel - self.vel
+        if delta_v.length > self.max_delta_v:
+            delta_v = delta_v.normalized() * self.max_delta_v
+        
+        self.body.velocity += delta_v * dt
+
+        # friction
+        self.body.velocity *= 1- 0.1 * dt
 
     def run(self, dt) -> None:
-        self.body.position += self.body.velocity * dt
+        pass
 
 class Bunny(Animal):
     spawning_rates = {'desert': 0, 'plains': 0.1, 'forest': 0.1}
@@ -407,44 +316,15 @@ class Bunny(Animal):
     def __init__(self, pos, entitie_manager) -> None:
         super().__init__(pos, entitie_manager)
 
-        # how much the animal considers another animal food or danger
-        self.food_considerations:dict[object, float] = {
-            Ressource: 0,
-            Plant: 5,
-            Animal: 0,
-            Bunny: 0,
-            Crock: 0
-        }
-        self.danger_considerations:dict[object, float] = {
-            Ressource: 0,
-            Plant: 0,
-            Animal: 3,
-            Bunny: 0.1,
-            Crock: 10
-        }
 
 class Crock(Animal):
     spawning_rates = {'desert': 0, 'plains': 0.1, 'forest': 0.1}
     image = pygame.image.load('../graphics/test/crock.png')
+    
 
     def __init__(self, pos, entitie_manager) -> None:
         super().__init__(pos, entitie_manager)
 
-        # how much the animal considers another animal food or danger
-        self.food_considerations:dict[object, float] = {
-            Ressource: 0,
-            Plant: 0,
-            Animal: 1,
-            Bunny: 5,
-            Crock: 0.1
-        }
-        self.danger_considerations:dict[object, float] = {
-            Ressource: 0,
-            Plant: 0,
-            Animal: 0.5,
-            Bunny: 0.01,
-            Crock: 10
-        }
 
 class Player(Entity):
     '''player class'''
@@ -454,6 +334,7 @@ class Player(Entity):
     def __init__(self, camera, input_manager, entitie_manager) -> None:
         super().__init__((0, 0), entitie_manager)
         self.body.velocity = pymunk.Vec2d(0, 0)
+        self.body.mass = 1000
         self.image = pygame.transform.scale(self.image.convert_alpha(), (self.size, self.size))
         self.speed = 100
         self.camera = camera
@@ -492,7 +373,7 @@ class Player(Entity):
             point = pymunk.Vec2d(math.cos(angle), math.sin(angle)) * length
             pos = self.body.position + point
             body, shape = self.set_attack_hitbox(pos, angle, (width, length))
-            self.entitie_manager.spawn_ent(Attack(body, shape, (length, width), angle, self.entitie_manager), overide=True)
+            self.entity_manager.spawn_ent(Attack(body, shape, (length, width), angle, self.entity_manager), overide=True)
 
     def display(self, screen, camera) -> None:
         screen.blit(self.image, self.image.get_rect(center=(WIDTH/2, HEIGHT/2)))
@@ -525,14 +406,14 @@ class Attack(Entity):
         # print(time.time() - self.spawn_time)
         if time.time() - self.spawn_time > self.stay_time:
             # print(self.region)
-            self.entitie_manager.remove_entity(self)
+            self.entity_manager.remove_entity(self)
             # print(self)
 
     def do_damage(self):
-        if infos := self.entitie_manager.space.shape_query(self.shape):
+        if infos := self.entity_manager.space.shape_query(self.shape):
             for info in infos:
                 ent = info.shape.owner
-                if ent is not self.entitie_manager.player:
+                if ent is not self.entity_manager.player:
                     if ent.__class__ is not Attack:
                         ent.kill()
 
@@ -553,10 +434,10 @@ class TestEntFood(Entity):
         'food': 50,
         'danger': 0
         }
+    body_type = pymunk.Body.STATIC
 
     def __init__(self, pos, entitie_manager) -> None:
         super().__init__(pos, entitie_manager)
-        self.hitbox = Circle(pos, 32)
 
 
 class TestEntDanger(Entity):
@@ -567,17 +448,17 @@ class TestEntDanger(Entity):
         'food': 0,
         'danger': 50
         }
+    body_type = pymunk.Body.STATIC
 
     def __init__(self, pos, entitie_manager) -> None:
         super().__init__(pos, entitie_manager)
-        self.hitbox = Circle(pos, 32)
 
 
 class TestEntMating(Entity):
     '''entity for testing behaviors'''
     collidable = False
     image = pygame.image.load('../graphics/test/purplesphere.png')
+    body_type = pymunk.Body.STATIC
 
     def __init__(self, pos, entitie_manager) -> None:
         super().__init__(pos, entitie_manager)
-        self.hitbox = Circle(pos, 32)
