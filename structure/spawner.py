@@ -54,7 +54,7 @@ class Spawner:
         density = self.entity_manager.ent_density()
         for i in tiles_loaded:
             # calculates the number of ents to spawn for a biome type
-            number = ent_class.spawning_rates[i['type']] * dt * len(i['tiles']) / (density * density + 1)
+            number = ent_class.spawning_rates[i['type']] * dt * len(i['tiles']) / (density * density + 1)  * 30
             remainder = number - int(number)
             if self.remainder >= 1 - remainder:
                 number = int(number + 1)

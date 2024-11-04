@@ -8,15 +8,13 @@ from entities import (
     Entity,
     EntityManager,
     Ressource,
-    Animal,
-    Crock,
-    Bunny
+    Animal
     )
 from spawner import (
     Spawner
 )
 from camera import Camera
-import behavior_test
+import behaviors
 
 
 class Compiler:
@@ -37,11 +35,9 @@ class Compiler:
         '''all the interactions / events / calculations of the game'''
         self.entity_manager.run(dt)
 
-        # test
-        # self.spawner.spawn_ent_v2(dt, Animal)
-        # self.spawner.spawn_ent_v2(dt, Ressource)
-        # self.spawner.spawn_ent_v2(dt, Crock)
-        # self.spawner.spawn_ent_v2(dt, Bunny)
+        self.spawner.spawn_ent_v2(dt, Animal)
+        self.spawner.spawn_ent_v2(dt, Ressource)
+
 
         self.displayer.run()
 
@@ -74,9 +70,9 @@ class Displayer:
             for elmt in i.visuals:
                 elmt.draw(self.screen, displacement)
             i.visuals = []
-            for elmt in behavior_test.visuals:
+            for elmt in behaviors.visuals:
                 elmt.draw(self.screen, displacement)
-            behavior_test.visuals = []
+            behaviors.visuals = []
 
         # self.entity_manager.player.visualise_directions(self.screen)
         # print(len(self.displayable_entenies))

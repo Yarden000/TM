@@ -290,7 +290,8 @@ class Entity:
         self.pos = VEC_2(pos)
         self.entity_manager = entity_manager
         self.ents_alrdy_coll_checked = [self]
-        self.hitbox: Hitbox = Rectangle(pos, random.randint(0, 100) / 100000, self.radius, self.radius)  # the small angle helps with collision blocks
+        self.hitbox = Circle(pos, self.radius)
+        # self.hitbox: Hitbox = Rectangle(pos, random.randint(0, 100) / 100000, self.radius, self.radius)  # the small angle helps with collision blocks
         self.region = tuple(self.hitbox.pos // self.entity_manager.region_size)
         self.image = pygame.transform.scale(self.image.convert_alpha(), (self.size, self.size))
 
@@ -330,13 +331,13 @@ class Animal(Entity):
     spawning_rates = {'desert': 0, 'plains': 0, 'forest': 0.1}
     movable = True
     image = pygame.image.load('../graphics/test/animal.png')
-    max_speed = 50 
+    max_speed = 150 
     max_delta_v = 5
 
     def __init__(self, pos, entity_manager) -> None:
         super().__init__(pos, entity_manager)
         self.hitbox = Circle(pos, self.radius)
-        Behavior.__init__(self, entitie_manager, self)
+        Behavior.__init__(self, entity_manager, self)
         self.image = pygame.transform.scale(self.image.convert_alpha(), (self.size, self.size))
 
         # for testing
