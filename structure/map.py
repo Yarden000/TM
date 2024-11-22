@@ -19,7 +19,7 @@ class Map:
     '''responsible for giving the displayer the right tiles and positions for displaying'''
     def __init__(self) -> None:
         self.screen = pygame.display.get_surface()
-        self.cell_size = 1
+        self.cell_size = 200
         self.biome_types = [
             {'type': 'desert', 'image': pygame.transform.scale(pygame.image.load('../graphics/test/desert.png').convert(), (self.cell_size, self.cell_size))},
             {'type': 'plains', 'image': pygame.transform.scale(pygame.image.load('../graphics/test/plains.png').convert(), (self.cell_size, self.cell_size))},
@@ -211,7 +211,7 @@ class MapGenerator:
         # all gradients for all biomes = [ all gradient octaves for a biome = [ grid of gradient vectors= [] ] ]
         self.gradients = [[{} for i in range(self.octaves)] for j in range(self.biome_number)]  
 
-        self.load_dist = 400
+        self.load_dist = 5000
         self.initial_gradient_vec_dist = self.cell_size * 50  # distance between each gradient vector in the first octave, kind of arbitrairy
 
     def update_map_grid(self, player_pos):

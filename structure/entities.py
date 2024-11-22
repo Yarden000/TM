@@ -73,7 +73,6 @@ class EntityManager:
         
         if not (overide or (not self.col_detect(ent))):
             self.remove_entity(ent)
-            print('hbF')
         else: 
             
             self.entity_list.append(ent)

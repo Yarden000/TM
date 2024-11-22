@@ -36,12 +36,12 @@ class Compiler:
 
     def run(self, dt) -> None:
         '''all the interactions / events / calculations of the game'''
-        # self.entity_manager.run(dt)
+        self.entity_manager.run(dt)
         self.map.update(self.entity_manager.player.body.position)
 
         # test
-        # self.spawner.spawn_ent_v2(dt, Animal)
-        # self.spawner.spawn_ent_v2(dt, Ressource)
+        self.spawner.spawn_ent_v2(dt, Animal)
+        self.spawner.spawn_ent_v2(dt, Ressource)
         #self.spawner.spawn_ent_v2(dt, Crock)
         #self.spawner.spawn_ent_v2(dt, Bunny)
 
@@ -65,7 +65,7 @@ class Displayer:
         '''displays'''
         self.screen.fill('blue')
         self.terrain.display(self.camera)
-        '''
+        
         displacement = self.camera.player_displacement
         for i in self.entity_manager.entity_list:
             # trier selon la position
@@ -74,7 +74,7 @@ class Displayer:
         for thing in behaviors.visuals:
             thing.draw(self.screen, self.camera.player_displacement)
         behaviors.visuals = []
-        '''
+        
 
         # self.entity_manager.player.visualise_directions(self.screen)
         # print(len(self.displayable_entenies))
